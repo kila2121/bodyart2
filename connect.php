@@ -2,7 +2,7 @@
 session_start();
 header('Content-type: text/html; charset=utf-8');
 setlocale(LC_ALL, 'ru_RU.utf8');
-$ini_fields = parse_ini_file('config.ini', true);
+$ini_fields = parse_ini_file('./.gitignore/config.ini', true);
 define("DB_HOST", $ini_fields['database']['host']);
 define("DB_NAME", $ini_fields['database']['base']);
 define("DB_USER", $ini_fields['database']['user']);
