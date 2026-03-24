@@ -1,0 +1,143 @@
+/* work_list.css - галерея работ мастера */
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: clamp(15px, 3vw, 20px);
+    margin-top: 20px;
+}
+
+.work-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+}
+
+@media (hover: hover) {
+    .work-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+.work-image {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: var(--secondary-bg);
+}
+
+.work-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .work-card:hover .work-image img {
+        transform: scale(1.05);
+    }
+}
+
+.work-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: clamp(8px, 2vw, 12px);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    pointer-events: none;
+}
+
+.work-info {
+    padding: clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.work-date {
+    color: var(--text-secondary);
+    font-size: clamp(12px, 2.5vw, 13px);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    word-wrap: break-word;
+}
+
+.work-date i {
+    color: var(--accent-color);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.work-delete {
+    background: none;
+    border: none;
+    color: var(--error-color);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    font-size: clamp(13px, 2.8vw, 14px);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .work-delete {
+        white-space: normal;
+    }
+}
+
+@media (hover: hover) {
+    .work-delete:hover {
+        background: var(--error-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
+    }
+}
+
+.work-delete:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .works-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .works-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .work-image {
+        aspect-ratio: 16/9;
+    }
+
+    .work-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .work-delete {
+        width: 100%;
+        justify-content: center;
+    }
+}

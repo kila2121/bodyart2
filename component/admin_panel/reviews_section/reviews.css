@@ -1,0 +1,90 @@
+/* reviews.css - стили для раздела отзывы */
+
+/* ===== КАРТОЧКИ ОТЗЫВОВ ===== */
+.review-card {
+    background: var(--secondary-bg);
+    padding: clamp(15px, 3vw, 20px);
+    margin-bottom: 15px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .review-card:hover {
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.review-card>div:first-child {
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.review-card>div:first-child strong {
+    color: var(--accent-color);
+}
+
+.review-card>div:first-child span {
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 30px;
+    font-size: clamp(12px, 2.5vw, 13px);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.review-card>div:nth-child(2) {
+    background: var(--card-bg);
+    padding: clamp(12px, 3vw, 15px);
+    border-radius: var(--radius-sm);
+    margin: 15px 0;
+    border: 1px solid var(--border-color);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-style: italic;
+    word-break: break-word;
+}
+
+.review-card .actions {
+    margin-bottom: 0;
+    display: flex;
+    gap: 10px;
+}
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 768px) {
+    .review-card>div:first-child {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .review-card .actions {
+        flex-direction: column;
+    }
+
+    .review-card .actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .review-card {
+        padding: 12px;
+    }
+
+    .review-card>div:nth-child(2) {
+        padding: 10px;
+        font-size: 13px;
+    }
+}

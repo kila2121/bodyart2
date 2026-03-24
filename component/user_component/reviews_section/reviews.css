@@ -1,0 +1,302 @@
+/* ===== reviews.css - стили для формы отзыва ===== */
+
+.review-form-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0;
+    animation: fadeIn 0.3s ease;
+    width: 100%;
+}
+
+.review-form-container form {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: clamp(20px, 4vw, 25px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    width: 100%;
+}
+
+@media (hover: hover) {
+    .review-form-container form:hover {
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.review-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.review-form-header h4 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: clamp(1.1rem, 4vw, 1.2rem);
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    word-wrap: break-word;
+}
+
+.review-form-header h4::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: clamp(30px, 8vw, 40px);
+    height: 2px;
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .review-form-header h4::after {
+        bottom: -12px;
+    }
+}
+
+.review-form-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-secondary);
+    padding: 0;
+    width: clamp(32px, 8vw, 36px);
+    height: clamp(32px, 8vw, 36px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-round);
+    transition: var(--transition-normal);
+    flex-shrink: 0;
+}
+
+@media (hover: hover) {
+    .review-form-close:hover {
+        color: var(--accent-color);
+        background: rgba(255, 51, 102, 0.1);
+        transform: rotate(90deg);
+    }
+}
+
+.review-form-close:active {
+    transform: scale(0.95);
+}
+
+/* ===== РЕЙТИНГ ЗВЕЗДОЧКАМИ ===== */
+.review-form-rating {
+    margin-bottom: clamp(20px, 4vw, 25px);
+}
+
+.review-form-rating label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-size: clamp(14px, 3vw, 15px);
+    font-weight: 500;
+}
+
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: clamp(3px, 1.5vw, 5px);
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: clamp(26px, 8vw, 32px);
+    color: var(--border-color);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    margin: 0;
+    line-height: 1;
+}
+
+@media (hover: hover) {
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+        color: var(--warning-color);
+    }
+}
+
+.star-rating input:checked~label {
+    color: var(--warning-color);
+}
+
+/* ===== КОММЕНТАРИЙ ===== */
+.review-form-comment {
+    margin-bottom: clamp(20px, 4vw, 25px);
+}
+
+.review-form-comment textarea {
+    width: 100%;
+    padding: clamp(12px, 3vw, 14px) clamp(14px, 3.5vw, 16px);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    font-size: clamp(14px, 3vw, 15px);
+    transition: var(--transition-normal);
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.5;
+    min-height: clamp(80px, 20vw, 100px);
+}
+
+@media (hover: hover) {
+    .review-form-comment textarea:hover {
+        border-color: var(--text-secondary);
+    }
+}
+
+.review-form-comment textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: var(--card-bg);
+    box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+}
+
+.review-form-comment textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+    font-size: clamp(13px, 2.8vw, 14px);
+}
+
+/* ===== КНОПКА ОТПРАВКИ ===== */
+.review-form-submit {
+    width: 100%;
+    padding: clamp(12px, 3vw, 14px) clamp(20px, 5vw, 24px);
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: clamp(14px, 3vw, 15px);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: var(--shadow-sm);
+}
+
+@media (hover: hover) {
+    .review-form-submit:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.review-form-submit:active {
+    transform: translateY(0);
+}
+
+.review-form-submit i {
+    font-size: 14px;
+    transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .review-form-submit:hover i {
+        transform: translateX(5px);
+    }
+}
+
+/* ===== АНИМАЦИЯ ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .review-form-header h4 {
+        font-size: 1.1rem;
+    }
+
+    .review-form-header h4::after {
+        width: 35px;
+    }
+
+    .star-rating label {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-form-container {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .review-form-header {
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+    }
+
+    .review-form-header h4 {
+        font-size: 1rem;
+    }
+
+    .review-form-header h4::after {
+        width: 30px;
+        bottom: -10px;
+    }
+
+    .star-rating label {
+        font-size: 26px;
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    .review-form-container,
+    .review-form-container form,
+    .review-form-close,
+    .star-rating label,
+    .review-form-submit,
+    .review-form-submit i {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+    }
+}
+
+/* ===== TOUCH DEVICES OPTIMIZATION ===== */
+@media (hover: none) and (pointer: coarse) {
+
+    .review-form-close:hover,
+    .review-form-submit:hover {
+        transform: none;
+    }
+
+    .star-rating label:hover,
+    .star-rating label:hover~label {
+        color: var(--border-color);
+    }
+}

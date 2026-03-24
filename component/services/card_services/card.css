@@ -1,0 +1,317 @@
+/* card.css - компонент карточки услуги */
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: clamp(20px, 3vw, 28px);
+    padding: var(--space-md) 0;
+    margin: 0 auto;
+    max-width: var(--container-width);
+}
+
+.service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 0;
+    animation: fadeIn 0.4s ease forwards;
+    will-change: transform;
+    position: relative;
+}
+
+@media (hover: hover) {
+    .service-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 51, 102, 0.1);
+    }
+}
+
+.service-image {
+    position: relative;
+    width: 100%;
+    height: clamp(180px, 25vw, 220px);
+    overflow: hidden;
+    background: var(--secondary-bg);
+    flex-shrink: 0;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .service-card:hover .service-image img {
+        transform: scale(1.05);
+    }
+}
+
+.photo-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    white-space: nowrap;
+    z-index: var(--z-dropdown);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.photo-badge i {
+    font-size: 11px;
+    color: var(--accent-color);
+}
+
+.service-content {
+    padding: clamp(18px, 3vw, 22px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.service-category {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(11px, 2.5vw, 12px);
+    color: var(--accent-color);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 500;
+}
+
+.service-category i {
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.service-title {
+    font-size: clamp(1.15rem, 3vw, 1.3rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(clamp(1.15rem, 3vw, 1.3rem) * 1.4 * 2);
+}
+
+.service-description {
+    color: var(--text-secondary);
+    font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+    line-height: 1.55;
+    margin: 0 0 20px 0;
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(clamp(0.85rem, 2.2vw, 0.9rem) * 1.55 * 3);
+}
+
+.service-features {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: clamp(13px, 2.5vw, 14px);
+}
+
+.feature i {
+    color: var(--accent-color);
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.price-value {
+    color: var(--accent-color);
+    font-size: clamp(1.25rem, 3vw, 1.35rem);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* Единый стиль кнопки */
+.service-card .book-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: clamp(12px, 2.5vw, 14px) clamp(20px, 3vw, 24px);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.2vw, 0.95rem);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: auto;
+    box-shadow: var(--shadow-sm);
+    will-change: transform;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-card .book-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.service-card .book-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+@media (hover: hover) {
+    .service-card .book-btn:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.service-card .book-btn:active {
+    transform: translateY(0);
+}
+
+.service-card .book-btn i {
+    font-size: 16px;
+    transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .service-card .book-btn:hover i {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .services-grid {
+        gap: 18px;
+        padding: var(--space-sm) 0;
+    }
+
+    .service-image {
+        height: 180px;
+    }
+
+    .service-content {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-grid {
+        gap: 16px;
+        padding: var(--space-xs) 0;
+    }
+
+    .service-image {
+        height: 170px;
+    }
+
+    .service-content {
+        padding: 14px;
+    }
+
+    .service-features {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 0;
+    }
+
+    .feature {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .price-value {
+        align-self: flex-end;
+    }
+
+    .service-card .book-btn {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .service-title {
+        font-size: 1rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .service-description {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .feature {
+        font-size: 12px;
+    }
+
+    .price-value {
+        font-size: 1.1rem;
+    }
+}

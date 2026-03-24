@@ -1,0 +1,49 @@
+/* stats.css - статистика профиля */
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(15px, 3vw, 20px);
+    margin-bottom: clamp(20px, 4vw, 30px);
+}
+
+.stat-card {
+    background: var(--card-bg);
+    padding: clamp(15px, 3vw, 20px);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+.stat-value {
+    font-size: clamp(24px, 5vw, 28px);
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 5px;
+    line-height: 1.2;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: clamp(12px, 2.5vw, 14px);
+}
+
+@media (max-width: 768px) {
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+}

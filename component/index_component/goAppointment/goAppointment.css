@@ -1,0 +1,118 @@
+/* ===== CTA COMPONENT ===== */
+.cta-section {
+    margin: clamp(40px, 8vw, 80px) 0 clamp(20px, 5vw, 40px);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    border-radius: var(--radius-lg);
+    padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 40px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: min(200px, 30vw);
+    height: min(200px, 30vw);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.cta-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: min(250px, 40vw);
+    height: min(250px, 40vw);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.cta-content {
+    position: relative;
+    z-index: var(--z-dropdown);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 16px;
+    text-shadow: var(--shadow-sm);
+    word-wrap: break-word;
+}
+
+.cta-content p {
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 32px;
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    line-height: 1.5;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: clamp(12px, 2.5vw, 14px) clamp(24px, 5vw, 32px);
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    text-decoration: none;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    will-change: transform;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.btn-primary {
+    background: white;
+    color: var(--accent-color);
+    box-shadow: var(--shadow-md);
+}
+
+@media (hover: hover) {
+    .btn-primary:hover {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+.btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+@media (hover: hover) {
+    .btn-outline:hover {
+        background: white;
+        color: var(--accent-color);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
+}

@@ -1,0 +1,55 @@
+<div id="panelOverlay" class="panel-overlay"></div>
+
+<div id="contactPanel">
+    <div class="panel-header">
+        <h3>Контакты</h3>
+        <button class="close-panel" id="closePanel">&times;</button>
+    </div>
+
+    <div class="panel-body">
+        <div class="contact-list">
+            <a href="tel:+71234567890" class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>+7 (123) 456-78-90</span>
+            </a>
+
+            <a href="https://wa.me/71234567890" target="_blank" class="contact-item">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+            </a>
+
+            <a href="https://t.me/bodyartstudio" target="_blank" class="contact-item">
+                <i class="fab fa-telegram"></i>
+                <span>@bodyartstudio</span>
+            </a>
+
+            <a href="mailto:info@bodyart.ru" class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>info@bodyart.ru</span>
+            </a>
+
+            <div class="contact-item" style="cursor: default;">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>ул. Пушкина, 10</span>
+            </div>
+        </div>
+
+        <div class="work-hours">
+            <h4>
+                <i class="fas fa-clock"></i>
+                Режим работы
+            </h4>
+            <p><i class="fas fa-calendar-day"></i> Пн-Вс: 10:00 - 22:00</p>
+            <p><i class="fas fa-coffee"></i> Без выходных</p>
+        </div>
+
+        <div class="social-links">
+            <p>Мы в соцсетях</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-vk"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

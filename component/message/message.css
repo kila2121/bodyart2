@@ -1,0 +1,285 @@
+/* ===== Глобальные toast-сообщения ===== */
+.toast {
+    position: fixed;
+    top: 90px;
+    right: 24px;
+    min-width: 300px;
+    max-width: 400px;
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 51, 102, 0.1);
+    z-index: var(--z-toast);
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    transition: all 0.25s ease;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden;
+    border: none;
+}
+
+/* Градиентная рамка */
+.toast::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--accent-color),
+            var(--accent-light),
+            var(--accent-color),
+            transparent);
+    z-index: 2;
+}
+
+/* Анимированная градиентная подсветка */
+.toast::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 0% 0%,
+            rgba(255, 51, 102, 0.08) 0%,
+            transparent 70%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.toast:hover::after {
+    opacity: 1;
+}
+
+/* Заголовок (только кнопка закрытия) */
+.toast-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 16px 4px 16px;
+    border-bottom: none;
+    background: transparent;
+}
+
+/* Кнопка закрытия */
+.btn-close {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-round);
+    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    line-height: 1;
+    opacity: 0.6;
+}
+
+.btn-close:hover {
+    background: rgba(255, 51, 102, 0.15);
+    color: var(--accent-color);
+    opacity: 1;
+    transform: rotate(90deg) scale(1.1);
+    border-color: var(--accent-color);
+}
+
+.btn-close:active {
+    transform: rotate(90deg) scale(0.95);
+}
+
+/* Тело сообщения */
+.toast-body {
+    padding: 0 20px 20px 20px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    word-break: break-word;
+    position: relative;
+    z-index: 1;
+}
+
+/* Иконка */
+.toast-body i {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    transition: transform 0.2s ease;
+}
+
+.toast:hover .toast-body i {
+    transform: scale(1.05);
+}
+
+/* Текст сообщения */
+.toast-message {
+    flex: 1;
+}
+
+/* Цвета для разных типов */
+.toast.error .toast-body i {
+    color: var(--error-color);
+}
+
+.toast.error .toast-message {
+    color: var(--error-color);
+}
+
+.toast.error::before {
+    background: linear-gradient(90deg, transparent, var(--error-color), transparent);
+}
+
+.toast.success .toast-body i {
+    color: var(--success-color);
+}
+
+.toast.success .toast-message {
+    color: var(--success-color);
+}
+
+.toast.success::before {
+    background: linear-gradient(90deg, transparent, var(--success-color), transparent);
+}
+
+.toast.info .toast-body i {
+    color: var(--accent-color);
+}
+
+.toast.info .toast-message {
+    color: var(--text-color);
+}
+
+.toast.info::before {
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+}
+
+/* Анимация появления */
+@keyframes slideInRight {
+    0% {
+        transform: translateX(calc(100% + 30px));
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Анимация исчезновения */
+.toast.hide {
+    animation: slideOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideOutRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(calc(100% + 30px));
+        opacity: 0;
+    }
+}
+
+/* Эффект пульсации для новых сообщений */
+.toast {
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.2, 0.64, 1), pulseGlow 0.6s ease-out 0.2s;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: var(--shadow-lg), 0 0 0 0 rgba(255, 51, 102, 0.4);
+    }
+
+    50% {
+        box-shadow: var(--shadow-lg), 0 0 0 8px rgba(255, 51, 102, 0.1);
+    }
+
+    100% {
+        box-shadow: var(--shadow-lg), 0 0 0 0 rgba(255, 51, 102, 0);
+    }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .toast {
+        top: 70px;
+        right: 16px;
+        left: 16px;
+        max-width: none;
+        min-width: auto;
+    }
+
+    .toast-body {
+        padding: 0 16px 16px 16px;
+        gap: 12px;
+    }
+
+    .toast-body i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast {
+        top: 65px;
+        right: 12px;
+        left: 12px;
+    }
+
+    .toast-body {
+        font-size: 0.85rem;
+        padding: 0 14px 14px 14px;
+    }
+
+    .toast-header {
+        padding: 10px 14px 0 14px;
+    }
+
+    .btn-close {
+        width: 26px;
+        height: 26px;
+        font-size: 16px;
+    }
+}
+
+/* Для пользователей с отключённой анимацией */
+@media (prefers-reduced-motion: reduce) {
+
+    .toast,
+    .btn-close,
+    .toast-body i {
+        animation: none;
+        transition: none;
+    }
+
+    .toast::after,
+    .toast:hover::after {
+        opacity: 0;
+    }
+}
+
+/* Темная тема — дополнительная подсветка */
+[data-theme="dark"] .toast {
+    background: rgba(38, 38, 38, 0.95);
+    backdrop-filter: blur(16px);
+}
+
+/* Светлая тема — более прозрачный фон */
+[data-theme="light"] .toast {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}

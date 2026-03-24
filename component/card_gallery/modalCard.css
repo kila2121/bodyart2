@@ -1,0 +1,459 @@
+/* ===== ГЛАВНЫЙ КОНТЕЙНЕР МОДАЛКИ ===== */
+.gmodal-layout {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: min(600px, 80vh);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--primary-bg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===== ИЗОБРАЖЕНИЕ ===== */
+.gmodal-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: var(--primary-bg);
+}
+
+.gmodal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: var(--primary-bg);
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* ===== ЛЕВАЯ ВЕРХНЯЯ ПАНЕЛЬ С ТЕКСТОМ ===== */
+.gmodal-text-panel {
+    position: absolute;
+    top: clamp(16px, 3vw, var(--space-lg));
+    left: clamp(16px, 3vw, var(--space-lg));
+    z-index: 10;
+    max-width: min(60%, 400px);
+}
+
+.gmodal-title {
+    color: white;
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-weight: 600;
+    margin: 0 0 var(--space-xs) 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+}
+
+.gmodal-category {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-md);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: var(--radius-sm);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+}
+
+/* ===== ПРАВАЯ ВЕРХНЯЯ ПАНЕЛЬ С КНОПКАМИ ===== */
+.gmodal-actions-panel {
+    position: absolute;
+    top: clamp(16px, 3vw, var(--space-lg));
+    right: clamp(16px, 3vw, var(--space-lg));
+    z-index: 10;
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
+/* ===== БЕЙДЖ "ИЗБРАННОЕ" ===== */
+.gmodal-featured-badge {
+    width: clamp(28px, 6vw, 36px);
+    height: clamp(28px, 6vw, 36px);
+    background: var(--accent-color);
+    border-radius: var(--radius-round);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: clamp(12px, 3vw, 16px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0.95;
+    transition: opacity var(--transition-fast);
+}
+
+/* ===== КНОПКА ЗАКРЫТИЯ ===== */
+.gmodal-close-btn {
+    width: clamp(28px, 6vw, 36px);
+    height: clamp(28px, 6vw, 36px);
+    border-radius: var(--radius-round);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: clamp(14px, 3vw, 20px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+@media (hover: hover) {
+    .gmodal-close-btn:hover {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+}
+
+/* ===== НИЖНЯЯ ПАНЕЛЬ - ВСПЛЫВАЕТ ПРИ НАВЕДЕНИИ ===== */
+.gmodal-bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+
+@media (hover: hover) {
+    .gmodal-layout:hover .gmodal-bottom-bar {
+        transform: translateY(0);
+    }
+}
+
+.gmodal-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 4px;
+    border-radius: var(--radius-round);
+    margin: 0 auto var(--space-lg);
+    width: fit-content;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    pointer-events: auto;
+}
+
+.gmodal-nav-btn {
+    width: clamp(28px, 5vw, 32px);
+    height: clamp(28px, 5vw, 32px);
+    border-radius: var(--radius-round);
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+@media (hover: hover) {
+    .gmodal-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+    }
+}
+
+.gmodal-counter {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: clamp(0.8rem, 2vw, 0.85rem);
+    font-weight: 400;
+    padding: 0 var(--space-xs);
+}
+
+.gmodal-counter .gmodal-current {
+    color: white;
+    font-weight: 500;
+}
+
+.gmodal-counter .gmodal-separator {
+    color: rgba(255, 255, 255, 0.3);
+    margin: 0 2px;
+}
+
+/* ===== КАРТОЧКА МАСТЕРА - ВСПЛЫВАЕТ ПРИ НАВЕДЕНИИ ===== */
+.gmodal-master-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: linear-gradient(to top,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(0, 0, 0, 0.6) 70%,
+            transparent 100%);
+    padding: clamp(16px, 4vw, var(--space-xl)) clamp(16px, 4vw, var(--space-xl)) var(--space-lg);
+    transform: translateY(100%);
+    transition: transform var(--transition-normal);
+    cursor: pointer;
+}
+
+@media (hover: hover) {
+    .gmodal-layout:hover .gmodal-master-card {
+        transform: translateY(0);
+    }
+}
+
+.gmodal-master-content {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 3vw, var(--space-md));
+}
+
+.gmodal-master-avatar {
+    width: clamp(36px, 8vw, 44px);
+    height: clamp(36px, 8vw, 44px);
+    border-radius: var(--radius-round);
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: clamp(16px, 4vw, 18px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.gmodal-master-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.gmodal-master-label {
+    font-size: clamp(9px, 2vw, 10px);
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.gmodal-master-name {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: 500;
+    color: white;
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.gmodal-work-date {
+    font-size: clamp(10px, 2vw, 11px);
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gmodal-work-date i {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 10px;
+}
+
+.gmodal-master-description {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal), opacity var(--transition-fast);
+    margin-top: 0;
+}
+
+@media (hover: hover) {
+    .gmodal-master-card:hover .gmodal-master-description {
+        max-height: 120px;
+        opacity: 1;
+        margin-top: var(--space-md);
+    }
+}
+
+.gmodal-master-description p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+    line-height: 1.5;
+    margin: 0;
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== ФИКСЫ ДЛЯ МОДАЛКИ ===== */
+.modal-gallery {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: var(--z-modal);
+    max-width: min(1300px, 95vw);
+    width: 95vw;
+    max-height: 90vh;
+    height: min(800px, 90vh);
+}
+
+.modal-gallery.active {
+    display: block;
+    animation: modalFadeIn 0.2s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: calc(var(--z-modal) - 1);
+}
+
+.modal-overlay.active {
+    display: block;
+    animation: overlayFadeIn 0.2s ease;
+}
+
+@keyframes overlayFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.gallery-modal-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .gmodal-layout {
+        min-height: 500px;
+    }
+
+    .gmodal-text-panel {
+        max-width: 70%;
+    }
+
+    .gmodal-nav {
+        margin-bottom: var(--space-md);
+    }
+}
+
+@media (max-width: 576px) {
+    .gmodal-layout {
+        min-height: 400px;
+    }
+
+    .gmodal-text-panel {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 360px) {
+    .gmodal-layout {
+        min-height: 350px;
+    }
+}
+
+/* Landscape orientation */
+@media (max-height: 600px) and (orientation: landscape) {
+    .gmodal-layout {
+        min-height: 80vh;
+    }
+
+    .gmodal-master-card {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .gmodal-master-description {
+        max-height: 0;
+    }
+
+    .gmodal-master-card:hover .gmodal-master-description {
+        max-height: 80px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .modal-gallery,
+    .modal-overlay,
+    .gmodal-bottom-bar,
+    .gmodal-master-card,
+    .gmodal-master-description,
+    .gmodal-close-btn {
+        animation: none;
+        transition: none;
+        transform: none !important;
+    }
+}
+
+/* Touch devices optimization */
+@media (hover: none) and (pointer: coarse) {
+    .gmodal-bottom-bar {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .gmodal-master-card {
+        transform: translateY(0);
+        opacity: 1;
+        background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.9) 0%,
+                rgba(0, 0, 0, 0.6) 100%);
+    }
+
+    .gmodal-master-description {
+        max-height: 120px;
+        opacity: 1;
+        margin-top: var(--space-md);
+    }
+
+    .gmodal-close-btn:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}

@@ -1,0 +1,57 @@
+/* ===== ADVANTAGES COMPONENT ===== */
+.advantages {
+    margin-bottom: clamp(3rem, 8vw, 5rem);
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+    gap: clamp(1.5rem, 4vw, 2rem);
+}
+
+.advantage-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 4vw, 2rem) clamp(1.2rem, 3vw, 1.5rem);
+    transition: var(--transition-normal);
+    text-align: center;
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .advantage-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+.advantage-icon {
+    width: clamp(60px, 12vw, 70px);
+    height: clamp(60px, 12vw, 70px);
+    background: rgba(255, 51, 102, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto clamp(1.2rem, 3vw, 1.5rem);
+}
+
+.advantage-icon i {
+    font-size: clamp(25px, 5vw, 30px);
+    color: var(--accent-color);
+}
+
+.advantage-card h3 {
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+.advantage-card p {
+    color: var(--text-secondary);
+    font-size: clamp(0.9rem, 2vw, 0.95rem);
+    line-height: 1.5;
+    margin: 0;
+}

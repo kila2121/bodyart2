@@ -1,0 +1,563 @@
+/* services-hero.css - привлекательная hero-секция */
+/* ========== ПЛАВНЫЙ ПЕРЕХОД С ТОЧКАМИ ========== */
+.hero-transition {
+    position: relative;
+    margin-top: -1px;
+    line-height: 0;
+    z-index: 2;
+}
+
+.transition-pattern {
+    height: 100px;
+    background-image: radial-gradient(circle at 10% 50%,
+            rgba(255, 51, 102, 0.15) 1px,
+            transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+    position: relative;
+    mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    -webkit-mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+}
+
+.transition-pattern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--accent-color),
+            var(--accent-light),
+            var(--accent-color),
+            transparent);
+    opacity: 0.4;
+}
+
+.transition-pattern::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--primary-bg));
+    pointer-events: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .transition-pattern {
+        height: 70px;
+        background-size: 16px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .transition-pattern {
+        height: 50px;
+        background-size: 12px 12px;
+    }
+}
+.services-hero {
+    position: relative;
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(60px, 10vh, 100px) 0;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+}
+
+/* Фоновые элементы */
+.services-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.bg-gradient {
+    position: absolute;
+    top: 30%;
+    right: 0;
+    width: 60%;
+    height: 80%;
+    background: radial-gradient(circle at center, rgba(255, 51, 102, 0.12) 0%, transparent 70%);
+    filter: blur(60px);
+    animation: pulse 8s ease-in-out infinite;
+}
+
+/* Основной контент */
+.services-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+    width: 100%;
+}
+
+/* Текстовая часть */
+.services-hero-text {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(255, 51, 102, 0.1);
+    border-radius: 40px;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 51, 102, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.hero-accent {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 90%;
+}
+
+/* Кнопки */
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Визуальная часть */
+.services-hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInRight 0.6s ease-out;
+}
+
+.hero-visual-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Кольца */
+.visual-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(255, 51, 102, 0.25);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite;
+}
+
+.visual-ring::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-color);
+}
+
+.visual-ring-2 {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    border: 2px dashed rgba(255, 51, 102, 0.2);
+    border-radius: 50%;
+    animation: rotate-reverse 15s linear infinite;
+}
+
+/* Иконки */
+.visual-icon {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background: var(--card-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--accent-color);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-normal);
+}
+
+.visual-icon:hover {
+    transform: scale(1.1);
+    border-color: var(--accent-color);
+}
+
+.tattoo-icon {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: float 3s ease-in-out infinite;
+}
+
+.piercing-icon {
+    bottom: 20px;
+    right: 0;
+    animation: float 3s ease-in-out infinite 0.5s;
+}
+
+.biomod-icon {
+    bottom: 20px;
+    left: 0;
+    animation: float 3s ease-in-out infinite 1s;
+}
+
+/* Скролл индикатор */
+.scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: opacity var(--transition-normal);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.scroll-hint:hover {
+    opacity: 1;
+}
+
+.scroll-hint i {
+    animation: bounce 2s infinite;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-reverse {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+
+    50% {
+        transform: translateY(-8px) translateX(3px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+
+/* Планшеты 992px */
+@media (max-width: 992px) {
+    .services-hero {
+        min-height: auto;
+        padding: 60px 0;
+    }
+
+    .services-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .hero-description {
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .services-hero-visual {
+        order: -1;
+        margin: 0 auto;
+    }
+
+    .hero-visual-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+
+    .visual-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+}
+
+/* Мобильные 768px */
+@media (max-width: 768px) {
+    .services-hero {
+        padding: 50px 0;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 4px 14px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+
+    .hero-visual-wrapper {
+        width: 240px;
+        height: 240px;
+    }
+
+    .visual-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+
+    .scroll-hint {
+        bottom: 20px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Маленькие мобильные 480px */
+@media (max-width: 480px) {
+    .services-hero {
+        padding: 40px 0;
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .visual-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    .tattoo-icon {
+        top: -5px;
+    }
+
+    .piercing-icon,
+    .biomod-icon {
+        bottom: 5px;
+    }
+
+    .scroll-hint {
+        display: none;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .services-hero {
+        min-height: auto;
+        padding: 40px 0;
+    }
+
+    .services-hero-content {
+        gap: 30px;
+    }
+
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .visual-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .bg-gradient,
+    .visual-ring,
+    .visual-ring-2,
+    .visual-icon,
+    .services-hero-text,
+    .services-hero-visual,
+    .scroll-hint i {
+        animation: none;
+    }
+
+    .visual-icon:hover {
+        transform: none;
+    }
+}

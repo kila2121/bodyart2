@@ -1,0 +1,94 @@
+/* aboutMaster.css - компонент информации о мастере */
+.master-section {
+    background: var(--card-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 22px;
+    padding: clamp(20px, 4vw, 28px);
+    margin-bottom: 30px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .master-section:hover {
+        border-color: rgba(255, 51, 102, 0.25);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+}
+
+.section-heading {
+    font-size: clamp(1.3rem, 3vw, 1.5rem);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 22px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    word-break: break-word;
+}
+
+.section-heading i {
+    color: var(--accent-color);
+    font-size: clamp(1.3rem, 3vw, 1.5rem);
+    width: 32px;
+    filter: drop-shadow(0 0 8px rgba(255, 51, 102, 0.3));
+    flex-shrink: 0;
+}
+
+.about-text {
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 2.5vw, 1.05rem);
+    line-height: 1.7;
+    margin-bottom: 25px;
+    padding-left: 18px;
+    border-left: 3px solid var(--accent-color);
+    word-break: break-word;
+}
+
+.skills-list h3 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    padding: 6px 16px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: var(--transition-fast);
+    will-change: transform;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .skill-tag {
+        white-space: normal;
+        text-align: center;
+        flex: 1 1 auto;
+    }
+}
+
+@media (hover: hover) {
+    .skill-tag:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        background: rgba(255, 51, 102, 0.05);
+        transform: translateY(-2px);
+    }
+}

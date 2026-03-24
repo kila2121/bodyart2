@@ -1,0 +1,603 @@
+/* ===== Стили для модального окна с формами ===== */
+/* ===== УЛУЧШЕННЫЕ СТИЛИ ДЛЯ TOAST-СООБЩЕНИЙ ===== */
+.modal-window .toast {
+    margin-bottom: 20px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    animation: slideIn 0.3s ease-out;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-md);
+}
+
+.modal-window .toast i {
+    font-size: 18px;
+}
+
+.modal-window .toast.error {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.modal-window .toast.success {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: var(--success-color);
+    color: var(--success-color);
+}
+
+.modal-window .toast.info {
+    background: rgba(255, 51, 102, 0.15);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: var(--z-modal);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    opacity: 0;
+    z-index: calc(var(--z-modal) + 1);
+    width: min(90%, 500px);
+    max-height: 90vh;
+    overflow-y: auto;
+    transition: var(--transition-normal);
+}
+
+.modal.active {
+    opacity: 1;
+    transform: translate(-50%, -45%);
+    display: block;
+}
+
+/* Адаптивность позиционирования */
+@media (max-height: 700px) {
+    .modal.active {
+        transform: translate(-50%, -42%);
+    }
+}
+
+@media (max-height: 600px) {
+    .modal.active {
+        transform: translate(-50%, -38%);
+    }
+}
+
+@media (max-width: 768px) {
+    .modal.active {
+        transform: translate(-50%, -42%);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal.active {
+        transform: translate(-50%, -40%);
+    }
+}
+
+@media (max-width: 360px) {
+    .modal.active {
+        transform: translate(-50%, -35%);
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-height: 600px) and (orientation: landscape) {
+    .modal {
+        max-height: 95vh;
+    }
+
+    .modal.active {
+        transform: translate(-50%, -40%);
+    }
+}
+
+.modal-window .registration-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: clamp(20px, 5vw, 30px);
+    background: linear-gradient(145deg, var(--card-bg), var(--secondary-bg));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.modal-window .registration-container::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--card-bg);
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    width: clamp(34px, 8vw, 36px);
+    height: clamp(34px, 8vw, 36px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition-normal);
+    z-index: calc(var(--z-modal) + 2);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+@media (hover: hover) {
+    .modal-close:hover {
+        background: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-accent);
+        transform: rotate(90deg);
+    }
+}
+
+.modal-close:active {
+    transform: scale(0.95);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.modal-window .modal_form,
+.modal-window .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+}
+
+/* ===== ГРУППЫ ПОЛЕЙ ===== */
+.modal-window .form-group {
+    margin-bottom: clamp(16px, 3.5vw, 22px);
+    animation: slideInField 0.5s ease-out forwards;
+    width: 100%;
+}
+
+/* Задержки анимации */
+.modal-window .form-group:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.modal-window .form-group:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.modal-window .form-group:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.modal-window .form-group:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.modal-window .form-group:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+.modal-window .form-group:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+.modal-window .form-group:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+.modal-window .form-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+}
+
+.modal-window .form-group label i {
+    margin-right: 8px;
+    color: var(--accent-color);
+    width: 16px;
+    font-size: 14px;
+    transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .modal-window .form-group:hover label i {
+        transform: scale(1.1);
+    }
+}
+
+.modal-window .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.modal-window .input-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition-normal);
+    transform: translateX(-50%);
+    border-radius: var(--radius-full);
+    opacity: 0;
+}
+
+.modal-window .input-wrapper:focus-within::after {
+    width: 100%;
+    opacity: 1;
+    box-shadow: var(--shadow-accent);
+}
+
+.modal-window .input-wrapper input {
+    width: 100%;
+    padding: clamp(12px, 3vw, 14px) clamp(14px, 3.5vw, 18px);
+    background: var(--secondary-bg);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    font-size: clamp(14px, 3vw, 15px);
+    transition: var(--transition-normal);
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+@media (hover: hover) {
+    .modal-window .input-wrapper input:hover {
+        border-color: var(--text-secondary);
+        background: var(--card-bg);
+    }
+}
+
+.modal-window .input-wrapper input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: var(--card-bg);
+    box-shadow: 0 0 0 4px rgba(255, 51, 102, 0.15);
+}
+
+.modal-window .input-wrapper input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+    font-size: clamp(13px, 2.8vw, 14px);
+    transition: opacity var(--transition-fast);
+}
+
+.modal-window .input-wrapper input:focus::placeholder {
+    opacity: 0.3;
+}
+
+.modal-window .input-wrapper input[type="date"] {
+    color-scheme: dark;
+    font-family: inherit;
+    padding: 10px 16px;
+}
+
+.modal-window .input-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+    padding: 5px;
+}
+
+@media (hover: hover) {
+    .modal-window .input-wrapper input[type="date"]::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+}
+
+/* ===== КНОПКИ ===== */
+.modal-window .form-actions {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0 0;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.modal-window .form-actions .button {
+    padding: clamp(12px, 3vw, 15px) clamp(16px, 4vw, 24px);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: clamp(15px, 3.5vw, 16px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-family: inherit;
+    flex: 1 1 auto;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    background: transparent;
+    color: inherit;
+}
+
+.modal-window .form-actions .button i {
+    font-size: 16px;
+    transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .modal-window .form-actions .button:hover i {
+        transform: translateX(3px);
+    }
+}
+
+.modal-window .form-actions .submit-button {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+}
+
+.modal-window .form-actions .submit-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    transition: left 0.6s ease;
+}
+
+@media (hover: hover) {
+    .modal-window .form-actions .submit-button:hover {
+        background: linear-gradient(135deg, var(--accent-light), var(--accent-color));
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-accent);
+    }
+
+    .modal-window .form-actions .submit-button:hover::before {
+        left: 100%;
+    }
+}
+
+.modal-window .form-actions .submit-button:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.modal-window .form-actions .secondary-button {
+    background: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    position: relative;
+    z-index: 1;
+}
+
+.modal-window .form-actions .secondary-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--accent-color);
+    transition: width var(--transition-normal);
+    z-index: -1;
+    opacity: 0.1;
+}
+
+@media (hover: hover) {
+    .modal-window .form-actions .secondary-button:hover {
+        border-color: var(--accent-color);
+        color: var(--accent-color);
+        transform: translateY(-2px);
+    }
+
+    .modal-window .form-actions .secondary-button:hover::before {
+        width: 100%;
+    }
+}
+
+.modal-window .form-actions .secondary-button:active {
+    transform: translateY(0);
+}
+
+/* ===== ССЫЛКИ ПЕРЕКЛЮЧЕНИЯ ТАБОВ ===== */
+.modal-window .tab-links {
+    text-align: center;
+    margin-top: clamp(25px, 5vw, 30px);
+    padding-top: clamp(20px, 4vw, 25px);
+    border-top: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: clamp(14px, 3vw, 15px);
+    position: relative;
+}
+
+.modal-window .tab-links::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-accent);
+}
+
+.modal-window .tab-links span {
+    margin-right: 8px;
+    opacity: 0.8;
+}
+
+.modal-window .tab-link {
+    color: var(--accent-color) !important;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: clamp(14px, 3vw, 15px);
+    transition: var(--transition-normal);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 3px;
+    display: inline-block;
+    letter-spacing: 0.3px;
+}
+
+@media (hover: hover) {
+    .modal-window .tab-link:hover {
+        color: var(--accent-light) !important;
+        border-bottom-color: var(--accent-light);
+        transform: translateY(-1px);
+    }
+}
+
+.modal-window .tab-link:active {
+    transform: translateY(1px);
+    border-bottom-color: var(--accent-color);
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes slideInField {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .modal-window .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-window .form-actions .button {
+        width: 100%;
+    }
+
+    .modal-window .form-group {
+        margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-window .registration-container {
+        padding: 20px;
+    }
+
+    .modal-window .form-group {
+        margin-bottom: 16px;
+    }
+
+    .modal-window .form-group label {
+        font-size: 13px;
+        margin-bottom: 6px;
+    }
+
+    .modal-window .tab-links {
+        margin-top: 20px;
+        padding-top: 15px;
+    }
+
+    .modal-close {
+        top: 12px;
+        right: 12px;
+    }
+}
+
+@media (max-width: 360px) {
+    .modal-window .registration-container {
+        padding: 15px;
+    }
+
+    .modal-window .form-group {
+        margin-bottom: 14px;
+    }
+
+    .modal-window .form-group label {
+        font-size: 12px;
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

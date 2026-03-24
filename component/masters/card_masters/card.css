@@ -1,0 +1,488 @@
+/* card.css - компонент карточки мастера */
+
+.masters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: clamp(20px, 3vw, 25px);
+    padding: clamp(15px, 3vw, 20px);
+    max-width: var(--container-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.master-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.2rem, 3vw, 1.5rem);
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    animation: cardAppear 0.4s ease-out forwards;
+    will-change: transform;
+}
+
+.master-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-light));
+    transform: scaleX(0);
+    transition: transform var(--transition-normal);
+    transform-origin: left;
+    z-index: 1;
+}
+
+@media (hover: hover) {
+    .master-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .master-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* Ссылки */
+.master-avatar-link,
+.master-name-link {
+    text-decoration: none;
+    display: block;
+    transition: transform var(--transition-normal);
+    width: 100%;
+}
+
+@media (hover: hover) {
+
+    .master-avatar-link:hover,
+    .master-name-link:hover {
+        transform: scale(1.02);
+    }
+}
+
+.master-name-link {
+    margin-bottom: 0.5rem;
+}
+
+.master-name-link:hover .master-name {
+    color: var(--accent-color);
+}
+
+/* Кнопки-ссылки (для форм) */
+.master-avatar-link-btn,
+.master-name-link-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+}
+
+/* Аватар */
+.master-avatar {
+    width: clamp(90px, 20vw, 120px);
+    height: clamp(90px, 20vw, 120px);
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto clamp(0.75rem, 2vw, 1rem) auto;
+    border: 3px solid var(--accent-color);
+    box-shadow: var(--shadow-sm);
+    aspect-ratio: 1 / 1;
+    transition: var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .master-card:hover .master-avatar {
+        border-color: var(--accent-light);
+        transform: scale(1.02);
+    }
+}
+
+.master-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Имя */
+.master-name {
+    color: var(--accent-light);
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+    font-weight: 600;
+    text-align: center;
+    word-break: break-word;
+    transition: color var(--transition-normal);
+}
+
+/* Рейтинг */
+.master-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 2px;
+    color: var(--warning-color);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1;
+}
+
+.rating-stars i {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+}
+
+.rating-value {
+    background: rgba(255, 51, 102, 0.1);
+    color: var(--accent-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 20px;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Специализация */
+.master-specialization {
+    color: var(--accent-color);
+    font-size: clamp(0.95rem, 2.2vw, 1rem);
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    word-break: break-word;
+}
+
+.master-specialization i {
+    font-size: 1rem;
+    color: var(--accent-color);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Опыт */
+.master-experience {
+    color: var(--text-secondary);
+    font-size: clamp(0.9rem, 2.2vw, 0.95rem);
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    word-break: break-word;
+}
+
+.master-experience i {
+    color: var(--accent-color);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Описание */
+.master-description {
+    color: var(--text-secondary);
+    font-size: clamp(0.9rem, 2.2vw, 0.95rem);
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    background: var(--secondary-bg);
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    font-style: italic;
+    min-height: calc(clamp(0.9rem, 2.2vw, 0.95rem) * 1.6 * 3);
+}
+
+/* Футер */
+.master-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-color);
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Статус */
+.status-badge {
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .status-badge {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.status-badge i {
+    font-size: 0.6rem;
+}
+
+.status-badge.active {
+    color: var(--success-color);
+}
+
+.status-badge.inactive {
+    color: var(--error-color);
+}
+
+/* Кнопка записи */
+.book-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    will-change: transform;
+}
+
+@media (max-width: 768px) {
+    .book-btn {
+        width: 100%;
+        padding: 0.6rem;
+    }
+}
+
+@media (hover: hover) {
+    .book-btn:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+        color: white;
+        text-decoration: none;
+    }
+}
+
+.book-btn:active {
+    transform: translateY(0);
+}
+
+/* Пустое состояние */
+.no-masters {
+    text-align: center;
+    padding: clamp(2rem, 8vw, 3rem) clamp(1rem, 4vw, 2rem);
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    margin: 2rem auto;
+    max-width: 600px;
+    width: calc(100% - 40px);
+    border: 1px dashed var(--border-color);
+}
+
+/* Анимации */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Задержки анимации для первых 12 карточек */
+@for $i from 1 through 12 {
+    .master-card:nth-child(#{$i}) {
+        animation-delay: #{0.1 + ($i - 1) * 0.05}s;
+    }
+}
+
+.master-card:nth-child(n+13) {
+    animation-delay: 0.7s;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 1200px) {
+    .masters-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+        gap: 20px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .masters-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .masters-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .master-card {
+        padding: 1.25rem;
+    }
+
+    .master-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .master-name {
+        font-size: 1.2rem;
+    }
+
+    .master-description {
+        -webkit-line-clamp: 2;
+        min-height: calc(0.9rem * 1.6 * 2);
+    }
+
+    .master-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .masters-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 8px;
+    }
+
+    .master-card {
+        padding: 1rem;
+    }
+
+    .master-avatar {
+        width: 90px;
+        height: 90px;
+    }
+
+    .master-name {
+        font-size: 1.2rem;
+    }
+
+    .rating-stars i {
+        font-size: 1rem;
+    }
+
+    .rating-value {
+        font-size: 0.8rem;
+        padding: 0.15rem 0.4rem;
+    }
+
+    .master-description {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    .no-masters {
+        padding: 2rem 1rem;
+        font-size: 1rem;
+        width: calc(100% - 16px);
+        margin: 1rem auto;
+    }
+}
+
+@media (max-width: 360px) {
+    .master-card {
+        padding: 0.9rem;
+    }
+
+    .master-avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .master-name {
+        font-size: 1.1rem;
+    }
+}
+
+/* Landscape orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .masters-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .master-description {
+        -webkit-line-clamp: 2;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .master-card,
+    .master-card::before,
+    .master-card:hover,
+    .master-avatar-link:hover,
+    .master-name-link:hover,
+    .book-btn,
+    .book-btn:hover {
+        animation: none;
+        transition: none;
+        transform: none !important;
+    }
+
+    .master-card {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* Touch devices optimization */
+@media (hover: none) and (pointer: coarse) {
+    .master-card:hover {
+        transform: none;
+    }
+
+    .book-btn:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
+}

@@ -1,0 +1,233 @@
+/* appoint_list.css - список записей для мастера */
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2.5vw, 15px);
+    margin-top: 20px;
+}
+
+.appointment-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: clamp(15px, 3vw, 20px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .appointment-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.appointment-service {
+    flex: 1 1 auto;
+    min-width: 200px;
+}
+
+.appointment-service h3 {
+    margin: 0 0 5px;
+    color: var(--text-color);
+    font-size: clamp(16px, 3.5vw, 18px);
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.appointment-price {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: clamp(14px, 3vw, 16px);
+    display: inline-block;
+}
+
+.appointment-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: clamp(12px, 2.5vw, 13px);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .appointment-status {
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning-color);
+}
+
+.status-confirmed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.status-completed {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+}
+
+.appointment-body {
+    margin-bottom: 15px;
+}
+
+.appointment-client,
+.appointment-client-phone,
+.appointment-datetime,
+.appointment-notes {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-size: clamp(13px, 2.8vw, 14px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    word-wrap: break-word;
+}
+
+.appointment-client i,
+.appointment-client-phone i,
+.appointment-datetime i,
+.appointment-notes i {
+    width: 16px;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.appointment-notes {
+    background: var(--secondary-bg);
+    padding: 12px;
+    border-radius: var(--radius-md);
+    font-style: italic;
+    border-left: 3px solid var(--accent-color);
+}
+
+.appointment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.appointment-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ===== КНОПКИ ===== */
+.button {
+    border: 1px solid var(--border-color);
+    background: transparent;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--text-color);
+    min-width: min(120px, 100%);
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .button {
+        white-space: normal;
+        width: 100%;
+    }
+}
+
+.button i {
+    font-size: 14px;
+    color: var(--accent-color);
+    transition: color var(--transition-normal);
+    flex-shrink: 0;
+}
+
+@media (hover: hover) {
+    .button:hover {
+        background: var(--accent-color);
+        border-color: var(--accent-color);
+        color: white;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .button:hover i {
+        color: white;
+    }
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.button-confirm i {
+    color: var(--success-color);
+}
+
+.button-reject i {
+    color: var(--error-color);
+}
+
+.button-complete i {
+    color: #3b82f6;
+}
+
+.button-upload i {
+    color: var(--accent-color);
+}
+
+.button-cancel {
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.button-cancel i {
+    color: var(--error-color);
+}
+
+@media (max-width: 768px) {
+    .appointment-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .appointment-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .appointment-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+}

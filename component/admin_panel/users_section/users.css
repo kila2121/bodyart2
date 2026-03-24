@@ -1,0 +1,131 @@
+/* users.css - стили для раздела пользователи */
+
+/* ===== ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ ===== */
+.table-responsive {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--card-bg);
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th {
+    background: var(--secondary-bg);
+    padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: clamp(13px, 2.8vw, 14px);
+    border-bottom: 2px solid var(--accent-color);
+    white-space: nowrap;
+}
+
+td {
+    padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: clamp(13px, 2.8vw, 14px);
+    word-break: break-word;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+@media (hover: hover) {
+    tr:hover td {
+        background: var(--secondary-bg);
+    }
+}
+
+/* ===== СТАТУСЫ ПОЛЬЗОВАТЕЛЕЙ ===== */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 30px;
+    font-size: clamp(12px, 2.5vw, 13px);
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.status-badge.admin {
+    background: var(--accent-color);
+    color: white;
+}
+
+.status-badge.user {
+    background: var(--text-secondary);
+    color: white;
+}
+
+.status-badge.protected {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+/* ===== КНОПКИ В ТАБЛИЦЕ ===== */
+td .btn {
+    padding: 5px 10px;
+    margin: 0 2px;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    min-width: auto;
+    width: auto;
+}
+
+td .btn-danger {
+    background: transparent;
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+@media (hover: hover) {
+    td .btn-danger:hover {
+        background: var(--error-color);
+        color: white;
+        border-color: var(--error-color);
+    }
+}
+
+td form {
+    display: inline;
+}
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 768px) {
+    .table-responsive {
+        margin: 0 -5px;
+        border-radius: var(--radius-sm);
+    }
+
+    td .btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        margin: 2px;
+    }
+
+    .status-badge {
+        padding: 3px 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    td .btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+
+    .status-badge {
+        font-size: 11px;
+        padding: 2px 6px;
+    }
+}

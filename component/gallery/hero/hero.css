@@ -1,0 +1,783 @@
+/* gallery-hero.css - уникальная герой-секция галереи */
+/* ========== ПЛАВНЫЙ ПЕРЕХОД С УЗОРОМ ДЛЯ ГАЛЕРЕИ ========== */
+.hero-transition {
+    position: relative;
+    margin-top: -1px;
+    line-height: 0;
+    z-index: 2;
+}
+
+.transition-gallery {
+    height: 100px;
+    background-image:
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 12px,
+            rgba(255, 51, 102, 0.08) 12px,
+            rgba(255, 51, 102, 0.08) 13px),
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 12px,
+            rgba(139, 92, 246, 0.06) 12px,
+            rgba(139, 92, 246, 0.06) 13px);
+    background-position: 0 0, 5px 5px;
+    position: relative;
+    mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    -webkit-mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+}
+
+.transition-gallery::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--accent-color),
+            #8b5cf6,
+            #f59e0b,
+            var(--accent-color),
+            transparent);
+    opacity: 0.4;
+}
+
+.transition-gallery::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--primary-bg));
+    pointer-events: none;
+}
+
+/* Альтернативный вариант с квадратами (как рамки картин) */
+.transition-gallery-alt {
+    height: 100px;
+    background-image:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 51, 102, 0.06) 20px,
+            rgba(255, 51, 102, 0.06) 21px),
+        repeating-linear-gradient(-45deg,
+            transparent,
+            transparent 20px,
+            rgba(139, 92, 246, 0.05) 20px,
+            rgba(139, 92, 246, 0.05) 21px);
+    position: relative;
+    mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    -webkit-mask: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+}
+
+.transition-gallery-alt::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--accent-color),
+            #8b5cf6,
+            #f59e0b,
+            var(--accent-color),
+            transparent);
+    opacity: 0.4;
+}
+
+.transition-gallery-alt::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--primary-bg));
+    pointer-events: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+
+    .transition-gallery,
+    .transition-gallery-alt {
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .transition-gallery,
+    .transition-gallery-alt {
+        height: 50px;
+    }
+}
+.gallery-hero {
+    position: relative;
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: clamp(60px, 10vh, 100px) 0;
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+}
+
+/* Фоновые элементы */
+.gallery-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.bg-gradient {
+    position: absolute;
+    top: 20%;
+    right: 0;
+    width: 70%;
+    height: 80%;
+    background: radial-gradient(circle at center, rgba(255, 51, 102, 0.12) 0%, transparent 70%);
+    filter: blur(80px);
+    animation: pulse 10s ease-in-out infinite;
+}
+
+.bg-particles {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 40%, rgba(255, 51, 102, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px, 60px 60px;
+    background-position: 0 0, 20px 20px;
+    animation: drift 20s linear infinite;
+}
+
+.bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 51, 102, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Основной контент */
+.gallery-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+    width: 100%;
+}
+
+/* Текстовая часть */
+.gallery-hero-text {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(255, 51, 102, 0.1);
+    border-radius: 40px;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 51, 102, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.hero-accent {
+    background: linear-gradient(135deg, var(--accent-color), #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: clamp(1rem, 1.5vw, 1.1rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 90%;
+}
+
+/* Кнопки */
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.3);
+}
+
+.btn-primary:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 51, 102, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Визуальная часть - галерейная тема */
+.gallery-hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeInRight 0.6s ease-out;
+}
+
+.hero-visual-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Декоративная сетка */
+.visual-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        repeating-linear-gradient(0deg, rgba(255, 51, 102, 0.1) 0px, rgba(255, 51, 102, 0.1) 1px, transparent 1px, transparent 20px),
+        repeating-linear-gradient(90deg, rgba(139, 92, 246, 0.1) 0px, rgba(139, 92, 246, 0.1) 1px, transparent 1px, transparent 20px);
+    animation: gridMove 15s linear infinite;
+}
+
+/* Рамки-картины */
+.visual-frame {
+    position: absolute;
+    background: var(--card-bg);
+    border: 2px solid rgba(255, 51, 102, 0.3);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-normal);
+    overflow: hidden;
+}
+
+.visual-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 51, 102, 0.1) 100%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.visual-frame:hover::before {
+    opacity: 1;
+}
+
+.frame-content {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    transition: transform var(--transition-normal);
+}
+
+.visual-frame:hover .frame-content {
+    transform: scale(1.1);
+}
+
+.frame-1 {
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 20%;
+    animation: floatFrame 4s ease-in-out infinite;
+    border-color: rgba(255, 51, 102, 0.4);
+}
+
+.frame-2 {
+    width: 80px;
+    height: 80px;
+    bottom: 20px;
+    right: 0;
+    animation: floatFrame 4s ease-in-out infinite 0.8s;
+    border-color: rgba(139, 92, 246, 0.4);
+}
+
+.frame-3 {
+    width: 70px;
+    height: 70px;
+    bottom: 40%;
+    left: -20px;
+    animation: floatFrame 4s ease-in-out infinite 1.6s;
+    border-color: rgba(245, 158, 11, 0.4);
+}
+
+.frame-3 .frame-content {
+    font-size: 1.4rem;
+}
+
+/* Полосы-акценты */
+.visual-stripes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(45deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 51, 102, 0.05) 20px,
+            rgba(255, 51, 102, 0.05) 40px);
+    animation: stripesMove 8s linear infinite;
+    pointer-events: none;
+}
+
+/* Плавающие частицы */
+.floating-particles {
+    position: absolute;
+    background: radial-gradient(circle, var(--accent-color), transparent);
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(8px);
+    animation: particleFloat 6s ease-in-out infinite;
+}
+
+.particle-1 {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    right: 20px;
+    background: radial-gradient(circle, #ff3366, transparent);
+    animation-delay: 0s;
+}
+
+.particle-2 {
+    width: 60px;
+    height: 60px;
+    bottom: 30px;
+    left: 30px;
+    background: radial-gradient(circle, #8b5cf6, transparent);
+    animation-delay: 1.5s;
+}
+
+.particle-3 {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    right: -10px;
+    background: radial-gradient(circle, #f59e0b, transparent);
+    animation-delay: 2.5s;
+}
+
+/* Скролл-хинт */
+.scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    opacity: 0.6;
+    transition: opacity var(--transition-normal);
+    cursor: pointer;
+    z-index: 2;
+}
+
+.scroll-hint:hover {
+    opacity: 1;
+}
+
+.scroll-hint i {
+    animation: bounce 2s infinite;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes floatFrame {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(3deg);
+    }
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(20px, 20px);
+    }
+}
+
+@keyframes stripesMove {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
+}
+
+@keyframes particleFloat {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translate(15px, -15px) scale(1.2);
+        opacity: 0.4;
+    }
+}
+
+@keyframes drift {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 40px 40px;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+
+@media (max-width: 992px) {
+    .gallery-hero {
+        min-height: auto;
+        padding: 60px 0;
+    }
+
+    .gallery-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .hero-description {
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        justify-content: center;
+    }
+
+    .gallery-hero-visual {
+        order: -1;
+        margin: 0 auto;
+    }
+
+    .hero-visual-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+
+    .frame-1 {
+        width: 90px;
+        height: 90px;
+    }
+
+    .frame-2 {
+        width: 70px;
+        height: 70px;
+    }
+
+    .frame-3 {
+        width: 60px;
+        height: 60px;
+    }
+
+    .frame-content {
+        font-size: 1.5rem;
+    }
+
+    .frame-3 .frame-content {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-hero {
+        padding: 50px 0;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 4px 14px;
+    }
+
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+
+    .hero-visual-wrapper {
+        width: 240px;
+        height: 240px;
+    }
+
+    .frame-1 {
+        width: 80px;
+        height: 80px;
+        left: 15%;
+    }
+
+    .frame-2 {
+        width: 65px;
+        height: 65px;
+    }
+
+    .frame-3 {
+        width: 55px;
+        height: 55px;
+        left: -10px;
+    }
+
+    .frame-content {
+        font-size: 1.3rem;
+    }
+
+    .frame-3 .frame-content {
+        font-size: 1rem;
+    }
+
+    .scroll-hint {
+        bottom: 20px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-hero {
+        padding: 40px 0;
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+    }
+
+    .hero-description {
+        font-size: 0.85rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .frame-1 {
+        width: 70px;
+        height: 70px;
+        left: 10%;
+    }
+
+    .frame-2 {
+        width: 55px;
+        height: 55px;
+    }
+
+    .frame-3 {
+        width: 45px;
+        height: 45px;
+        left: -5px;
+        bottom: 30%;
+    }
+
+    .frame-content {
+        font-size: 1.1rem;
+    }
+
+    .frame-3 .frame-content {
+        font-size: 0.9rem;
+    }
+
+    .scroll-hint {
+        display: none;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero-visual-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+
+    .frame-1 {
+        width: 60px;
+        height: 60px;
+    }
+
+    .frame-2 {
+        width: 50px;
+        height: 50px;
+    }
+
+    .frame-3 {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .gallery-hero {
+        min-height: auto;
+        padding: 40px 0;
+    }
+
+    .gallery-hero-content {
+        gap: 30px;
+    }
+
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .bg-gradient,
+    .bg-particles,
+    .visual-grid,
+    .visual-stripes,
+    .visual-frame,
+    .floating-particles,
+    .gallery-hero-text,
+    .gallery-hero-visual,
+    .scroll-hint i {
+        animation: none;
+    }
+
+    .visual-frame:hover {
+        transform: none;
+    }
+}

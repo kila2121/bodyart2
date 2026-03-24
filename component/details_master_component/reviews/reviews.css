@@ -1,0 +1,120 @@
+/* reviews.css - компонент отзывов */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.review-item {
+    padding: 18px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    transition: var(--transition-normal);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .review-item:hover {
+        border-color: rgba(255, 51, 102, 0.3);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+}
+
+.review-avatar-img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+.review-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+    background: var(--accent-color);
+}
+
+.review-name {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    word-break: break-word;
+}
+
+.review-rating {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.review-rating i {
+    font-size: 0.85rem;
+}
+
+.review-rating .fas.fa-star {
+    color: var(--warning-color);
+}
+
+.review-rating .far.fa-star {
+    color: var(--text-secondary);
+    opacity: 0.3;
+}
+
+.review-text {
+    color: var(--text-secondary);
+    font-size: 0.93rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    word-break: break-word;
+}
+
+.review-date {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    display: block;
+    text-align: right;
+    opacity: 0.5;
+}
+
+.no-reviews-text {
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}

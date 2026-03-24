@@ -1,0 +1,89 @@
+/* ===== MASTER DETAIL PAGE ===== */
+.master-detail {
+    min-height: 100vh;
+    background: var(--primary-bg);
+    position: relative;
+}
+
+.master-detail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255, 51, 102, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.03) 0%, transparent 45%);
+    pointer-events: none;
+}
+
+/* ===== CONTENT ===== */
+.master-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 60px) clamp(15px, 4vw, 20px);
+    position: relative;
+    z-index: var(--z-sticky);
+}
+
+.content-columns {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: clamp(20px, 3vw, 30px);
+    align-items: start;
+}
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 992px) {
+    .content-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .master-content {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .master-content {
+        padding: 20px 12px;
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .master-detail::before,
+    .master-hero,
+    .master-section,
+    .master-hero-avatar,
+    .back-link,
+    .stat-item,
+    .master-tag,
+    .contact-item,
+    .review-item,
+    .work-item,
+    .appointment-btn {
+        animation: none;
+        transition: none;
+        transform: none !important;
+    }
+}
+
+/* Touch devices optimization */
+@media (hover: none) and (pointer: coarse) {
+
+    .master-hero-avatar:hover,
+    .back-link:hover,
+    .stat-item:hover,
+    .master-tag:hover,
+    .contact-item:hover,
+    .review-item:hover,
+    .work-item:hover,
+    .appointment-btn:hover {
+        transform: none;
+    }
+}

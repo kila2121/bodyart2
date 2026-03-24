@@ -1,0 +1,200 @@
+/* masterProfile.css - стили для личного кабинета мастера */
+/* Полностью опирается на global_style.css */
+
+.user-profile.master-profile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 20px);
+}
+
+/* ===== ШАПКА ПРОФИЛЯ ===== */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 4vw, 30px);
+    margin-bottom: clamp(20px, 4vw, 30px);
+    padding: clamp(20px, 4vw, 30px);
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .profile-header:hover {
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+.profile-avatar {
+    width: clamp(80px, 15vw, 100px);
+    height: clamp(80px, 15vw, 100px);
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--secondary-bg);
+    border: 3px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(28px, 6vw, 36px);
+    font-weight: 600;
+    color: var(--accent-color);
+    background: rgba(255, 51, 102, 0.1);
+}
+
+.profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-name {
+    font-size: clamp(24px, 5vw, 28px);
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 5px;
+    word-wrap: break-word;
+}
+
+.profile-login {
+    font-size: clamp(14px, 3vw, 16px);
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.profile-member,
+.profile-spec {
+    font-size: clamp(13px, 2.5vw, 14px);
+    color: var(--text-secondary);
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.profile-member i,
+.profile-spec i {
+    color: var(--accent-color);
+    width: 16px;
+    flex-shrink: 0;
+}
+
+/* ===== ТАБЫ ===== */
+.profile-tabs {
+    display: flex;
+    gap: clamp(5px, 2vw, 10px);
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px);
+    background: none;
+    border: none;
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .tab-btn {
+        white-space: normal;
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
+
+@media (hover: hover) {
+    .tab-btn:hover {
+        color: var(--accent-color);
+        background: rgba(255, 51, 102, 0.1);
+    }
+}
+
+.tab-btn.active {
+    color: var(--accent-color);
+    background: rgba(255, 51, 102, 0.15);
+    font-weight: 600;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ===== ПУСТОЕ СОСТОЯНИЕ ===== */
+.empty-state {
+    text-align: center;
+    padding: clamp(40px, 8vw, 60px) clamp(15px, 4vw, 20px);
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-state i {
+    font-size: clamp(36px, 8vw, 48px);
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-size: clamp(14px, 3vw, 16px);
+}
+
+.empty-state .hint {
+    color: var(--text-secondary);
+    font-size: clamp(12px, 2.5vw, 14px);
+    margin-top: -10px;
+    opacity: 0.8;
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

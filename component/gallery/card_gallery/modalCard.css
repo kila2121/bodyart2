@@ -1,0 +1,537 @@
+/* ===== ГЛАВНЫЙ КОНТЕЙНЕР МОДАЛКИ ===== */
+.gmodal-layout {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: min(600px, 80vh);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--primary-bg);
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===== ИЗОБРАЖЕНИЕ ===== */
+.gmodal-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: var(--primary-bg);
+}
+
+.gmodal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.gmodal-layout:hover .gmodal-image img {
+    transform: scale(1.02);
+}
+
+/* ===== ЛЕВАЯ ВЕРХНЯЯ ПАНЕЛЬ С ТЕКСТОМ ===== */
+.gmodal-text-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10;
+    max-width: 60%;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.gmodal-title {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gmodal-category {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+/* ===== ПРАВАЯ ВЕРХНЯЯ ПАНЕЛЬ ===== */
+.gmodal-actions-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+}
+
+.gmodal-featured-badge {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+}
+
+/* ===== КНОПКА ЗАКРЫТИЯ - ПЕРЕМЕЩЕНА ВНИЗ СПРАВА ===== */
+.gmodal-close-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 15;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+}
+
+.gmodal-close-btn:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+/* ===== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ ===== */
+.gmodal-bottom-bar {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.gmodal-layout:hover .gmodal-bottom-bar {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.gmodal-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    padding: 8px 20px;
+    border-radius: 40px;
+}
+
+.gmodal-nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.gmodal-nav-btn:hover {
+    background: var(--accent-color);
+    transform: scale(1.05);
+}
+
+.gmodal-counter {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0 12px;
+}
+
+.gmodal-counter .gmodal-current {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* ===== КАРТОЧКА МАСТЕРА ===== */
+.gmodal-master-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+    padding: 20px 24px 30px 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.gmodal-layout:hover .gmodal-master-card {
+    transform: translateY(2%);
+    opacity: 1;
+}
+
+.gmodal-master-card::after {
+    content: '';
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    transition: opacity 0.2s;
+}
+
+.gmodal-layout:hover .gmodal-master-card::after {
+    opacity: 0;
+}
+
+.gmodal-master-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gmodal-master-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+}
+
+.gmodal-master-info {
+    flex: 1;
+}
+
+.gmodal-master-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    display: block;
+}
+
+.gmodal-master-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    display: block;
+}
+
+.gmodal-work-date {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.gmodal-master-description {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.gmodal-master-card:hover .gmodal-master-description {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 12px;
+}
+
+.gmodal-master-description p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ===== МОДАЛКА ===== */
+.modal-gallery {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    max-width: 1300px;
+    width: 90vw;
+    max-height: 90vh;
+    height: 80vh;
+}
+
+.modal-gallery.active {
+    display: block;
+    animation: modalFadeIn 0.25s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    transition: opacity 0.25s ease;
+    opacity: 0;
+}
+
+.modal-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.gallery-modal-content {
+    width: 100%;
+    height: 100%;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .modal-gallery {
+        width: 95vw;
+        height: 85vh;
+    }
+
+    .gmodal-title {
+        font-size: 1.2rem;
+    }
+
+    .gmodal-text-panel {
+        top: 12px;
+        left: 12px;
+        padding: 6px 12px;
+    }
+
+    .gmodal-actions-panel {
+        top: 12px;
+        right: 12px;
+    }
+
+    .gmodal-featured-badge,
+    .gmodal-close-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .gmodal-nav {
+        gap: 8px;
+        padding: 6px 16px;
+    }
+
+    .gmodal-nav-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .gmodal-master-card {
+        padding: 12px 20px 20px;
+        transform: translateY(calc(100% - 60px));
+    }
+
+    .gmodal-master-avatar {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .gmodal-master-name {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-gallery {
+        width: 98vw;
+        height: 90vh;
+    }
+
+    .gmodal-title {
+        font-size: 1rem;
+    }
+
+    .gmodal-text-panel {
+        max-width: 75%;
+        top: 8px;
+        left: 8px;
+        padding: 4px 10px;
+    }
+
+    .gmodal-category {
+        font-size: 0.65rem;
+        padding: 2px 8px;
+    }
+
+    .gmodal-actions-panel {
+        top: 8px;
+        right: 8px;
+        gap: 6px;
+    }
+
+    .gmodal-featured-badge,
+    .gmodal-close-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .gmodal-nav {
+        gap: 6px;
+        padding: 4px 12px;
+    }
+
+    .gmodal-nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .gmodal-counter {
+        font-size: 12px;
+        padding: 0 8px;
+    }
+
+    .gmodal-master-card {
+        padding: 8px 12px 16px;
+        transform: translateY(calc(100% - 50px));
+    }
+
+    .gmodal-master-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .gmodal-master-name {
+        font-size: 0.85rem;
+    }
+
+    .gmodal-master-card::after {
+        width: 28px;
+        bottom: 8px;
+    }
+}
+
+/* Сенсорные устройства */
+@media (hover: none) and (pointer: coarse) {
+    .gmodal-bottom-bar {
+        transform: translateY(0);
+        opacity: 0.8;
+        bottom: 12px;
+    }
+
+    .gmodal-master-card {
+        transform: translateY(calc(100% - 55px));
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .modal-gallery.active,
+    .gmodal-bottom-bar,
+    .gmodal-master-card,
+    .gmodal-image img {
+        animation: none;
+        transition: none;
+        transform: none !important;
+    }
+
+    .gmodal-bottom-bar {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .gmodal-master-card {
+        transform: translateY(0);
+    }
+}
+/* ===== ФИКС КЛИКАБЕЛЬНОСТИ КНОПОК ===== */
+.gmodal-nav-btn,
+.gmodal-close-btn {
+    position: relative;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+.gmodal-nav {
+    z-index: 9999 !important;
+    position: relative;
+    pointer-events: auto !important;
+}
+
+.gmodal-bottom-bar {
+    z-index: 9998 !important;
+    pointer-events: none !important;
+}
+
+.gmodal-layout {
+    pointer-events: auto !important;
+}
+@media (max-width: 768px) {
+    .gmodal-close-btn {
+        bottom: 12px;
+        left: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gmodal-close-btn {
+        bottom: 10px;
+        left: 10px;
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+}

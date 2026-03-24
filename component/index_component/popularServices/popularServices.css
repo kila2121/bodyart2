@@ -1,0 +1,205 @@
+/* ===== POPULAR SERVICES COMPONENT ===== */
+.popular-services {
+    margin: clamp(40px, 8vw, 80px) 0;
+}
+
+.services-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+    gap: clamp(16px, 4vw, 24px);
+}
+
+.preview-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Растягиваем на всю высоту ячейки сетки */
+}
+
+@media (hover: hover) {
+    .preview-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--accent-color);
+    }
+}
+
+.card-image {
+    height: clamp(160px, 25vw, 200px);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    flex-shrink: 0;
+    /* Запрещаем сжиматься */
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--accent-color), transparent);
+    opacity: 0.7;
+    transition: opacity var(--transition-normal);
+}
+
+@media (hover: hover) {
+    .preview-card:hover .card-overlay {
+        opacity: 0.9;
+    }
+}
+
+.card-category {
+    position: absolute;
+    top: clamp(12px, 3vw, 16px);
+    right: clamp(12px, 3vw, 16px);
+    padding: clamp(4px, 1.5vw, 6px) clamp(12px, 3vw, 16px);
+    border-radius: 30px;
+    color: white;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: var(--z-dropdown);
+    box-shadow: var(--shadow-sm);
+    background: var(--accent-color);
+    white-space: nowrap;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-content {
+    padding: clamp(16px, 4vw, 20px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Растягиваем на все доступное место */
+}
+
+.card-content h3 {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 clamp(12px, 3vw, 16px) 0;
+    line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    /* Добавляем переносы слов */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* Ограничиваем до 3 строк */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(clamp(1.1rem, 3vw, 1.3rem) * 1.4 * 3);
+    /* Минимальная высота для 3 строк */
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: clamp(16px, 4vw, 20px);
+    padding-bottom: clamp(12px, 3vw, 16px);
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-duration {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    white-space: nowrap;
+}
+
+.card-duration i {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.card-price {
+    font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+    color: var(--accent-color);
+    white-space: nowrap;
+}
+
+.card-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 20px);
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    will-change: transform;
+    margin-top: auto;
+    /* Прижимаем к низу */
+    white-space: nowrap;
+}
+
+@media (hover: hover) {
+    .card-btn:hover {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-accent);
+    }
+
+    .card-btn:hover i {
+        transform: translateX(5px);
+    }
+}
+
+.card-btn i {
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
+}
+
+/* Специально для очень длинных названий */
+@media (max-width: 480px) {
+    .card-content h3 {
+        font-size: 1rem;
+        -webkit-line-clamp: 2;
+        min-height: calc(1rem * 1.4 * 2);
+    }
+
+    .card-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .card-price {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 360px) {
+    .card-content h3 {
+        font-size: 0.9rem;
+    }
+
+    .card-btn {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+}

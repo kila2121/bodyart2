@@ -1,0 +1,71 @@
+/* contact.css - компонент контактов */
+.contacts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: var(--transition-normal);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .contact-item:hover {
+        border-color: var(--accent-color);
+        background: rgba(255, 51, 102, 0.05);
+        transform: translateX(5px);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.contact-icon {
+    width: clamp(40px, 8vw, 46px);
+    height: clamp(40px, 8vw, 46px);
+    background: rgba(255, 51, 102, 0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+    transition: var(--transition-normal);
+    flex-shrink: 0;
+}
+
+@media (hover: hover) {
+    .contact-item:hover .contact-icon {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.05);
+    }
+}
+
+.contact-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-label {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+    opacity: 0.7;
+}
+
+.contact-value {
+    display: block;
+    color: var(--text-color);
+    font-size: clamp(1rem, 2.5vw, 1.05rem);
+    font-weight: 500;
+    word-break: break-word;
+}

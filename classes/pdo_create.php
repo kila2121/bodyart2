@@ -1,0 +1,325 @@
+<?php
+
+class pdo_create
+{
+    public $dbs;
+    public $last_error = '';
+
+    function __construct($user, $host, $pass, $db)
+    {
+        $opt = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_BOTH,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ];
+        $charset = 'utf8';
+        $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+        try {
+            $this->dbs = new PDO($dsn, $user, $pass, $opt);
+            $GLOBALS['info'] = "Связь установлена";
+        } catch (Exception $e) {
+            $GLOBALS['info'] = "Связь не установлена";
+        }
+    }
+
+    // Упрощенный метод для обработки параметров
+    public function replaceParam($param, $type)
+    {
+        if ($param === null) {
+            $param = '';
+        }
+
+        switch ($type) {
+            case "atr":
+                $param = trim($param);
+                break;
+            case "md5":
+                $param = md5(trim($param));
+                break;
+        }
+        return $param;
+    }
+
+    // ИСПРАВЛЕННЫЙ МЕТОД actionTable
+    public function actionTable($action, $param, $table)
+    {
+        // Экранируем имя таблицы
+        $table = '`' . str_replace('`', '``', $table) . '`';
+
+        switch ($action) {
+            case 'add':
+                // Определяем поля и значения
+                $fields = [];
+                $placeholders = [];
+                $values = [];
+
+                foreach ($param as $key => $value) {
+                    $field = '`' . str_replace('`', '``', $key) . '`';
+                    $fields[] = $field;
+                    $placeholder = ':' . $key;
+                    $placeholders[] = $placeholder;
+
+                    // УБИРАЕМ ПОВТОРНОЕ ХЕШИРОВАНИЕ!
+                    // Просто передаём значение как есть
+                    $values[$placeholder] = $value;
+                }
+
+                $sql = "INSERT INTO $table (" . implode(', ', $fields) . ") 
+                    VALUES (" . implode(', ', $placeholders) . ")";
+
+                $stmt = $this->dbs->prepare($sql);
+                return $stmt->execute($values);
+
+            case 'edit':
+                $sets = [];
+                $values = [];
+
+                foreach ($param as $key => $value) {
+                    if ($key === 'id')
+                        continue;
+
+                    $field = '`' . str_replace('`', '``', $key) . '`';
+                    $placeholder = ':' . $key;
+                    $sets[] = "$field = $placeholder";
+
+                    // ОСОБАЯ ОБРАБОТКА ПАРОЛЯ
+                    if (in_array($key, ['pasw', 'pass', 'pas', 'passw', 'password'])) {
+                        $values[$placeholder] = password_hash($value, PASSWORD_DEFAULT);
+                    } else {
+                        $values[$placeholder] = $value;
+                    }
+                }
+
+                if (!isset($param['id'])) {
+                    return false;
+                }
+
+                $values[':id'] = $param['id'];
+                $sql = "UPDATE $table SET " . implode(', ', $sets) . " WHERE id = :id";
+
+                $stmt = $this->dbs->prepare($sql);
+                return $stmt->execute($values);
+
+            case 'del':
+                if (!isset($param['id'])) {
+                    return false;
+                }
+
+                $sql = "DELETE FROM $table WHERE id = :id";
+                $stmt = $this->dbs->prepare($sql);
+                return $stmt->execute([':id' => $param['id']]);
+        }
+
+        return false;
+    }
+
+    public function translit($str)
+    {
+        $converter = [
+            'а' => 'a',
+            'б' => 'b',
+            'в' => 'v',
+            'г' => 'g',
+            'д' => 'd',
+            'е' => 'e',
+            'ё' => 'e',
+            'ж' => 'zh',
+            'з' => 'z',
+            'и' => 'i',
+            'й' => 'y',
+            'к' => 'k',
+            'л' => 'l',
+            'м' => 'm',
+            'н' => 'n',
+            'о' => 'o',
+            'п' => 'p',
+            'р' => 'r',
+            'с' => 's',
+            'т' => 't',
+            'у' => 'u',
+            'ф' => 'f',
+            'х' => 'h',
+            'ц' => 'c',
+            'ч' => 'ch',
+            'ш' => 'sh',
+            'щ' => 'sch',
+            'ь' => '',
+            'ы' => 'y',
+            'ъ' => '',
+            'э' => 'e',
+            'ю' => 'yu',
+            'я' => 'ya',
+            'А' => 'A',
+            'Б' => 'B',
+            'В' => 'V',
+            'Г' => 'G',
+            'Д' => 'D',
+            'Е' => 'E',
+            'Ё' => 'E',
+            'Ж' => 'Zh',
+            'З' => 'Z',
+            'И' => 'I',
+            'Й' => 'Y',
+            'К' => 'K',
+            'Л' => 'L',
+            'М' => 'M',
+            'Н' => 'N',
+            'О' => 'O',
+            'П' => 'P',
+            'Р' => 'R',
+            'С' => 'S',
+            'Т' => 'T',
+            'У' => 'U',
+            'Ф' => 'F',
+            'Х' => 'H',
+            'Ц' => 'C',
+            'Ч' => 'Ch',
+            'Ш' => 'Sh',
+            'Щ' => 'Sch',
+            'Ь' => '',
+            'Ы' => 'Y',
+            'Ъ' => '',
+            'Э' => 'E',
+            'Ю' => 'Yu',
+            'Я' => 'Ya',
+        ];
+        return strtr($str, $converter);
+    }
+
+    public function uploading($input = 'files', $path = '/public/uploads', $prefix = '')
+    {
+        $mas = [];
+        $input_name = $input;
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $max_size = 5 * 1024 * 1024; // Увеличил до 5MB
+
+        // Исправление пути
+        $upload_dir = $_SERVER['DOCUMENT_ROOT'] . $path; // Используем DOCUMENT_ROOT, а не __DIR__
+        if (!is_dir($upload_dir)) {
+            mkdir($upload_dir, 0755, true);
+        }
+
+        if (!isset($_FILES[$input_name])) {
+            return false;
+        }
+
+        $files = [];
+        if (is_array($_FILES[$input_name]['name'])) {
+            foreach ($_FILES[$input_name]['name'] as $i => $name) {
+                $files[] = [
+                    'name' => $name,
+                    'type' => $_FILES[$input_name]['type'][$i],
+                    'tmp_name' => $_FILES[$input_name]['tmp_name'][$i],
+                    'error' => $_FILES[$input_name]['error'][$i],
+                    'size' => $_FILES[$input_name]['size'][$i],
+                ];
+            }
+        } else {
+            $files[] = $_FILES[$input_name];
+        }
+
+        $uploaded_paths = [];
+
+        foreach ($files as $file) {
+            // Проверка ошибок загрузки
+            if ($file['error'] !== UPLOAD_ERR_OK) {
+                $errorMessages = [
+                    UPLOAD_ERR_INI_SIZE => 'Файл превышает максимальный размер, установленный в PHP',
+                    UPLOAD_ERR_FORM_SIZE => 'Файл превышает максимальный размер, установленный в форме',
+                    UPLOAD_ERR_PARTIAL => 'Файл был загружен только частично',
+                    UPLOAD_ERR_NO_FILE => 'Файл не был загружен',
+                    UPLOAD_ERR_NO_TMP_DIR => 'Отсутствует временная папка',
+                    UPLOAD_ERR_CANT_WRITE => 'Не удалось записать файл на диск',
+                    UPLOAD_ERR_EXTENSION => 'PHP-расширение остановило загрузку файла'
+                ];
+                $this->last_error = $errorMessages[$file['error']] ?? 'Неизвестная ошибка загрузки';
+                continue;
+            }
+
+            // Проверка размера
+            if ($file['size'] > $max_size) {
+                $this->last_error = 'Файл не должен превышать 5MB';
+                continue;
+            }
+
+            // Проверка расширения
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            if (!in_array($ext, $allowed_extensions)) {
+                $this->last_error = 'Разрешены только изображения (JPEG, PNG, GIF, WEBP)';
+                continue;
+            }
+
+            // Проверка MIME через finfo (надежно)
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mime = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+            $allowed_mime = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!in_array($mime, $allowed_mime)) {
+                $this->last_error = 'Файл не является валидным изображением';
+                continue;
+            }
+
+            // Проверка через getimagesize (дополнительная защита)
+            $imageInfo = getimagesize($file['tmp_name']);
+            if (!$imageInfo) {
+                $this->last_error = 'Файл поврежден или не является изображением';
+                continue;
+            }
+
+            // Генерация безопасного имени
+            if (!empty($prefix)) {
+                $final_name = $prefix . '_' . uniqid() . '.' . $ext;
+            } else {
+                $original_name = pathinfo($file['name'], PATHINFO_FILENAME);
+                $safe_name = preg_replace('/[^a-zA-Zа-яА-Я0-9\s]/u', '', $original_name);
+                $safe_name = $this->translit($safe_name);
+                $safe_name = preg_replace('/\s+/', '_', $safe_name);
+                if (empty($safe_name)) {
+                    $safe_name = 'file';
+                }
+                $final_name = $safe_name . '_' . uniqid() . '.' . $ext;
+            }
+
+            $destination = $upload_dir . '/' . $final_name;
+
+            if (move_uploaded_file($file['tmp_name'], $destination)) {
+                // Возвращаем URL, а не путь
+                $uploaded_paths[] = $path . '/' . $final_name;
+            } else {
+                $this->last_error = 'Ошибка при сохранении файла';
+            }
+        }
+
+        return !empty($uploaded_paths) ? $uploaded_paths : false;
+    }
+
+    public function message($text, $type = 'info')
+    {
+        $safe_text = htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+
+        $icon = '';
+        switch ($type) {
+            case 'success':
+                $icon = '<i class="fas fa-check-circle"></i>';
+                break;
+            case 'error':
+                $icon = '<i class="fas fa-exclamation-triangle"></i>';
+                break;
+            case 'info':
+            default:
+                $icon = '<i class="fas fa-info-circle"></i>';
+                break;
+        }
+
+        $mes = "<div class=\"toast $type show\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">
+        <div class=\"toast-header\">
+            <button type=\"button\" class=\"btn-close\" aria-label=\"Закрыть\">&times;</button>
+        </div>
+        <div class=\"toast-body\">
+            $icon
+            <span class=\"toast-message\">$safe_text</span>
+        </div>
+    </div>";
+        return $mes;
+    }
+}

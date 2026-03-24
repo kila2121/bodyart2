@@ -1,0 +1,89 @@
+/* sticky-action.css - компонент кнопки записи */
+.sticky-action {
+    position: sticky;
+    bottom: 30px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 51, 102, 0.3);
+    border-radius: 60px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-lg);
+    margin-top: 30px;
+    gap: 15px;
+    flex-wrap: wrap;
+    z-index: var(--z-sticky);
+}
+
+@media (max-width: 992px) {
+    .sticky-action {
+        flex-direction: column;
+        border-radius: 30px;
+    }
+}
+
+.appointment-btn {
+    padding: 14px 40px;
+    border-radius: 40px;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: clamp(1rem, 2.5vw, 1.05rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-accent);
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    will-change: transform;
+}
+
+@media (max-width: 992px) {
+    .appointment-btn {
+        width: 100%;
+    }
+}
+
+@media (hover: hover) {
+    .appointment-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+.appointment-btn i {
+    transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+    .appointment-btn:hover i {
+        transform: translateX(5px);
+    }
+}
+
+.master-since {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+@media (max-width: 992px) {
+    .master-since {
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+.master-since i {
+    color: var(--accent-color);
+}

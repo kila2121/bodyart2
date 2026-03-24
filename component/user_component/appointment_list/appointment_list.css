@@ -1,0 +1,268 @@
+/* appointment_list.css - список записей пользователя */
+
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 2.5vw, 15px);
+    margin-top: 10px;
+}
+
+.appointment-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: clamp(15px, 3vw, 20px);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    border: 1px solid var(--border-color);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .appointment-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+    }
+}
+
+.appointment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.appointment-service {
+    flex: 1 1 auto;
+    min-width: 200px;
+}
+
+.appointment-service h3 {
+    margin: 0 0 5px;
+    color: var(--text-color);
+    font-size: clamp(16px, 3.5vw, 18px);
+    font-weight: 600;
+    word-wrap: break-word;
+}
+
+.appointment-price {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: clamp(14px, 3vw, 16px);
+    display: inline-block;
+}
+
+.appointment-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: clamp(12px, 2.5vw, 13px);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .appointment-status {
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+    }
+}
+
+.status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning-color);
+}
+
+.status-confirmed {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success-color);
+}
+
+.status-completed {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error-color);
+}
+
+.appointment-body {
+    margin-bottom: 15px;
+}
+
+.appointment-master {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.master-avatar-small {
+    width: clamp(28px, 6vw, 32px);
+    height: clamp(28px, 6vw, 32px);
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--secondary-bg);
+    border: 2px solid var(--accent-color);
+    flex-shrink: 0;
+}
+
+.master-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-placeholder.small {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: rgba(255, 51, 102, 0.1);
+}
+
+.appointment-master span {
+    color: var(--text-color);
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.appointment-datetime,
+.appointment-notes {
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    font-size: clamp(13px, 2.8vw, 14px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    word-wrap: break-word;
+}
+
+.appointment-datetime i,
+.appointment-notes i {
+    width: 16px;
+    color: var(--accent-color);
+    flex-shrink: 0;
+}
+
+.appointment-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ===== КНОПКИ ===== */
+.button {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .button {
+        white-space: normal;
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.button-review {
+    background: var(--accent-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .button-review:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.button-cancel {
+    background: none;
+    border: 1px solid var(--error-color);
+    color: var(--error-color);
+}
+
+@media (hover: hover) {
+    .button-cancel:hover {
+        background: var(--error-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+}
+
+/* ===== ОТЗЫВЫ В КАРТОЧКЕ ===== */
+.review-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.review-rating {
+    color: var(--warning-color);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.review-preview {
+    color: var(--text-secondary);
+    font-size: 13px;
+    max-width: min(200px, 100%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .appointment-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .appointment-footer {
+        flex-direction: column;
+    }
+
+    .review-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .review-preview {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointment-master {
+        justify-content: center;
+    }
+}

@@ -1,0 +1,315 @@
+.admin-panel {
+    max-width: 1400px;
+    margin: clamp(20px, 4vw, 40px) auto;
+    background: var(--card-bg);
+    padding: clamp(20px, 4vw, 30px);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.admin-panel h1 {
+    margin: 0 0 clamp(20px, 4vw, 30px) 0;
+    font-size: clamp(1.8rem, 5vw, 2rem);
+    font-weight: 600;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 15px;
+}
+
+/* ===== СТАТИСТИКА ===== */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: clamp(15px, 3vw, 20px);
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--secondary-bg);
+    padding: clamp(20px, 4vw, 25px);
+    text-align: center;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    transition: var(--transition-normal);
+    will-change: transform;
+}
+
+@media (hover: hover) {
+    .stat-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent-color);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.stat-card .number {
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1.2;
+    margin-bottom: 8px;
+}
+
+.stat-card div:last-child {
+    color: var(--text-secondary);
+    font-size: clamp(12px, 2.5vw, 14px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    word-wrap: break-word;
+}
+
+/* ===== ВКЛАДКИ ===== */
+.nav-tabs {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.nav-tabs button {
+    padding: clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 24px);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: clamp(14px, 3vw, 15px);
+    font-weight: 500;
+    color: var(--text-secondary);
+    position: relative;
+    transition: color var(--transition-fast);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .nav-tabs button {
+        white-space: normal;
+        flex: 1 1 auto;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-tabs button {
+        flex: 1 1 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+@media (hover: hover) {
+    .nav-tabs button:hover {
+        color: var(--accent-color);
+        background: rgba(255, 51, 102, 0.05);
+    }
+}
+
+.nav-tabs button.active {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.nav-tabs button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent-color);
+    box-shadow: var(--shadow-accent);
+}
+
+@media (max-width: 576px) {
+    .nav-tabs button.active::after {
+        display: none;
+    }
+
+    .nav-tabs button.active {
+        background: rgba(255, 51, 102, 0.1);
+    }
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== ЗАГОЛОВКИ СЕКЦИЙ ===== */
+h2 {
+    font-size: clamp(1.3rem, 4vw, 1.5rem);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 20px 0;
+}
+
+h3 {
+    font-size: clamp(1.1rem, 3.5vw, 1.2rem);
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0 0 15px 0;
+}
+
+/* ===== КНОПКИ ===== */
+.btn {
+    padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 16px);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: clamp(13px, 2.8vw, 14px);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+    .btn {
+        white-space: normal;
+        width: 100%;
+    }
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .btn-primary:hover {
+        background: var(--accent-light);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-accent);
+    }
+}
+
+.btn-success {
+    background: var(--success-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .btn-success:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    }
+}
+
+.btn-danger {
+    background: var(--error-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .btn-danger:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+}
+
+.btn-warning {
+    background: var(--warning-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .btn-warning:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+}
+
+/* ===== УТИЛИТЫ ===== */
+.text-center {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: clamp(30px, 6vw, 40px) clamp(15px, 4vw, 20px);
+    background: var(--secondary-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+.mt-3 {
+    margin-top: 15px;
+}
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 1200px) {
+    .stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .stat-card:hover,
+    .btn:hover,
+    .nav-tabs button:hover {
+        transform: none;
+    }
+}
+
+/* ===== TOUCH DEVICES OPTIMIZATION ===== */
+@media (hover: none) and (pointer: coarse) {
+
+    .stat-card:hover,
+    .btn:hover,
+    .nav-tabs button:hover {
+        transform: none;
+    }
+}
