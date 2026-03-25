@@ -23,7 +23,6 @@
     font-size: clamp(1rem, 2.5vw, 1.05rem);
 }
 
-/* ===== СТАТИСТИКА - ВСЕГДА В РЯД ===== */
 .stats-row {
     display: flex;
     justify-content: space-between;
@@ -32,15 +31,12 @@
     border-top: 1px solid var(--border-color);
     gap: clamp(10px, 2vw, 20px);
     flex-wrap: nowrap;
-    /* Запрещаем перенос */
 }
 
 .stat-block {
     text-align: center;
     flex: 1 1 0;
-    /* Равномерное распределение */
     min-width: 0;
-    /* Разрешаем сжиматься */
     padding: 0 5px;
 }
 
@@ -52,7 +48,6 @@
     line-height: 1.2;
     margin-bottom: 5px;
     white-space: nowrap;
-    /* Запрещаем перенос цифр */
 }
 
 .stat-label {
@@ -61,48 +56,8 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
-    /* Запрещаем перенос текста */
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Добавляем многоточие если не влезает */
-}
-
-/* Мобильная адаптация - цифры остаются в ряд, подписи могут быть короче */
-@media (max-width: 768px) {
-    .stats-row {
-        gap: 5px;
-    }
-
-    .stat-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.2px;
-    }
-}
-
-@media (max-width: 480px) {
-    .stats-row {
-        margin-top: 25px;
-        padding-top: 20px;
-    }
-
-    .stat-number {
-        font-size: 1.2rem;
-    }
-
-    .stat-label {
-        font-size: 0.55rem;
-    }
-}
-
-/* Экстремально маленькие экраны */
-@media (max-width: 360px) {
-    .stat-number {
-        font-size: 1rem;
-    }
-
-    .stat-label {
-        font-size: 0.5rem;
-    }
 }
 
 .about-image {
@@ -129,11 +84,71 @@
     height: 100%;
     object-fit: cover;
     transition: transform var(--transition-slow);
-    will-change: transform;
 }
 
 @media (hover: hover) {
     .about-image:hover img {
         transform: scale(1.08);
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 992px) {
+    .about-studio {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-content {
+        padding-right: 0;
+    }
+
+    .stats-row {
+        margin-top: 25px;
+        padding-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-row {
+        gap: 5px;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.2px;
+    }
+
+    .stat-number {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-row {
+        margin-top: 25px;
+        padding-top: 20px;
+    }
+
+    .stat-number {
+        font-size: 1.2rem;
+    }
+
+    .stat-label {
+        font-size: 0.55rem;
+    }
+
+    .about-image {
+        height: 250px;
+    }
+}
+
+@media (max-width: 360px) {
+    .stat-number {
+        font-size: 1rem;
+    }
+
+    .stat-label {
+        font-size: 0.5rem;
     }
 }

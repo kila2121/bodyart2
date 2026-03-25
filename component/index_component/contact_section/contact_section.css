@@ -29,7 +29,6 @@
     }
 }
 
-/* Затемнение */
 .panel-overlay {
     display: none;
     position: fixed;
@@ -56,7 +55,6 @@
     }
 }
 
-/* Шапка */
 .panel-header {
     display: flex;
     justify-content: space-between;
@@ -92,12 +90,10 @@
     color: var(--accent-color);
 }
 
-/* Тело */
 .panel-body {
     padding: 20px;
 }
 
-/* Контакты */
 .contact-list {
     display: flex;
     flex-direction: column;
@@ -133,7 +129,6 @@
     background: var(--secondary-bg);
 }
 
-/* Режим работы */
 .work-hours {
     margin-top: 30px;
     padding: 16px;
@@ -172,7 +167,6 @@
     font-size: 0.8rem;
 }
 
-/* Соцсети */
 .social-links {
     margin-top: 30px;
     text-align: center;
@@ -209,10 +203,11 @@
     color: var(--accent-color);
 }
 
-/* Адаптивность */
-@media (max-width: 480px) {
+/* Мобильная адаптация */
+@media (max-width: 768px) {
     #contactPanel {
         max-width: 100%;
+        width: 100%;
     }
 
     .panel-header {
@@ -224,20 +219,26 @@
     }
 
     .contact-item {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-item {
         padding: 10px 14px;
+    }
+
+    .contact-item i {
+        font-size: 1rem;
+        width: 18px;
+    }
+
+    .contact-item span {
+        font-size: 0.85rem;
     }
 
     .social-icon {
         width: 36px;
         height: 36px;
-    }
-}
-
-/* Для слабых устройств */
-@media (prefers-reduced-motion: reduce) {
-
-    #contactPanel.active,
-    .panel-overlay.active {
-        animation: none;
     }
 }

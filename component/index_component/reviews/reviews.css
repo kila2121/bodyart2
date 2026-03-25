@@ -17,7 +17,6 @@
     transition: var(--transition-normal);
     position: relative;
     box-shadow: var(--shadow-md);
-    will-change: transform;
 }
 
 @media (hover: hover) {
@@ -51,7 +50,6 @@
     pointer-events: none;
     z-index: 0;
     background: var(--accent-color);
-    will-change: transform, opacity;
 }
 
 @media (hover: hover) {
@@ -214,4 +212,34 @@
     border-radius: var(--radius-lg);
     border: 1px dashed var(--border-color);
     color: var(--text-secondary);
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-card-inner {
+        padding: 20px;
+    }
+
+    .review-author-block {
+        flex-wrap: nowrap;
+    }
+
+    .review-author-info {
+        max-width: calc(100% - 52px);
+    }
+
+    .review-date {
+        font-size: 0.7rem;
+    }
+
+    .review-rating {
+        gap: 3px;
+    }
 }

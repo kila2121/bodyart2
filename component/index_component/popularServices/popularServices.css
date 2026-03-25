@@ -17,11 +17,9 @@
     transition: var(--transition-normal);
     box-shadow: var(--shadow-md);
     position: relative;
-    will-change: transform;
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* Растягиваем на всю высоту ячейки сетки */
 }
 
 @media (hover: hover) {
@@ -38,7 +36,6 @@
     background-position: center;
     position: relative;
     flex-shrink: 0;
-    /* Запрещаем сжиматься */
 }
 
 .card-overlay {
@@ -84,7 +81,6 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    /* Растягиваем на все доступное место */
 }
 
 .card-content h3 {
@@ -96,14 +92,11 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
-    /* Добавляем переносы слов */
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    /* Ограничиваем до 3 строк */
     -webkit-box-orient: vertical;
     overflow: hidden;
     min-height: calc(clamp(1.1rem, 3vw, 1.3rem) * 1.4 * 3);
-    /* Минимальная высота для 3 строк */
 }
 
 .card-info {
@@ -152,9 +145,7 @@
     transition: var(--transition-normal);
     box-shadow: var(--shadow-md);
     background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-    will-change: transform;
     margin-top: auto;
-    /* Прижимаем к низу */
     white-space: nowrap;
 }
 
@@ -174,7 +165,25 @@
     flex-shrink: 0;
 }
 
-/* Специально для очень длинных названий */
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .services-preview {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .services-preview {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card-image {
+        height: 180px;
+    }
+}
+
 @media (max-width: 480px) {
     .card-content h3 {
         font-size: 1rem;
@@ -190,6 +199,12 @@
 
     .card-price {
         align-self: flex-start;
+        font-size: 1.2rem;
+    }
+
+    .card-btn {
+        font-size: 0.85rem;
+        padding: 10px 16px;
     }
 }
 

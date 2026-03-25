@@ -6,7 +6,8 @@
         url('../../../public/hero.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* Отключаем fixed на мобилках для плавности */
+    background-attachment: scroll;
     padding: clamp(60px, 10vw, 120px) 0 clamp(30px, 8vw, 80px);
     text-align: center;
     color: white;
@@ -16,7 +17,6 @@
     margin: 0;
     min-height: 100vh;
     margin-bottom: clamp(50px, 8vw, 100px);
-    will-change: transform;
 }
 
 [data-theme="light"] .hero {
@@ -25,6 +25,7 @@
             rgba(245, 245, 245, 0.88) 100%),
         url('../../../public/hero.jpg');
     background-size: cover;
+    background-attachment: scroll;
 }
 
 .hero_content {
@@ -112,7 +113,6 @@
     transition: var(--transition-normal);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    will-change: transform;
 }
 
 [data-theme="light"] .card {
@@ -194,6 +194,7 @@
     .trust_item {
         flex-direction: row;
         text-align: left;
+        gap: 12px;
     }
 }
 
@@ -308,12 +309,91 @@
     }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .scroll_arrow {
-        animation: none;
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding: clamp(40px, 8vw, 60px) 0;
+        background-attachment: scroll;
+        /* фикс на мобилках */
     }
 
-    .card:hover {
-        transform: none;
+    .title {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .grid_container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .trust {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .trust_item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .trust_info {
+        align-items: center;
+    }
+
+    .scroll_text {
+        white-space: normal;
+        max-width: 200px;
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .trust {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .trust_item {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .trust_info {
+        align-items: flex-start;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card .icons {
+        font-size: 2rem;
+    }
+
+    .card h3 {
+        font-size: 1rem;
+    }
+
+    .card p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .trust_icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .trust_number {
+        font-size: 1.3rem;
+    }
+
+    .trust_label {
+        font-size: 0.7rem;
     }
 }
