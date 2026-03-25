@@ -24,7 +24,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 166.88.130.15 >> ~/.ssh/known_hosts
-          ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_HOST }} "
+          ssh -v -i ~/.ssh/id_rsa root@166.88.130.15 "
             cd /var/www/bodyart
             git pull origin main
             chown -R www-data:www-data .
