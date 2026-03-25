@@ -1,7 +1,17 @@
 <?php
-$yearWork = $db->dbs->query("SELECT YEAR(CURDATE()) - YEAR(MIN(date_reg)) as years_working FROM user")->fetchColumn();
-$mastersCount = $db->dbs->query("SELECT COUNT(*) FROM master WHERE is_Active = 1")->fetchColumn();
-$countComletedWork = $db->dbs->query("SELECT COUNT(*) FROM appointment WHERE status = 'completed'")->fetchColumn();
+$stats = Cache::get('aboutUs_stats');
+
+if ($stats === false) {
+    $yearWork = $db->dbs->query("SELECT YEAR(CURDATE()) - YEAR(MIN(date_reg)) as years_working FROM user")->fetchColumn();
+    $mastersCount = $db->dbs->query("SELECT COUNT(*) FROM master WHERE is_Active = 1")->fetchColumn();
+    $countComletedWork = $db->dbs->query("SELECT COUNT(*) FROM appointment WHERE status = 'completed'")->fetchColumn();
+
+    $stats = [$yearWork, $mastersCount, $countComletedWork];
+    Cache::set("aboutUs_stats", $stats, 3600);
+}
+
+list($yearWork, $mastersCount, $countComletedWork) = $stats;
+
 ?>
 <section class="about-studio">
     <div class="about-content">

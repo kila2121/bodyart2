@@ -1,15 +1,20 @@
 <?php
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+$cacheKey = 'master_' . $id;
 
-$master = null;
-try {
-    $stmt = $db->dbs->prepare("SELECT * FROM master WHERE id = ?");
-    $stmt->execute([$id]);
-    $master = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch (Exception $e) {
-    error_log("Ошибка получения мастера: " . $e->getMessage());
+$master = Cache::get($cacheKey);
+if ($master === false) {
+    try {
+        $stmt = $db->dbs->prepare("SELECT * FROM master WHERE id = ?");
+        $stmt->execute([$id]);
+        $master = $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+        error_log("Ошибка получения мастера: " . $e->getMessage());
+    }
+    Cache::set($cacheKey, $master, 3600);
 }
+
 
 if (!$master) {
     header("HTTP/1.0 404 Not Found");

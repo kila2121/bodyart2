@@ -1,5 +1,6 @@
 <?php
 require_once "../connect.php";
+require_once "../classes/cache.php";
 
 header('Content-Type: application/json');
 
@@ -8,10 +9,16 @@ if (empty($_GET['service_id'])) {
     exit();
 }
 
-try {
-    $serviceId = (int) $_GET['service_id'];
+$serviceId = (int) $_GET['service_id'];
+$cacheKey = 'masters_by_service_' . $serviceId;
+$result = Cache::get($cacheKey);
 
-    // Получаем категорию услуги
+if ($result !== false) {
+    echo json_encode($result);
+    exit();
+}
+
+try {
     $stmt = $db->dbs->prepare("SELECT category FROM services WHERE id = ?");
     $stmt->execute([$serviceId]);
     $service = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,8 +55,10 @@ try {
     $stmt->execute($specs);
     $masters = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode(['success' => true, 'masters' => $masters]);
+    $result = ['success' => true, 'masters' => $masters];
+    Cache::set($cacheKey, $result, 3600);
 
+    echo json_encode($result);
 } catch (Exception $e) {
     error_log("Ошибка получения мастеров по услуге: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Ошибка базы данных']);

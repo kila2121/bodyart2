@@ -7,8 +7,9 @@
     <div class="services-preview">
         <?php
         try {
-            // SQL запрос с получением фото из галереи
-            $previewServices = $db->dbs->query("
+            $previewServices = Cache::get('popular_services');
+            if ($previewServices === false) {
+                $previewServices = $db->dbs->query("
                     SELECT 
                         s.id, 
                         s.name, 
@@ -31,6 +32,8 @@
                     ORDER BY appointments_count DESC, s.name
                     LIMIT 4
                 ")->fetchAll(PDO::FETCH_ASSOC);
+                Cache::set('popular_services', $previewServices, 3600);
+            }
 
             $categoryColors = [
                 'Тату' => '#ff3366',

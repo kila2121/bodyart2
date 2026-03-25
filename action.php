@@ -2,6 +2,7 @@
 session_start();
 global $db;
 include_once "connect.php";
+require_once "classes/cache.php";
 
 if (isset($_REQUEST['action'])) {
 
@@ -246,6 +247,20 @@ if (isset($_REQUEST['action'])) {
 
         try {
             if ($db->actionTable('add', $mas, 'master')) {
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
+                Cache::delete('aboutUs_stats');
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
                 $_SESSION['success'] = 'Мастер успешно добавлен';
             } else {
                 $_SESSION['error'] = 'Ошибка при добавлении мастера';
@@ -315,6 +330,21 @@ if (isset($_REQUEST['action'])) {
             ];
 
             if ($db->actionTable('edit', $mas, 'master')) {
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
+                Cache::delete('aboutUs_stats');
+                Cache::delete('master_' . $_REQUEST['id']);
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
                 $_SESSION['success'] = 'Мастер успешно обновлен';
             } else {
                 $_SESSION['error'] = 'Ошибка при обновлении мастера';
@@ -364,6 +394,20 @@ if (isset($_REQUEST['action'])) {
             }
 
             if ($db->actionTable('del', ['id' => $_REQUEST['id']], 'master')) {
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
+                Cache::delete('aboutUs_stats');
+                Cache::delete('master_' . $_REQUEST['id']);
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
                 $_SESSION['success'] = 'Мастер успешно удален';
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении мастера';
@@ -427,8 +471,37 @@ if (isset($_REQUEST['action'])) {
 
             if ($result) {
                 if ($isAjax) {
+                    Cache::delete('all_masters');
+                    Cache::delete('spec_masters');
+                    Cache::delete('aboutUs_stats');
+                    Cache::delete('master_' . $_REQUEST['id']);
+
+                    $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                    foreach ($services as $id) {
+                        Cache::delete('masters_by_service_' . $id);
+                    }
+
+                    $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                    foreach ($masters as $id) {
+                        Cache::delete('services_by_master_' . $id);
+                    }
                     echo json_encode(['success' => true, 'status' => $new_status]);
                 } else {
+                    Cache::delete('all_masters');
+                    Cache::delete('spec_masters');
+                    Cache::delete('aboutUs_stats');
+                    Cache::delete('master_' . $_REQUEST['id']);
+
+                    $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                    foreach ($services as $id) {
+                        Cache::delete('masters_by_service_' . $id);
+                    }
+
+                    $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                    foreach ($masters as $id) {
+                        Cache::delete('services_by_master_' . $id);
+                    }
+
                     $_SESSION['success'] = 'Статус мастера изменен';
                     header("Location: /index.php?page=admin");
                 }
@@ -473,6 +546,19 @@ if (isset($_REQUEST['action'])) {
 
         try {
             if ($db->actionTable('add', $mas, 'services')) {
+                Cache::delete('all_services');
+                Cache::delete('categories_services');
+                Cache::delete('popular_services');
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
                 $_SESSION['success'] = 'Услуга успешно добавлена';
             } else {
                 $_SESSION['error'] = 'Ошибка при добавлении услуги';
@@ -518,6 +604,20 @@ if (isset($_REQUEST['action'])) {
             ];
 
             if ($db->actionTable('edit', $mas, 'services')) {
+                Cache::delete('all_services');
+                Cache::delete('categories_services');
+                Cache::delete('popular_services');
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+
                 $_SESSION['success'] = 'Услуга успешно обновлена';
             } else {
                 $_SESSION['error'] = 'Ошибка при обновлении услуги';
@@ -566,6 +666,20 @@ if (isset($_REQUEST['action'])) {
             }
 
             if ($db->actionTable('del', ['id' => $_REQUEST['id']], 'services')) {
+                Cache::delete('all_services');
+                Cache::delete('categories_services');
+                Cache::delete('popular_services');
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+
                 $_SESSION['success'] = 'Услуга успешно удалена';
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении услуги';
@@ -593,6 +707,15 @@ if (isset($_REQUEST['action'])) {
             $result = $update->execute([':id' => $_REQUEST['id']]);
 
             if ($result) {
+                Cache::delete('hero_stats');
+                Cache::delete('preview_reviews');
+
+                $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
+                $stmt->execute([$_REQUEST['id']]);
+                $masterId = $stmt->fetchColumn();
+                if ($masterId) {
+                    Cache::delete('master_' . $masterId);
+                }
                 $_SESSION['success'] = 'Отзыв одобрен';
             } else {
                 $_SESSION['error'] = 'Ошибка при одобрении отзыва';
@@ -618,6 +741,16 @@ if (isset($_REQUEST['action'])) {
             $result = $delete->execute([':id' => $_REQUEST['id']]);
 
             if ($result) {
+                Cache::delete('hero_stats');
+                Cache::delete('preview_reviews');
+
+                $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
+                $stmt->execute([$_REQUEST['id']]);
+                $masterId = $stmt->fetchColumn();
+                if ($masterId) {
+                    Cache::delete('master_' . $masterId);
+                }
+
                 $_SESSION['success'] = 'Отзыв удален';
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении отзыва';
@@ -818,6 +951,11 @@ if (isset($_REQUEST['action'])) {
                 ':id' => $id
             ]);
 
+            if ($status == 'completed') {
+                Cache::delete('hero_stats');
+                Cache::delete('aboutUs_stats');
+            }
+
             if ($result) {
                 echo json_encode(['success' => true, 'status' => $status]);
             } else {
@@ -846,6 +984,9 @@ if (isset($_REQUEST['action'])) {
             $result = $delete->execute([':id' => $_REQUEST['id']]);
 
             if ($result) {
+                Cache::delete('hero_stats');
+                Cache::delete('aboutUs_stats');
+
                 $_SESSION['success'] = 'Запись успешно удалена';
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении записи';
@@ -1373,6 +1514,17 @@ if (isset($_REQUEST['action'])) {
             $add = $db->dbs->prepare('INSERT INTO gallery (url, id_appointment, title, category, is_featured, created_at) VALUES (?, ?, ?, ?, 0, ?)');
             $add->execute([$workUrl, $id_appointment, $title, $category, $created_at]);
 
+            Cache::delete('all_gallery');
+            Cache::delete('categories_gallery');
+            Cache::delete('popular_services');
+
+            $stmt = $db->dbs->prepare("SELECT a.id_master FROM appointment WHERE id = ?");
+            $stmt->execute([$id_appointment]);
+            $masterId = $stmt->fetchColumn();
+            if ($masterId) {
+                Cache::delete('master_' . $masterId);
+            }
+
             $_SESSION['success'] = 'Фото успешно загружено';
 
         } catch (Exception $e) {
@@ -1483,10 +1635,20 @@ if (isset($_REQUEST['action'])) {
 
             if ($result) {
                 if ($isAjax) {
+                    Cache::delete('all_gallery');
+                    Cache::delete('categories_gallery');
+                    Cache::delete('popular_services');
+                    Cache::delete('master_' . $masterId);
+
                     header('Content-Type: application/json');
                     echo json_encode(['success' => true, 'message' => 'Работа удалена']);
                     exit;
                 }
+                Cache::delete('all_gallery');
+                Cache::delete('categories_gallery');
+                Cache::delete('popular_services');
+                Cache::delete('master_' . $masterId);
+
                 $_SESSION['success'] = 'Работа удалена';
                 header("Location: /index.php?page=masterProfile#works");
                 exit;
@@ -1570,6 +1732,21 @@ if (isset($_REQUEST['action'])) {
             ]);
 
             if ($result) {
+                Cache::delete('master_' . $masterId);
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
+                Cache::delete('aboutUs_stats');
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $id) {
+                    Cache::delete('masters_by_service_' . $id);
+                }
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $id) {
+                    Cache::delete('services_by_master_' . $id);
+                }
+
                 $_SESSION['success'] = 'Профессиональные данные обновлены';
             } else {
                 $_SESSION['error'] = 'Ошибка при обновлении';

@@ -6,7 +6,9 @@
     <div class="reviews-grid">
         <?php
         try {
-            $previewReviews = $db->dbs->query("
+            $previewReviews = Cache::get("preview_reviews");
+            if ($previewReviews === false) {
+                $previewReviews = $db->dbs->query("
                     SELECT r.*, u.login, u.fio, u.avatar_url 
                     FROM reviews r
                     LEFT JOIN user u ON r.id_user = u.id
@@ -14,6 +16,9 @@
                     ORDER BY r.created_at DESC
                     LIMIT 3
                 ")->fetchAll(PDO::FETCH_ASSOC);
+                Cache::set("preview_reviews", $previewReviews, 3600);
+            }
+
 
             // Массив с цветами для аватаров (если нет фото)
             $avatarColors = ['#ff3366', '#10b981', '#f59e0b', '#8b5cf6', '#3b82f6'];
@@ -76,18 +81,18 @@
                                         <i class="fas fa-star-half-alt"></i>
                                     <?php else: ?>
                                         <i class="far fa-star"></i>
-                                            <?php
+                                        <?php
                                     endif;
                                 endfor;
                                 ?>
-                                        <span class="rating-value"><?= $rating ?>.0</span>
+                                <span class="rating-value"><?= $rating ?>.0</span>
                             </div>
                         </div>
                         <!-- Декоративный элемент -->
-                            <div class="review-glow" style="background: <?= $avatarColor ?>;"></div>
-                            </div>
-                        </div>
-                        <?php
+                        <div class="review-glow" style="background: <?= $avatarColor ?>;"></div>
+                    </div>
+                </div>
+                <?php
             endforeach;
         } catch (Exception $e) {
             echo '<div class="no-reviews">Отзывы временно недоступны</div>' . $e;

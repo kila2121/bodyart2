@@ -1,6 +1,7 @@
 <?php require_once "connect.php" ?>
 <?php require_once "action.php" ?>
 <?php include_once "classes/template.php";
+require_once "classes/Cache.php";
 
 if (isset($_REQUEST["page"])) {
     $page = $_REQUEST["page"];

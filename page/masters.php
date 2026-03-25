@@ -8,11 +8,17 @@ try {
         throw new Exception("Нет подключения к БД");
     }
 
-    $mastersQuery = $db->dbs->query("SELECT * FROM master ORDER BY spec, fio");
-    $allMasters = $mastersQuery->fetchAll(PDO::FETCH_ASSOC);
+    $allMasters = Cache::get('all_masters');
+    if ($allMasters === false) {
+        $allMasters = $db->dbs->query("SELECT * FROM master ORDER BY spec, fio")->fetchAll(PDO::FETCH_ASSOC);
+        Cache::set('all_masters', $allMasters, 3600);
+    }
 
-    $categoriesQuery = $db->dbs->query("SELECT DISTINCT spec FROM master ORDER BY spec");
-    $spec = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
+    $spec = Cache::get('spec_masters');
+    if ($spec === false) {
+        $spec = $db->dbs->query("SELECT DISTINCT spec FROM master ORDER BY spec")->fetchAll(PDO::FETCH_COLUMN);
+        Cache::set('spec_masters', $spec, 3600);
+    }
 
 } catch (Exception $e) {
     error_log("Ошибка в masters.php: " . $e->getMessage());

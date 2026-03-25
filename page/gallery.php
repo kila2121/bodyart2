@@ -8,7 +8,9 @@ try {
         throw new Exception("Не удалось подключиться");
     }
 
-    $galleryQuery = $db->dbs->query("SELECT 
+    $allGallery = Cache::get('all_gallery');
+    if ($allGallery === false) {
+        $allGallery = $db->dbs->query("SELECT 
                                     g.*,
                                     a.id_master,
                                     m.fio AS master_name,
@@ -19,11 +21,16 @@ try {
                                 LEFT JOIN appointment a ON a.id = g.id_appointment
                                 LEFT JOIN master m ON m.id = a.id_master
                                 LEFT JOIN services s ON s.id = a.id_service
-                                ORDER BY g.is_featured DESC, g.created_at DESC");
-    $allGallery = $galleryQuery->fetchAll(PDO::FETCH_ASSOC);
+                                ORDER BY g.is_featured DESC, g.created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
+        Cache::set('all_gallery', $allGallery, 3600);
+    }
 
-    $categoriesQuery = $db->dbs->query("SELECT DISTINCT category FROM gallery ORDER BY category");
-    $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
+    $categories = Cache::get("categories_gallery");
+    if ($categories === false) {
+        $categories = $db->dbs->query("SELECT DISTINCT category FROM gallery ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);
+        Cache::set('categories_gallery', $categories, 3600);
+    }
+
 
 } catch (Exception $e) {
     error_log("Ошибка в gallery.php: " . $e->getMessage());

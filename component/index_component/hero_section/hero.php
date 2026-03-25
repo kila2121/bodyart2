@@ -1,9 +1,18 @@
 <!-- Hero секция -->
 <?php
-$happyUsers = $db->dbs->query("SELECT COUNT(DISTINCT id_user) FROM reviews WHERE rating IN (4, 5)")->fetchColumn();
-$completeWork = $db->dbs->query("SELECT COUNT(*) FROM appointment WHERE status='completed'")->fetchColumn();
-$avarageRaiting = $db->dbs->query("SELECT ROUND(AVG(rating), 1) as avg_rating FROM reviews WHERE is_approved = 1")->fetchColumn();
-$competedUsers = $db->dbs->query("SELECT COUNT(DISTINCT id_user) FROM appointment WHERE status IN ('completed', 'confirmed')")->fetchColumn();
+$stats = Cache::get('hero_stats');
+
+if ($stats === false) {
+    $happyUsers = $db->dbs->query("SELECT COUNT(DISTINCT id_user) FROM reviews WHERE rating IN (4, 5)")->fetchColumn();
+    $completeWork = $db->dbs->query("SELECT COUNT(*) FROM appointment WHERE status='completed'")->fetchColumn();
+    $avarageRaiting = $db->dbs->query("SELECT ROUND(AVG(rating), 1) FROM reviews WHERE is_approved = 1")->fetchColumn();
+    $competedUsers = $db->dbs->query("SELECT COUNT(DISTINCT id_user) FROM appointment WHERE status IN ('completed', 'confirmed')")->fetchColumn();
+    $stats = [$happyUsers, $completeWork, $avarageRaiting, $competedUsers];
+    Cache::set('hero_stats', $stats, 3600);
+}
+
+list($happyUsers, $completeWork, $avarageRaiting, $competedUsers) = $stats;
+
 ?>
 <div class="hero">
     <div class="hero_content">

@@ -1,6 +1,7 @@
 <?php
 global $db;
 require_once "../connect.php";
+require_once "../classes/cache.php";
 
 header('Content-Type: application/json');
 
@@ -9,9 +10,16 @@ if (empty($_GET['master_id'])) {
     exit();
 }
 
-try {
-    $masterId = (int) $_GET['master_id'];
+$masterId = (int) $_GET['master_id'];
+$cacheKey = 'services_by_master_' . $masterId;
 
+$result = Cache::get($cacheKey);
+if ($result !== false) {
+    echo json_encode($result);
+    exit();
+}
+
+try {
     $stmt = $db->dbs->prepare("SELECT spec FROM master WHERE id = ?");
     $stmt->execute([$masterId]);
     $master = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -40,14 +48,17 @@ try {
     $stmt->execute([$category]);
     $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode([
+    $result = [
         'success' => true,
         'services' => $services,
         'master_id' => $masterId,
         'spec' => $spec,
         'category' => $category
-    ]);
+    ];
 
+    Cache::set($cacheKey, $result, 3600);
+
+    echo json_encode($result);
 } catch (Exception $e) {
     error_log("Ошибка получения услуги по мастеру: " . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Ошибка базы данных']);

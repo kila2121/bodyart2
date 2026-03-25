@@ -7,8 +7,9 @@ try {
     if (!$db || !$db->dbs) {
         throw new Exception("Нет подключения к БД");
     }
-
-    $servicesQuery = $db->dbs->query("SELECT s.*,
+    $allServices = Cache::get('all_services');
+    if ($allServices === false) {
+        $allServices = $db->dbs->query("SELECT s.*,
                 COALESCE(g.url, '/public/uploads/gallery_work/default.jpg') as gallery_url,
                 COALESCE(g.photo_count, 0) as photos_count
             FROM services s
@@ -23,11 +24,14 @@ try {
                 WHERE a.id_service IS NOT NULL
             ) g ON s.id = g.id_service AND g.rn = 1
             WHERE s.is_active = 1
-            ORDER BY s.category, s.name;");
-    $allServices = $servicesQuery->fetchAll(PDO::FETCH_ASSOC);
-
-    $categoriesQuery = $db->dbs->query("SELECT DISTINCT category FROM services ORDER BY category");
-    $categories = $categoriesQuery->fetchAll(PDO::FETCH_COLUMN);
+            ORDER BY s.category, s.name;")->fetchAll(PDO::FETCH_ASSOC);
+        Cache::set('all_services', $allServices, 3600);
+    }
+    $categories = Cache::get('categories_services');
+    if ($categories === false) {
+        $categories = $db->dbs->query("SELECT DISTINCT category FROM services ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);
+        Cache::set('categories_services', $categories, 3600);
+    }
 
 } catch (Exception $e) {
     error_log("Ошибка в services.php: " . $e->getMessage());
