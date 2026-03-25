@@ -21,6 +21,9 @@ jobs:
       - name: Deploy via SSH
         run: |
           sudo apt-get update && sudo apt-get install -y sshpass
+          # Копируем config.ini на сервер
+          sshpass -p "${{ secrets.SERVER_PASSWORD }}" scp -o StrictHostKeyChecking=no config.ini root@${{ secrets.SERVER_HOST }}:/var/www/bodyart/config.ini
+          # Выполняем остальные команды
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_HOST }} "
             cd /var/www/bodyart
             git pull origin main
