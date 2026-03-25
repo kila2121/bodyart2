@@ -31,7 +31,7 @@ ob_start();
     <?php include_once "component/index_component/advantages/advantages.php"; ?>
 
     <!-- О студии -->
-    <?php include_once "component/index_component/aboutUS/aboutUS.php"; ?>
+    <?php include_once "component/index_component/aboutUs/aboutUs.php"; ?>
 
     <!-- Популярные услуги -->
     <?php include_once "component/index_component/popularServices/popularServices.php"; ?>
@@ -50,7 +50,7 @@ $content = ob_get_clean();
 $template = new Template("BodyArt Studio");
 $template->addStyle("/component/index_component/hero_section/hero.css");
 $template->addStyle("/component/index_component/advantages/advantages.css");
-$template->addStyle("/component/index_component/aboutUS/aboutUS.css");
+$template->addStyle("/component/index_component/aboutUs/aboutUs.css");
 $template->addStyle("/component/index_component/popularServices/popularServices.css");
 $template->addStyle("/component/index_component/reviews/reviews.css");
 $template->addStyle("/component/index_component/goAppointment/goAppointment.css");
