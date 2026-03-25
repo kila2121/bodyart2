@@ -397,3 +397,23 @@
         font-size: 0.7rem;
     }
 }
+@media (min-width: 992px) {
+    .grid_container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Планшеты: 2 колонки */
+@media (max-width: 991px) and (min-width: 577px) {
+    .grid_container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Телефоны: 1 колонка (так как карточки крупные) */
+@media (max-width: 576px) {
+    .grid_container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
