@@ -915,3 +915,138 @@ body.modal-open {
     min-height: -webkit-fill-available;
   }
 }
+
+/* Бургер-меню */
+.burger-menu {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  gap: 5px;
+  background: none;
+  border: none;
+  z-index: 1010;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.burger-menu span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--text-color);
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.burger-menu.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.burger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Оверлей */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.menu-overlay.active {
+  display: block;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .burger-menu {
+    display: flex;
+  }
+
+  .nav_links {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: var(--secondary-bg);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 80px 20px 20px;
+    gap: 20px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    margin: 0;
+  }
+
+  .nav_links.active {
+    left: 0;
+  }
+
+  .nav_links .nav_link {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1rem;
+    white-space: normal;
+  }
+
+  .headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .nav {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 8px;
+    margin-left: 0;
+  }
+
+  .auth-buttons .button,
+  .auth-buttons button.button,
+  .logout-form button.button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    min-width: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-buttons {
+    gap: 5px;
+  }
+
+  .auth-buttons .button,
+  .auth-buttons button.button,
+  .logout-form button.button {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    min-width: 55px;
+  }
+
+  .burger-menu {
+    margin-right: 5px;
+  }
+} 

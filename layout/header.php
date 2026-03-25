@@ -75,6 +75,13 @@
             <?php endif; ?>
         </div>
     </div>
+
+    <button class="burger-menu" aria-label="Меню">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="menu-overlay"></div>
 </header>
 <div class="modal-overlay"></div>
 <div class="modal">
@@ -91,80 +98,82 @@
         const openBtn = document.getElementById('openModalBtn');
         const closeBtn = document.querySelector('.modal-close');
 
-        if (!modal || !overlay || !openBtn) return;
+        if (modal && overlay && openBtn) {
+            const hasFormError = document.body.dataset.formError === 'true';
+            const activeTab = document.body.dataset.activeTab || 'reg';
 
-        const hasFormError = document.body.dataset.formError === 'true';
-        const activeTab = document.body.dataset.activeTab || 'reg';
-
-        if (hasFormError) {
-            modal.classList.add('active');
-            overlay.classList.add('active');
-            document.body.classList.add('modal-open');
-
-            const formsContainer = document.getElementById('auth-forms');
-            if (formsContainer) {
-                formsContainer.dataset.activeTab = activeTab;
+            if (hasFormError) {
+                modal.classList.add('active');
+                overlay.classList.add('active');
+                document.body.classList.add('modal-open');
+                const formsContainer = document.getElementById('auth-forms');
+                if (formsContainer) formsContainer.dataset.activeTab = activeTab;
             }
-        }
 
-        function openModal() {
-            modal.classList.add('active');
-            overlay.classList.add('active');
-            document.body.classList.add('modal-open');
-
-            const authTab = document.querySelector('[data-tab="auth"]');
-            if (authTab) {
-                authTab.click();
+            function openModal() {
+                modal.classList.add('active');
+                overlay.classList.add('active');
+                document.body.classList.add('modal-open');
+                const authTab = document.querySelector('[data-tab="auth"]');
+                if (authTab) authTab.click();
             }
-        }
 
-        function closeModal() {
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
-
-        openBtn.addEventListener('click', openModal);
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeModal);
-        }
-
-        overlay.addEventListener('click', closeModal);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closeModal();
+            function closeModal() {
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.classList.remove('modal-open');
             }
-        });
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const burger = document.querySelector('.burger-menu');
-        const nav = document.querySelector('.nav');
-
-        if (burger && nav) {
-            burger.addEventListener('click', function () {
-                this.classList.toggle('active');
-                nav.classList.toggle('active');
+            openBtn.addEventListener('click', openModal);
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', closeModal);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
             });
         }
 
-        const navLinks = document.querySelectorAll('.nav_link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    burger?.classList.remove('active');
-                    nav?.classList.remove('active');
+        // Бургер-меню
+        const burger = document.querySelector('.burger-menu');
+        const navLinks = document.querySelector('.nav_links');
+        const menuOverlay = document.querySelector('.menu-overlay');
+
+        if (burger && navLinks && menuOverlay) {
+            function closeMenu() {
+                burger.classList.remove('active');
+                navLinks.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                document.body.classList.remove('modal-open'); // если нужно разблокировать скролл
+            }
+
+            function openMenu() {
+                burger.classList.add('active');
+                navLinks.classList.add('active');
+                menuOverlay.classList.add('active');
+                document.body.classList.add('modal-open'); // блокируем скролл при открытом меню
+            }
+
+            burger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (navLinks.classList.contains('active')) {
+                    closeMenu();
+                } else {
+                    openMenu();
                 }
             });
-        });
 
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                burger?.classList.remove('active');
-                nav?.classList.remove('active');
-            }
-        });
+            menuOverlay.addEventListener('click', closeMenu);
+
+            // Закрываем при клике по ссылке
+            navLinks.querySelectorAll('.nav_link').forEach(link => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Закрываем при изменении размера окна, если меню было открыто
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+        }
     });
 </script>
