@@ -126,19 +126,48 @@
     backdrop-filter: blur(5px);
 }
 
-@media (max-width: 480px) {
+/* Планшеты (≤768px) */
+@media (max-width: 768px) {
     .services-filter button {
-        white-space: normal;
-        flex: 1 1 auto;
-        min-width: 120px;
-        padding: 0.6rem 1.2rem;
+        padding: 0.6rem 1.4rem;
         font-size: 0.85rem;
     }
 }
 
+/* Телефоны (≤576px) */
+@media (max-width: 576px) {
+    .services-filter {
+        gap: 10px;
+    }
+
+    .services-filter button {
+        white-space: normal;
+        flex: 1 1 auto;
+        min-width: 100px;
+        padding: 0.55rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Маленькие телефоны (≤480px) */
+@media (max-width: 480px) {
+    .services-filter {
+        gap: 8px;
+    }
+
+    .services-filter button {
+        min-width: calc(50% - 8px);
+        flex: 1 0 auto;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Очень маленькие (≤360px) */
 @media (max-width: 360px) {
     .services-filter button {
         min-width: 100%;
+        flex: 1 0 100%;
     }
 }
 
@@ -194,6 +223,21 @@
     gap: var(--space-md);
 }
 
+/* Планшеты и телефоны */
+@media (max-width: 992px) {
+    .services-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 576px) {
+    .services-toolbar {
+        gap: 12px;
+        margin: 1.5rem 0;
+    }
+}
+
 /* ========== COUNT ========== */
 .services-count {
     color: var(--text-secondary);
@@ -210,11 +254,14 @@
     backdrop-filter: blur(5px);
 }
 
+/* Телефоны */
 @media (max-width: 576px) {
     .services-count {
         width: 100%;
         justify-content: center;
         white-space: normal;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -244,9 +291,11 @@
     min-width: 220px;
 }
 
+/* Телефоны */
 @media (max-width: 576px) {
     .services-sort {
         width: 100%;
+        min-width: auto;
     }
 }
 
@@ -265,6 +314,14 @@
     transition: var(--transition-normal);
     line-height: 1.4;
     backdrop-filter: blur(5px);
+}
+
+/* Телефоны */
+@media (max-width: 576px) {
+    .services-sort select {
+        padding: 0.6rem 2rem 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
 }
 
 @media (hover: hover) {
@@ -295,6 +352,13 @@
     transition: transform var(--transition-fast);
 }
 
+@media (max-width: 576px) {
+    .services-sort::after {
+        right: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
 .services-sort:hover::after {
     transform: translateY(-50%) rotate(180deg);
 }
@@ -305,14 +369,34 @@
     padding: var(--space-sm);
 }
 
-/* ========== GRID ========== */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-    gap: clamp(20px, 3vw, 28px);
-    padding: var(--space-md) 0;
-    margin: 0 auto;
-    animation: fadeInUp 0.5s ease-out;
+/* ========== NO SERVICES ========== */
+.no-services {
+    text-align: center;
+    padding: clamp(3rem, 10vw, 5rem) var(--space-md);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    background: rgba(255, 51, 102, 0.03);
+    border-radius: var(--radius-xl);
+    margin: var(--space-xl) auto;
+    max-width: 500px;
+    border: 1px dashed var(--border-color);
+    grid-column: 1 / -1;
+    backdrop-filter: blur(5px);
+}
+
+@media (max-width: 576px) {
+    .no-services {
+        font-size: 0.95rem;
+        padding: 2rem 1rem;
+    }
+}
+
+.no-services i {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+    opacity: 0.5;
+    margin-bottom: var(--space-md);
+    display: block;
 }
 
 /* ========== PAGINATION ========== */
@@ -324,6 +408,15 @@
     margin-top: clamp(2.5rem, 6vw, 3.5rem);
     padding: var(--space-md);
     flex-wrap: wrap;
+}
+
+/* Телефоны */
+@media (max-width: 576px) {
+    .services-pagination {
+        gap: 0.5rem;
+        margin-top: 2rem;
+        padding: 1rem;
+    }
 }
 
 .services-pagination button {
@@ -343,11 +436,30 @@
     backdrop-filter: blur(5px);
 }
 
-@media (max-width: 576px) {
+/* Планшеты */
+@media (max-width: 768px) {
     .services-pagination button {
         min-width: 38px;
         height: 38px;
         font-size: 0.85rem;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 576px) {
+    .services-pagination button {
+        min-width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Очень маленькие */
+@media (max-width: 360px) {
+    .services-pagination button {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
     }
 }
 
@@ -371,29 +483,6 @@
     opacity: 0.3;
     cursor: not-allowed;
     pointer-events: none;
-}
-
-/* ========== NO SERVICES ========== */
-.no-services {
-    text-align: center;
-    padding: clamp(3rem, 10vw, 5rem) var(--space-md);
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    background: rgba(255, 51, 102, 0.03);
-    border-radius: var(--radius-xl);
-    margin: var(--space-xl) auto;
-    max-width: 500px;
-    border: 1px dashed var(--border-color);
-    grid-column: 1 / -1;
-    backdrop-filter: blur(5px);
-}
-
-.no-services i {
-    font-size: 2.5rem;
-    color: var(--accent-color);
-    opacity: 0.5;
-    margin-bottom: var(--space-md);
-    display: block;
 }
 
 /* ========== LOADING ========== */
@@ -420,7 +509,7 @@
     max-width: 400px;
 }
 
-/* ========== ДОПОЛНИТЕЛЬНЫЕ АНИМАЦИИ ========== */
+/* ========== АНИМАЦИИ ========== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -433,21 +522,27 @@
     }
 }
 
-/* ========== АДАПТИВНОСТЬ ========== */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
 
-/* Tablet 992px */
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========== АДАПТИВНОСТЬ (основные брейкпоинты) ========== */
+
+/* Планшеты 992px */
 @media (max-width: 992px) {
     .services-toolbar {
         flex-direction: column;
         align-items: stretch;
     }
-
-    .services-sort {
-        width: 100%;
-    }
 }
 
-/* Mobile 768px */
+/* Мобильные 768px */
 @media (max-width: 768px) {
     .services-page {
         padding: var(--space-lg) var(--space-sm) var(--space-xl);
@@ -455,15 +550,6 @@
 
     .page-header {
         margin-bottom: var(--space-lg);
-    }
-
-    .services-filter {
-        margin: var(--space-lg) 0;
-        gap: 0.5rem;
-    }
-
-    .services-filter button {
-        padding: 0.5rem 1.2rem;
     }
 
     .services-description {
@@ -487,7 +573,7 @@
     }
 }
 
-/* Small mobile 576px */
+/* Телефоны 576px */
 @media (max-width: 576px) {
     .services-page {
         padding: var(--space-md) var(--space-xs) var(--space-xl);
@@ -504,7 +590,7 @@
     }
 
     .services-description {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         margin: var(--space-lg) auto;
     }
 
@@ -512,40 +598,9 @@
     .services-description::after {
         display: none;
     }
-
-    .services-filter {
-        margin: var(--space-md) 0;
-        gap: 0.4rem;
-    }
-
-    .services-grid {
-        gap: 16px;
-        padding: var(--space-xs);
-    }
 }
 
-/* Extra small 360px */
-@media (max-width: 360px) {
-    .services-pagination {
-        gap: 0.4rem;
-    }
-
-    .services-pagination button {
-        min-width: 34px;
-        height: 34px;
-    }
-
-    .services-count {
-        font-size: 0.85rem;
-        padding: 0.4rem 1rem;
-    }
-
-    .services-count span {
-        font-size: 1rem;
-    }
-}
-
-/* Landscape orientation */
+/* Ландшафтная ориентация */
 @media (max-width: 768px) and (orientation: landscape) {
     .services-toolbar {
         flex-direction: row;

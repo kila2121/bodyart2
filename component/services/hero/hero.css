@@ -1,4 +1,5 @@
 /* services-hero.css - привлекательная hero-секция */
+
 /* ========== ПЛАВНЫЙ ПЕРЕХОД С ТОЧКАМИ ========== */
 .hero-transition {
     position: relative;
@@ -46,7 +47,7 @@
     pointer-events: none;
 }
 
-/* Адаптивность */
+/* Планшеты */
 @media (max-width: 768px) {
     .transition-pattern {
         height: 70px;
@@ -54,12 +55,14 @@
     }
 }
 
+/* Телефоны */
 @media (max-width: 480px) {
     .transition-pattern {
         height: 50px;
         background-size: 12px 12px;
     }
 }
+
 .services-hero {
     position: relative;
     min-height: 95vh;
@@ -69,6 +72,36 @@
     overflow: hidden;
     padding: clamp(60px, 10vh, 100px) 0;
     background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .services-hero {
+        min-height: auto;
+        padding: 60px 0;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .services-hero {
+        padding: 50px 0;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .services-hero {
+        padding: 40px 0;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .services-hero {
+        min-height: auto;
+        padding: 40px 0;
+    }
 }
 
 /* Фоновые элементы */
@@ -103,6 +136,15 @@
     width: 100%;
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .services-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+}
+
 /* Текстовая часть */
 .services-hero-text {
     animation: fadeInUp 0.6s ease-out;
@@ -122,12 +164,35 @@
     backdrop-filter: blur(5px);
 }
 
+/* Телефоны */
+@media (max-width: 768px) {
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 4px 14px;
+        margin-bottom: 20px;
+    }
+}
+
 .hero-title {
     font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 20px;
     color: var(--text-color);
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.6rem;
+    }
 }
 
 .hero-accent {
@@ -145,11 +210,49 @@
     max-width: 90%;
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .hero-description {
+        max-width: 100%;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .hero-description {
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .hero-description {
+        font-size: 0.85rem;
+    }
+}
+
 /* Кнопки */
 .hero-buttons {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .hero-buttons {
+        justify-content: center;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
 }
 
 .btn {
@@ -163,6 +266,23 @@
     gap: 10px;
     cursor: pointer;
     text-decoration: none;
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
 }
 
 .btn-primary {
@@ -198,6 +318,14 @@
     animation: fadeInRight 0.6s ease-out;
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .services-hero-visual {
+        order: -1;
+        margin: 0 auto;
+    }
+}
+
 .hero-visual-wrapper {
     position: relative;
     width: 320px;
@@ -205,6 +333,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .hero-visual-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .hero-visual-wrapper {
+        width: 240px;
+        height: 240px;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
 }
 
 /* Кольца */
@@ -257,6 +417,42 @@
     transition: all var(--transition-normal);
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .visual-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .visual-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .visual-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .visual-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
 .visual-icon:hover {
     transform: scale(1.1);
     border-color: var(--accent-color);
@@ -269,6 +465,13 @@
     animation: float 3s ease-in-out infinite;
 }
 
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .tattoo-icon {
+        top: -5px;
+    }
+}
+
 .piercing-icon {
     bottom: 20px;
     right: 0;
@@ -279,6 +482,15 @@
     bottom: 20px;
     left: 0;
     animation: float 3s ease-in-out infinite 1s;
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+
+    .piercing-icon,
+    .biomod-icon {
+        bottom: 5px;
+    }
 }
 
 /* Скролл индикатор */
@@ -297,6 +509,21 @@
     transition: opacity var(--transition-normal);
     cursor: pointer;
     z-index: 2;
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .scroll-hint {
+        bottom: 20px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .scroll-hint {
+        display: none;
+    }
 }
 
 .scroll-hint:hover {
@@ -387,160 +614,6 @@
 
     50% {
         transform: translateY(6px);
-    }
-}
-
-/* ========== АДАПТИВНОСТЬ ========== */
-
-/* Планшеты 992px */
-@media (max-width: 992px) {
-    .services-hero {
-        min-height: auto;
-        padding: 60px 0;
-    }
-
-    .services-hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 40px;
-    }
-
-    .hero-description {
-        max-width: 100%;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .services-hero-visual {
-        order: -1;
-        margin: 0 auto;
-    }
-
-    .hero-visual-wrapper {
-        width: 280px;
-        height: 280px;
-    }
-
-    .visual-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-}
-
-/* Мобильные 768px */
-@media (max-width: 768px) {
-    .services-hero {
-        padding: 50px 0;
-    }
-
-    .hero-title {
-        font-size: clamp(1.8rem, 5vw, 2.2rem);
-    }
-
-    .hero-description {
-        font-size: 0.95rem;
-    }
-
-    .hero-badge {
-        font-size: 0.75rem;
-        padding: 4px 14px;
-    }
-
-    .btn {
-        padding: 10px 24px;
-        font-size: 0.9rem;
-    }
-
-    .hero-visual-wrapper {
-        width: 240px;
-        height: 240px;
-    }
-
-    .visual-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-    }
-
-    .scroll-hint {
-        bottom: 20px;
-        font-size: 0.7rem;
-    }
-}
-
-/* Маленькие мобильные 480px */
-@media (max-width: 480px) {
-    .services-hero {
-        padding: 40px 0;
-    }
-
-    .hero-title {
-        font-size: 1.6rem;
-    }
-
-    .hero-description {
-        font-size: 0.85rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 20px;
-    }
-
-    .hero-visual-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-
-    .visual-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 1rem;
-    }
-
-    .tattoo-icon {
-        top: -5px;
-    }
-
-    .piercing-icon,
-    .biomod-icon {
-        bottom: 5px;
-    }
-
-    .scroll-hint {
-        display: none;
-    }
-}
-
-/* Ландшафтная ориентация */
-@media (max-width: 900px) and (orientation: landscape) {
-    .services-hero {
-        min-height: auto;
-        padding: 40px 0;
-    }
-
-    .services-hero-content {
-        gap: 30px;
-    }
-
-    .hero-visual-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-
-    .visual-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
     }
 }
 
