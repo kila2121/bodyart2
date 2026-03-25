@@ -2,8 +2,7 @@
     <div class="headerContent">
         <div class="nav">
             <div class="logo">
-                <img src="../public/logo.jpg" alt="Логотип BodyArt Studio - студия тату и пирсинга" width="60"
-                    height="60" class="logo_img">
+                <img src="../public/logo.jpg" alt="Логотип BodyArt Studio" width="60" height="60" class="logo_img">
                 <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
             </div>
             <nav class="nav_links">
@@ -20,21 +19,19 @@
                 <form method="POST" action="/index.php?page=admin">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-admin">
-                        Админ
+                        <i class="fas fa-user-shield"></i><span> Админ</span>
                     </button>
                 </form>
-
                 <form method="POST" action="/index.php?page=user">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-profile">
-                        <i class="fas fa-user-circle"></i> Профиль
+                        <i class="fas fa-user-circle"></i><span> Профиль</span>
                     </button>
                 </form>
-
                 <form method="POST" action="/index.php?action=quit" class="logout-form">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-logout">
-                        <i class="fas fa-sign-out-alt"></i> Выйти
+                        <i class="fas fa-sign-out-alt"></i><span> Выйти</span>
                     </button>
                 </form>
 
@@ -42,14 +39,13 @@
                 <form method="POST" action="/index.php?page=masterProfile">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-master">
-                        <i class="fas fa-user-circle"></i> <?= htmlspecialchars($_SESSION['login']) ?>
+                        <i class="fas fa-user-circle"></i><span> <?= htmlspecialchars($_SESSION['login']) ?></span>
                     </button>
                 </form>
-
                 <form method="POST" action="/index.php?action=quit" class="logout-form">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-logout">
-                        <i class="fas fa-sign-out-alt"></i> Выйти
+                        <i class="fas fa-sign-out-alt"></i><span> Выйти</span>
                     </button>
                 </form>
 
@@ -57,32 +53,33 @@
                 <form method="POST" action="/index.php?page=user">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-user">
-                        <i class="fas fa-user-circle"></i> <?= htmlspecialchars($_SESSION['login']) ?>
+                        <i class="fas fa-user-circle"></i><span> <?= htmlspecialchars($_SESSION['login']) ?></span>
                     </button>
                 </form>
-
                 <form method="POST" action="/index.php?action=quit" class="logout-form">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-logout">
-                        <i class="fas fa-sign-out-alt"></i> Выйти
+                        <i class="fas fa-sign-out-alt"></i><span> Выйти</span>
                     </button>
                 </form>
 
             <?php else: ?>
                 <button class="button button-login" id="openModalBtn">
-                    Войти
+                    <i class="fas fa-sign-in-alt"></i><span> Войти</span>
                 </button>
             <?php endif; ?>
         </div>
+
+        <button class="burger-menu" aria-label="Меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 
-    <button class="burger-menu" aria-label="Меню">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
     <div class="menu-overlay"></div>
 </header>
+
 <div class="modal-overlay"></div>
 <div class="modal">
     <button class="modal-close">&times;</button>
@@ -93,6 +90,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Модальное окно
         const modal = document.querySelector('.modal');
         const overlay = document.querySelector('.modal-overlay');
         const openBtn = document.getElementById('openModalBtn');
@@ -142,14 +140,14 @@
                 burger.classList.remove('active');
                 navLinks.classList.remove('active');
                 menuOverlay.classList.remove('active');
-                document.body.classList.remove('modal-open'); // если нужно разблокировать скролл
+                document.body.classList.remove('no-scroll');
             }
 
             function openMenu() {
                 burger.classList.add('active');
                 navLinks.classList.add('active');
                 menuOverlay.classList.add('active');
-                document.body.classList.add('modal-open'); // блокируем скролл при открытом меню
+                document.body.classList.add('no-scroll');
             }
 
             burger.addEventListener('click', function (e) {
@@ -163,12 +161,12 @@
 
             menuOverlay.addEventListener('click', closeMenu);
 
-            // Закрываем при клике по ссылке
+            // Закрытие при клике по ссылке
             navLinks.querySelectorAll('.nav_link').forEach(link => {
                 link.addEventListener('click', closeMenu);
             });
 
-            // Закрываем при изменении размера окна, если меню было открыто
+            // Закрытие при изменении размера окна (если меню было открыто)
             window.addEventListener('resize', function () {
                 if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
                     closeMenu();
