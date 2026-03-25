@@ -6,6 +6,20 @@
     margin-bottom: clamp(20px, 4vw, 30px);
 }
 
+@media (max-width: 992px) {
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
 .stat-card {
     background: var(--card-bg);
     padding: clamp(15px, 3vw, 20px);
@@ -34,16 +48,4 @@
 .stat-label {
     color: var(--text-secondary);
     font-size: clamp(12px, 2.5vw, 14px);
-}
-
-@media (max-width: 768px) {
-    .profile-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .profile-stats {
-        grid-template-columns: 1fr;
-    }
 }

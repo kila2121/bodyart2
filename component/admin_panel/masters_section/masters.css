@@ -9,6 +9,12 @@
     border: 1px solid var(--border-color);
 }
 
+@media (max-width: 576px) {
+    .form-container {
+        padding: 15px;
+    }
+}
+
 .form-container input,
 .form-container textarea,
 .form-container select {
@@ -90,6 +96,13 @@
     -webkit-overflow-scrolling: touch;
 }
 
+@media (max-width: 768px) {
+    .table-responsive {
+        margin: 0 -5px;
+        border-radius: var(--radius-sm);
+    }
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -136,6 +149,21 @@ td .btn {
     width: auto;
 }
 
+@media (max-width: 768px) {
+    td .btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    td .btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
+}
+
 @media (hover: hover) {
     td .btn:hover {
         background: var(--accent-color);
@@ -151,29 +179,4 @@ td .btn-danger:hover {
 
 td form {
     display: inline;
-}
-
-/* ===== АДАПТАЦИЯ ===== */
-@media (max-width: 768px) {
-    .table-responsive {
-        margin: 0 -5px;
-        border-radius: var(--radius-sm);
-    }
-
-    td .btn {
-        padding: 4px 8px;
-        font-size: 12px;
-        margin: 2px;
-    }
-}
-
-@media (max-width: 576px) {
-    td .btn {
-        padding: 4px 6px;
-        font-size: 11px;
-    }
-
-    .form-container {
-        padding: 15px;
-    }
 }

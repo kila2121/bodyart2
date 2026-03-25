@@ -36,6 +36,14 @@
     gap: 10px;
 }
 
+@media (max-width: 480px) {
+    .review-form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
 .review-form-header h4 {
     margin: 0;
     color: var(--text-color);
@@ -60,6 +68,17 @@
 @media (max-width: 768px) {
     .review-form-header h4::after {
         bottom: -12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-form-header h4 {
+        font-size: 1rem;
+    }
+
+    .review-form-header h4::after {
+        width: 30px;
+        bottom: -10px;
     }
 }
 
@@ -124,6 +143,12 @@
     transition: var(--transition-fast);
     margin: 0;
     line-height: 1;
+}
+
+@media (max-width: 480px) {
+    .star-rating label {
+        font-size: 28px;
+    }
 }
 
 @media (hover: hover) {
@@ -229,46 +254,6 @@
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* ===== АДАПТИВНОСТЬ ===== */
-@media (max-width: 768px) {
-    .review-form-header h4 {
-        font-size: 1.1rem;
-    }
-
-    .review-form-header h4::after {
-        width: 35px;
-    }
-
-    .star-rating label {
-        font-size: 28px;
-    }
-}
-
-@media (max-width: 480px) {
-    .review-form-container {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    .review-form-header {
-        margin-bottom: 15px;
-        padding-bottom: 12px;
-    }
-
-    .review-form-header h4 {
-        font-size: 1rem;
-    }
-
-    .review-form-header h4::after {
-        width: 30px;
-        bottom: -10px;
-    }
-
-    .star-rating label {
-        font-size: 26px;
     }
 }
 

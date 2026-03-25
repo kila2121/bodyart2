@@ -35,6 +35,13 @@
     gap: 10px;
 }
 
+@media (max-width: 768px) {
+    .appointment-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 .appointment-service {
     flex: 1 1 auto;
     min-width: 200px;
@@ -103,6 +110,12 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 480px) {
+    .appointment-master {
+        justify-content: center;
+    }
+}
+
 .master-avatar-small {
     width: clamp(28px, 6vw, 32px);
     height: clamp(28px, 6vw, 32px);
@@ -166,6 +179,12 @@
     gap: 10px;
 }
 
+@media (max-width: 768px) {
+    .appointment-footer {
+        flex-direction: column;
+    }
+}
+
 /* ===== КНОПКИ ===== */
 .button {
     border: none;
@@ -225,6 +244,13 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+    .review-info {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
 .review-rating {
     color: var(--warning-color);
     font-size: 13px;
@@ -240,29 +266,21 @@
     text-overflow: ellipsis;
 }
 
-/* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width: 768px) {
-    .appointment-header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .appointment-footer {
-        flex-direction: column;
-    }
-
-    .review-info {
-        flex-direction: column;
-        text-align: center;
-    }
-
     .review-preview {
         max-width: 100%;
+        white-space: normal;
+        text-align: center;
     }
 }
 
-@media (max-width: 480px) {
-    .appointment-master {
-        justify-content: center;
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 576px) {
+    .appointment-card {
+        padding: 14px;
+    }
+
+    .appointment-service h3 {
+        font-size: 16px;
     }
 }

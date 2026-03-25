@@ -1,6 +1,4 @@
 /* masterProfile.css - стили для личного кабинета мастера */
-/* Полностью опирается на global_style.css */
-
 .user-profile.master-profile {
     max-width: 1200px;
     margin: 0 auto;
@@ -21,6 +19,22 @@
     transition: var(--transition-normal);
 }
 
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+        padding: 24px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-header {
+        padding: 20px 16px;
+        gap: 12px;
+    }
+}
+
 @media (hover: hover) {
     .profile-header:hover {
         box-shadow: var(--shadow-lg);
@@ -35,6 +49,23 @@
     background: var(--secondary-bg);
     border: 3px solid var(--accent-color);
     flex-shrink: 0;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+@media (max-width: 768px) {
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-avatar {
+        width: 80px;
+        height: 80px;
+        border-width: 2px;
+    }
 }
 
 .profile-avatar img {
@@ -58,6 +89,12 @@
 .profile-info {
     flex: 1;
     min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .profile-info {
+        text-align: center;
+    }
 }
 
 .profile-name {
@@ -85,6 +122,14 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+
+    .profile-member,
+    .profile-spec {
+        justify-content: center;
+    }
+}
+
 .profile-member i,
 .profile-spec i {
     color: var(--accent-color);
@@ -102,6 +147,22 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 768px) {
+    .profile-tabs {
+        justify-content: center;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-tabs {
+        flex-direction: column;
+        gap: 6px;
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+}
+
 .tab-btn {
     padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px);
     background: none;
@@ -115,11 +176,12 @@
     white-space: nowrap;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .tab-btn {
         white-space: normal;
-        flex: 1 1 auto;
+        width: 100%;
         text-align: center;
+        border: 1px solid var(--border-color);
     }
 }
 
@@ -134,6 +196,12 @@
     color: var(--accent-color);
     background: rgba(255, 51, 102, 0.15);
     font-weight: 600;
+}
+
+@media (max-width: 576px) {
+    .tab-btn.active {
+        border-color: var(--accent-color);
+    }
 }
 
 .tab-content {
@@ -193,8 +261,6 @@
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
     }
 }

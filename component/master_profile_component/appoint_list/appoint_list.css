@@ -33,6 +33,13 @@
     gap: 10px;
 }
 
+@media (max-width: 768px) {
+    .appointment-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
 .appointment-service {
     flex: 1 1 auto;
     min-width: 200px;
@@ -133,10 +140,24 @@
     gap: 10px;
 }
 
+@media (max-width: 768px) {
+    .appointment-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
 .appointment-actions {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .appointment-actions {
+        width: 100%;
+        flex-direction: column;
+    }
 }
 
 /* ===== КНОПКИ ===== */
@@ -213,21 +234,4 @@
 
 .button-cancel i {
     color: var(--error-color);
-}
-
-@media (max-width: 768px) {
-    .appointment-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .appointment-footer {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .appointment-actions {
-        width: 100%;
-        flex-direction: column;
-    }
 }

@@ -1,12 +1,18 @@
 /* services.css - стили для раздела услуги */
 
-/* ===== ФОРМЫ (единый стиль с masters.css) ===== */
+/* ===== ФОРМЫ ===== */
 .form-container {
     background: var(--secondary-bg);
     padding: clamp(20px, 4vw, 25px);
     border-radius: var(--radius-md);
     margin-bottom: 25px;
     border: 1px solid var(--border-color);
+}
+
+@media (max-width: 576px) {
+    .form-container {
+        padding: 15px;
+    }
 }
 
 .form-container input,
@@ -72,6 +78,13 @@
     -webkit-overflow-scrolling: touch;
 }
 
+@media (max-width: 768px) {
+    .table-responsive {
+        margin: 0 -5px;
+        border-radius: var(--radius-sm);
+    }
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -114,6 +127,12 @@ td:nth-child(3) {
     white-space: nowrap;
 }
 
+@media (max-width: 576px) {
+    td:nth-child(3) {
+        white-space: normal;
+    }
+}
+
 /* ===== КНОПКИ В ТАБЛИЦЕ ===== */
 td .btn {
     padding: 5px 10px;
@@ -123,6 +142,21 @@ td .btn {
     border: 1px solid var(--border-color);
     min-width: auto;
     width: auto;
+}
+
+@media (max-width: 768px) {
+    td .btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        margin: 2px;
+    }
+}
+
+@media (max-width: 576px) {
+    td .btn {
+        padding: 4px 6px;
+        font-size: 11px;
+    }
 }
 
 @media (hover: hover) {
@@ -140,33 +174,4 @@ td .btn-danger:hover {
 
 td form {
     display: inline;
-}
-
-/* ===== АДАПТАЦИЯ ===== */
-@media (max-width: 768px) {
-    .table-responsive {
-        margin: 0 -5px;
-        border-radius: var(--radius-sm);
-    }
-
-    td .btn {
-        padding: 4px 8px;
-        font-size: 12px;
-        margin: 2px;
-    }
-}
-
-@media (max-width: 576px) {
-    td .btn {
-        padding: 4px 6px;
-        font-size: 11px;
-    }
-
-    .form-container {
-        padding: 15px;
-    }
-
-    td:nth-child(3) {
-        white-space: normal;
-    }
 }

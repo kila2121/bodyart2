@@ -19,6 +19,19 @@
     flex-wrap: wrap;
 }
 
+@media (max-width: 992px) {
+    .appointment-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .appointment-item {
+        padding: 12px;
+    }
+}
+
 @media (hover: hover) {
     .appointment-item:hover {
         border-color: var(--accent-color);
@@ -34,6 +47,12 @@
     min-width: 200px;
 }
 
+@media (max-width: 992px) {
+    .appointment-info {
+        width: 100%;
+    }
+}
+
 .appointment-info strong {
     color: var(--accent-color);
     font-size: clamp(14px, 3vw, 16px);
@@ -41,6 +60,12 @@
 
 .appointment-status {
     min-width: 150px;
+}
+
+@media (max-width: 992px) {
+    .appointment-status {
+        width: 100%;
+    }
 }
 
 .appointment-status select {
@@ -92,26 +117,4 @@ select option[value="completed"] {
 select option[value="cancelled"] {
     background: rgba(239, 68, 68, 0.1);
     color: var(--error-color);
-}
-
-/* ===== АДАПТАЦИЯ ===== */
-@media (max-width: 992px) {
-    .appointment-item {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .appointment-info {
-        width: 100%;
-    }
-
-    .appointment-status {
-        width: 100%;
-    }
-}
-
-@media (max-width: 576px) {
-    .appointment-item {
-        padding: 12px;
-    }
 }
