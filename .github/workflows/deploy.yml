@@ -19,14 +19,15 @@ jobs:
           echo "pass = \"${{ secrets.DB_PASS }}\"" >> config.ini
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 166.88.130.15 >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_rsa root@${{ secrets.SERVER_HOST }} "
             cd /var/www/bodyart
             git pull origin main
             chown -R www-data:www-data .
             chmod -R 755 .
             systemctl reload apache2
+          "
