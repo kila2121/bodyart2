@@ -54,7 +54,7 @@
     pointer-events: none;
 }
 
-/* Адаптивность */
+/* Адаптивность перехода */
 @media (max-width: 768px) {
     .transition-pattern {
         height: 70px;
@@ -66,6 +66,7 @@
         height: 50px;
     }
 }
+
 .masters-hero {
     position: relative;
     min-height: 95vh;
@@ -75,6 +76,36 @@
     overflow: hidden;
     padding: clamp(60px, 10vh, 100px) 0;
     background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
+}
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .masters-hero {
+        min-height: auto;
+        padding: 60px 0;
+    }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+    .masters-hero {
+        padding: 50px 0;
+    }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+    .masters-hero {
+        padding: 40px 0;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-width: 900px) and (orientation: landscape) {
+    .masters-hero {
+        min-height: auto;
+        padding: 40px 0;
+    }
 }
 
 /* Фоновые элементы */
@@ -119,6 +150,15 @@
     width: 100%;
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .masters-hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+}
+
 /* Текстовая часть */
 .masters-hero-text {
     animation: fadeInUp 0.6s ease-out;
@@ -138,12 +178,32 @@
     backdrop-filter: blur(5px);
 }
 
+@media (max-width: 768px) {
+    .hero-badge {
+        font-size: 0.75rem;
+        padding: 4px 14px;
+        margin-bottom: 20px;
+    }
+}
+
 .hero-title {
     font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: 20px;
     color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.6rem;
+    }
 }
 
 .hero-accent {
@@ -161,11 +221,45 @@
     max-width: 90%;
 }
 
+/* Планшеты */
+@media (max-width: 992px) {
+    .hero-description {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-description {
+        font-size: 0.95rem;
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-description {
+        font-size: 0.85rem;
+    }
+}
+
 /* Кнопки */
 .hero-buttons {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+    .hero-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
 }
 
 .btn {
@@ -179,6 +273,21 @@
     gap: 10px;
     cursor: pointer;
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 24px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
 }
 
 .btn-primary {
@@ -214,6 +323,13 @@
     animation: fadeInRight 0.6s ease-out;
 }
 
+@media (max-width: 992px) {
+    .masters-hero-visual {
+        order: -1;
+        margin: 0 auto;
+    }
+}
+
 .hero-visual-wrapper {
     position: relative;
     width: 320px;
@@ -221,6 +337,41 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media (max-width: 992px) {
+    .hero-visual-wrapper {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-visual-wrapper {
+        width: 240px;
+        height: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 360px) {
+    .hero-visual-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .hero-visual-wrapper {
+        width: 200px;
+        height: 200px;
+    }
 }
 
 /* Кольца */
@@ -273,6 +424,46 @@
     transition: all var(--transition-normal);
 }
 
+@media (max-width: 992px) {
+    .visual-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .visual-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .visual-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .visual-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+    .visual-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}
+
 .visual-icon:hover {
     transform: scale(1.1);
     border-color: var(--accent-color);
@@ -294,6 +485,23 @@
     bottom: 30%;
     left: -15px;
     animation: float 3s ease-in-out infinite 1s;
+}
+
+@media (max-width: 480px) {
+    .master-icon.tattoo {
+        top: -5px;
+        left: 15%;
+    }
+
+    .master-icon.piercing {
+        bottom: 5px;
+        right: -5px;
+    }
+
+    .master-icon.biomod {
+        bottom: 20%;
+        left: -10px;
+    }
 }
 
 /* Плавающие круги */
@@ -329,6 +537,50 @@
     animation-delay: 4s;
 }
 
+@media (max-width: 768px) {
+    .circle-1 {
+        width: 140px;
+        height: 140px;
+        top: -30px;
+        right: -30px;
+    }
+
+    .circle-2 {
+        width: 100px;
+        height: 100px;
+        bottom: -30px;
+        left: -30px;
+    }
+
+    .circle-3 {
+        width: 80px;
+        height: 80px;
+        right: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .circle-1 {
+        width: 100px;
+        height: 100px;
+        top: -20px;
+        right: -20px;
+    }
+
+    .circle-2 {
+        width: 80px;
+        height: 80px;
+        bottom: -20px;
+        left: -20px;
+    }
+
+    .circle-3 {
+        width: 60px;
+        height: 60px;
+        right: -15px;
+    }
+}
+
 /* Скролл-хинт */
 .scroll-hint {
     position: absolute;
@@ -345,6 +597,19 @@
     transition: opacity var(--transition-normal);
     cursor: pointer;
     z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .scroll-hint {
+        bottom: 20px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .scroll-hint {
+        display: none;
+    }
 }
 
 .scroll-hint:hover {
@@ -447,176 +712,6 @@
 
     50% {
         transform: translateY(6px);
-    }
-}
-
-/* ========== АДАПТИВНОСТЬ ========== */
-
-@media (max-width: 992px) {
-    .masters-hero {
-        min-height: auto;
-        padding: 60px 0;
-    }
-
-    .masters-hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 40px;
-    }
-
-    .hero-description {
-        max-width: 100%;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .masters-hero-visual {
-        order: -1;
-        margin: 0 auto;
-    }
-
-    .hero-visual-wrapper {
-        width: 280px;
-        height: 280px;
-    }
-
-    .visual-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .masters-hero {
-        padding: 50px 0;
-    }
-
-    .hero-title {
-        font-size: clamp(1.8rem, 5vw, 2.2rem);
-    }
-
-    .hero-description {
-        font-size: 0.95rem;
-    }
-
-    .hero-badge {
-        font-size: 0.75rem;
-        padding: 4px 14px;
-    }
-
-    .btn {
-        padding: 10px 24px;
-        font-size: 0.9rem;
-    }
-
-    .hero-visual-wrapper {
-        width: 240px;
-        height: 240px;
-    }
-
-    .visual-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-    }
-
-    .scroll-hint {
-        bottom: 20px;
-        font-size: 0.7rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .masters-hero {
-        padding: 40px 0;
-    }
-
-    .hero-title {
-        font-size: 1.6rem;
-    }
-
-    .hero-description {
-        font-size: 0.85rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 20px;
-    }
-
-    .hero-visual-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-
-    .visual-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 1rem;
-    }
-
-    .master-icon.tattoo {
-        top: -5px;
-        left: 15%;
-    }
-
-    .master-icon.piercing {
-        bottom: 5px;
-        right: -5px;
-    }
-
-    .master-icon.biomod {
-        bottom: 20%;
-        left: -10px;
-    }
-
-    .scroll-hint {
-        display: none;
-    }
-}
-
-@media (max-width: 360px) {
-    .hero-visual-wrapper {
-        width: 180px;
-        height: 180px;
-    }
-
-    .visual-icon {
-        width: 34px;
-        height: 34px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Ландшафтная ориентация */
-@media (max-width: 900px) and (orientation: landscape) {
-    .masters-hero {
-        min-height: auto;
-        padding: 40px 0;
-    }
-
-    .masters-hero-content {
-        gap: 30px;
-    }
-
-    .hero-visual-wrapper {
-        width: 200px;
-        height: 200px;
-    }
-
-    .visual-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
     }
 }
 

@@ -7,7 +7,6 @@
     animation: fadeInUp 0.5s ease-out;
 }
 
-/* ========== ДОПОЛНИТЕЛЬНЫЕ АНИМАЦИИ ========== */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -82,11 +81,34 @@
     white-space: nowrap;
 }
 
-@media (max-width: 576px) {
+/* Планшеты и мобильные */
+@media (max-width: 768px) {
     .filter-btn {
         white-space: normal;
-        flex: 1 1 auto;
-        min-width: 120px;
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-filter {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        width: 100%;
+        text-align: center;
+        white-space: normal;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .filter-btn {
+        font-size: 12px;
+        padding: 8px;
     }
 }
 
@@ -105,16 +127,6 @@
     box-shadow: var(--shadow-accent);
 }
 
-.filter-btn:focus-visible {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
-}
-
-/* ===== CONTAINER ===== */
-#gallery-container {
-    min-height: 400px;
-}
-
 /* ===== NO RESULTS ===== */
 .no-results,
 .no-results-message {
@@ -128,7 +140,7 @@
     margin: 40px 0;
 }
 
-/* ===== SKELETON LOADING ===== */
+/* ===== SKELETON ===== */
 .gallery-skeleton {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
@@ -157,20 +169,7 @@
     }
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===== ADAPTIVE ===== */
+/* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width: 992px) {
     .gallery-filter {
         gap: 10px;
@@ -205,18 +204,6 @@
         font-size: 1.8rem;
     }
 
-    .gallery-filter {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-
-    .filter-btn {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-    }
-
     .no-results,
     .no-results-message {
         padding: 40px 15px;
@@ -233,20 +220,22 @@
     }
 }
 
-/* Landscape orientation */
+/* Ландшафтная ориентация */
 @media (max-width: 768px) and (orientation: landscape) {
     .gallery-filter {
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     .filter-btn {
         width: auto;
         flex: 0 1 auto;
+        white-space: nowrap;
     }
 }
 
-/* Reduced motion */
+/* Reduced motion & touch */
 @media (prefers-reduced-motion: reduce) {
 
     .gallery-page,
@@ -263,7 +252,6 @@
     }
 }
 
-/* Touch devices optimization */
 @media (hover: none) and (pointer: coarse) {
     .filter-btn:hover {
         transform: none;

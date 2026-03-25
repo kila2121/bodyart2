@@ -87,18 +87,44 @@
     white-space: nowrap;
 }
 
-@media (max-width: 480px) {
+/* Планшеты */
+@media (max-width: 768px) {
     .masters-filter button {
-        white-space: normal;
-        flex: 1 1 auto;
-        min-width: 120px;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
     }
 }
 
+/* Телефоны (≤576px) */
+@media (max-width: 576px) {
+    .masters-filter {
+        gap: 10px;
+    }
+
+    .masters-filter button {
+        white-space: normal;
+        flex: 1 1 auto;
+        min-width: 100px;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Маленькие телефоны (≤480px) */
+@media (max-width: 480px) {
+    .masters-filter button {
+        min-width: calc(50% - 10px);
+        flex: 1 0 auto;
+        padding: 0.45rem 0.8rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Очень маленькие (≤360px) */
 @media (max-width: 360px) {
     .masters-filter button {
         min-width: 100%;
+        flex: 1 0 100%;
     }
 }
 
@@ -182,6 +208,12 @@
 }
 
 /* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 992px) {
+    .masters-page {
+        padding: clamp(1.2rem, 4vw, 2rem) var(--container-padding);
+    }
+}
+
 @media (max-width: 768px) {
     .masters-page {
         padding: var(--space-lg) var(--space-sm);
@@ -197,7 +229,7 @@
 
     .masters-filter {
         margin: 20px 0 var(--space-lg);
-        gap: 0.3rem;
+        gap: 0.5rem;
     }
 }
 
@@ -207,21 +239,17 @@
     }
 
     .page-header h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         margin-bottom: var(--space-xs);
     }
 
     .masters-description {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         margin: 15px auto var(--space-lg);
-    }
-
-    .masters-filter {
-        margin: 15px 0 var(--space-lg);
     }
 }
 
-/* Landscape orientation */
+/* Ландшафтная ориентация */
 @media (max-width: 768px) and (orientation: landscape) {
     .masters-filter {
         gap: 0.5rem;
@@ -229,6 +257,7 @@
 
     .masters-filter button {
         padding: 0.4rem 1rem;
+        font-size: 0.8rem;
     }
 }
 

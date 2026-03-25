@@ -33,7 +33,7 @@
     transform: scale(1.02);
 }
 
-/* ===== ЛЕВАЯ ВЕРХНЯЯ ПАНЕЛЬ С ТЕКСТОМ ===== */
+/* ===== ТЕКСТОВАЯ ПАНЕЛЬ ===== */
 .gmodal-text-panel {
     position: absolute;
     top: 20px;
@@ -64,7 +64,7 @@
     text-transform: uppercase;
 }
 
-/* ===== ПРАВАЯ ВЕРХНЯЯ ПАНЕЛЬ ===== */
+/* ===== ПРАВАЯ ПАНЕЛЬ ===== */
 .gmodal-actions-panel {
     position: absolute;
     top: 20px;
@@ -86,7 +86,7 @@
     font-size: 16px;
 }
 
-/* ===== КНОПКА ЗАКРЫТИЯ - ПЕРЕМЕЩЕНА ВНИЗ СПРАВА ===== */
+/* ===== КНОПКА ЗАКРЫТИЯ ===== */
 .gmodal-close-btn {
     position: absolute;
     bottom: 20px;
@@ -111,6 +111,7 @@
     background: var(--accent-color);
     transform: scale(1.05);
 }
+
 /* ===== НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ ===== */
 .gmodal-bottom-bar {
     position: absolute;
@@ -332,10 +333,17 @@
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .modal-gallery {
         width: 95vw;
         height: 85vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .modal-gallery {
+        width: 98vw;
+        height: 90vh;
     }
 
     .gmodal-title {
@@ -346,6 +354,7 @@
         top: 12px;
         left: 12px;
         padding: 6px 12px;
+        max-width: 70%;
     }
 
     .gmodal-actions-panel {
@@ -459,7 +468,29 @@
     }
 }
 
-/* Сенсорные устройства */
+@media (max-width: 360px) {
+    .gmodal-title {
+        font-size: 0.9rem;
+    }
+
+    .gmodal-text-panel {
+        max-width: 80%;
+    }
+
+    .gmodal-category {
+        font-size: 0.6rem;
+    }
+
+    .gmodal-master-name {
+        font-size: 0.8rem;
+    }
+
+    .gmodal-work-date {
+        font-size: 9px;
+    }
+}
+
+/* Сенсорные устройства – навигация и мастер-карта всегда видны */
 @media (hover: none) and (pointer: coarse) {
     .gmodal-bottom-bar {
         transform: translateY(0);
@@ -469,6 +500,20 @@
 
     .gmodal-master-card {
         transform: translateY(calc(100% - 55px));
+        opacity: 1;
+    }
+
+    .gmodal-layout:hover .gmodal-bottom-bar,
+    .gmodal-layout:hover .gmodal-master-card {
+        transform: translateY(0);
+    }
+
+    .gmodal-master-card {
+        transition: transform 0.2s ease;
+    }
+
+    .gmodal-master-card:hover {
+        transform: translateY(0);
     }
 }
 
@@ -493,7 +538,8 @@
         transform: translateY(0);
     }
 }
-/* ===== ФИКС КЛИКАБЕЛЬНОСТИ КНОПОК ===== */
+
+/* Фикс кликабельности */
 .gmodal-nav-btn,
 .gmodal-close-btn {
     position: relative;
@@ -504,7 +550,6 @@
 
 .gmodal-nav {
     z-index: 9999 !important;
-    position: relative;
     pointer-events: auto !important;
 }
 
@@ -516,6 +561,8 @@
 .gmodal-layout {
     pointer-events: auto !important;
 }
+
+/* Кнопка закрытия на мобилках (слева внизу) */
 @media (max-width: 768px) {
     .gmodal-close-btn {
         bottom: 12px;
