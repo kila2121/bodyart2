@@ -22,6 +22,26 @@
     .sticky-action {
         flex-direction: column;
         border-radius: 30px;
+        padding: 16px 20px;
+        gap: 12px;
+        margin-top: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .sticky-action {
+        padding: 14px 16px;
+        margin-top: 20px;
+        bottom: 20px;
+        border-radius: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sticky-action {
+        padding: 12px 14px;
+        margin-top: 16px;
+        bottom: 16px;
     }
 }
 
@@ -48,6 +68,16 @@
 @media (max-width: 992px) {
     .appointment-btn {
         width: 100%;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .appointment-btn {
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        gap: 8px;
     }
 }
 
@@ -81,6 +111,15 @@
     .master-since {
         white-space: normal;
         text-align: center;
+        justify-content: center;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .master-since {
+        font-size: 0.8rem;
+        gap: 6px;
     }
 }
 

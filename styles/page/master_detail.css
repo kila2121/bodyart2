@@ -38,6 +38,7 @@
 @media (max-width: 992px) {
     .content-columns {
         grid-template-columns: 1fr;
+        gap: 30px;
     }
 }
 
@@ -45,11 +46,35 @@
     .master-content {
         padding: 30px 15px;
     }
+
+    .content-columns {
+        gap: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .master-content {
+        padding: 24px 12px;
+    }
+
+    .content-columns {
+        gap: 20px;
+    }
 }
 
 @media (max-width: 480px) {
     .master-content {
-        padding: 20px 12px;
+        padding: 20px 10px;
+    }
+
+    .content-columns {
+        gap: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .master-content {
+        padding: 16px 8px;
     }
 }
 
