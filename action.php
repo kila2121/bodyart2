@@ -66,6 +66,11 @@ if (isset($_REQUEST['action'])) {
                 $_SESSION['active_tab'] = 'reg';
                 header("Location: /index.php");
                 exit();
+            } elseif ($age > 100) {
+                $_SESSION['form_error'] = 'Вам должно быть не более 100 лет';
+                $_SESSION['form_data'] = $_REQUEST;
+                $_SESSION['active_tab'] = 'reg';
+                header("Location: /index.php");
             }
 
             if ($existing) {
@@ -231,7 +236,6 @@ if (isset($_REQUEST['action'])) {
                 exit;
             }
         }
-
         $mas = [
             'fio' => $_REQUEST['fio'],
             'phone' => $_REQUEST['phone'] ?? '',
@@ -261,13 +265,56 @@ if (isset($_REQUEST['action'])) {
                     Cache::delete('services_by_master_' . $id);
                 }
 
-                $_SESSION['success'] = 'Мастер успешно добавлен';
+                $fioParts = explode(' ', trim($_REQUEST['fio']));
+                $surname = $fioParts[0] ?? '';
+                $name = $fioParts[1] ?? '';
+                $patronymic = $fioParts[2] ?? '';
+
+                $loginBase = $surname;
+                if ($name) {
+                    $loginBase .= '_' . mb_substr($name, 0, 1);
+                }
+                if ($patronymic) {
+                    $loginBase .= mb_substr($patronymic, 0, 1);
+                }
+
+                $login = $db->translit($loginBase);
+                $checkLogin = $db->dbs->prepare("SELECT id FROM user WHERE login = ?");
+                $checkLogin->execute([$login]);
+                if ($checkLogin->fetch()) {
+                    $login = $login . '_' . time();
+                }
+
+                $defaultPassword = password_hash('123456', PASSWORD_DEFAULT);
+                $phone = !empty($_REQUEST['phone']) ? trim($_REQUEST['phone']) : null;
+                $email = !empty($_REQUEST['email']) ? trim($_REQUEST['email']) : null;
+
+                $mas = [
+                    'fio' => $_REQUEST['fio'],
+                    'login' => $login,
+                    'pass' => $defaultPassword,
+                    'phone' => $phone,
+                    'email' => $email,
+                    'status' => 80,
+                    'role' => 'master',
+                    'date_b' => date('Y-m-d'),
+                    'date_reg' => date('Y-m-d'),
+                    'avatar_url' => '/public/uploads/avatars/default.jpg',
+                    'last_login' => date('Y-m-d H:i:s'),
+                ];
+
+                if ($db->actionTable('add', $mas, 'user')) {
+                    $_SESSION['success'] = 'Мастер и его аккаунт успешно добавлены';
+                } else {
+                    $_SESSION['error'] = 'Ошибка при добавлении мастера-юзера';
+                }
+
             } else {
                 $_SESSION['error'] = 'Ошибка при добавлении мастера';
             }
         } catch (Exception $e) {
             error_log("Ошибка добавления мастера: " . $e->getMessage());
-            $_SESSION['error'] = 'Ошибка базы данных';
+            $_SESSION['error'] = 'Ошибка базы данных' . $e;
         }
         header("Location: /index.php?page=admin");
         exit();
@@ -1122,7 +1169,7 @@ if (isset($_REQUEST['action'])) {
 
         if ($_SESSION['status'] == 80) {
             header('Location: /index.php?page=masterProfile');
-        } elseif ($_SESSION['status'] == 1) {
+        } elseif ($_SESSION['status'] == 1 || $_SESSION['status'] == 100) {
             header("Location: /index.php?page=user");
         }
         exit;

@@ -8,9 +8,11 @@ if (!isset($_SESSION['id']) || $_SESSION['status'] !== 100) {
 // Получение данных
 try {
     $masters = $db->dbs->query("
-        SELECT * FROM master 
-        WHERE is_Active = 1 
-        ORDER BY fio
+        SELECT m.*, u.login
+        FROM master m
+        LEFT JOIN user u ON (u.phone = m.phone OR u.email = m.email) AND u.status = 80
+        WHERE m.is_Active = 1
+        ORDER BY m.fio
     ")->fetchAll(PDO::FETCH_ASSOC);
 
     $services = $db->dbs->query("
@@ -136,8 +138,11 @@ ob_start();
     }
 
     function showForm(formId) {
-        document.getElementById(formId).style.display = 'block';
-        document.getElementById(formId).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const form = document.getElementById(formId);
+        if (!form) return;
+
+        form.style.display = 'block';
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function hideForm(formId) {
@@ -255,8 +260,9 @@ ob_start();
             });
     }
 
-    // Сохраняем активную вкладку
+    // Инициализация при загрузке
     document.addEventListener('DOMContentLoaded', function () {
+        // Сохраняем активную вкладку
         const activeTab = localStorage.getItem('adminActiveTab');
         if (activeTab) {
             const tab = document.querySelector(`[onclick="showTab('${activeTab}')"]`);

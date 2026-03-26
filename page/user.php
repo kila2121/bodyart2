@@ -93,7 +93,7 @@ ob_start();
             <div class="empty-state">
                 <i class="fas fa-calendar-times"></i>
                 <p>У вас пока нет записей</p>
-                <a href="/page/services.php" class="button">Записаться</a>
+                <a href="/index.php?page=services" class="button">Записаться</a>
             </div>
         <?php else: ?>
             <?php include_once "component/user_component/appointment_list/appointment_list.php"; ?>

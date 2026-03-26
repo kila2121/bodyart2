@@ -11,10 +11,12 @@
             <input type="text" name="fio" placeholder="ФИО" required>
             <input type="text" name="spec" placeholder="Специализация" required>
             <input type="number" name="experience" placeholder="Опыт (лет)" required>
+            <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
+            <input type="email" name="email" id="email" placeholder="Почта" required>
             <textarea name="description" placeholder="Описание" required></textarea>
             <input type="file" name="photo">
             <div>
-                <button type="submit" class="btn btn-success">Сохранить</button>
+                <button type="submit" class="btn btn-success" id="submitBtn">Сохранить</button>
                 <button type="button" class="btn" onclick="hideForm('addMasterForm')">Отмена</button>
             </div>
         </form>
@@ -47,7 +49,14 @@
                 <label>Описание:</label>
                 <textarea name="description" id="edit_master_description" placeholder="Описание" required></textarea>
             </div>
-
+            <div class="form-group">
+                <label>Телефон:</label>
+                <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
+            </div>
+            <div class="form-group">
+                <label>Почта:</label>
+                <input type="email" name="email" id="email" placeholder="Почта" required>
+            </div>
             <div class="form-group">
                 <label>Текущее фото:</label>
                 <div id="current_master_photo"></div>
@@ -71,6 +80,7 @@
                     <th>Специализация</th>
                     <th>Опыт</th>
                     <th>Действия</th>
+                    <th>Первичный Логин</th>
                 </tr>
             </thead>
             <tbody>
@@ -88,6 +98,7 @@
                                 <button type="submit" class="btn btn-danger">🗑️</button>
                             </form>
                         </td>
+                        <td><?= htmlspecialchars($m['login'] ?? 'Еще не создан аккаунт') ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
