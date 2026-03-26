@@ -8,7 +8,6 @@ $formSuccess = $_SESSION['success'] ?? '';
 
 unset($_SESSION['form_data']);
 unset($_SESSION['form_error']);
-unset($_SESSION['success']);
 unset($_SESSION['active_tab']);
 
 function renderForm($tab = 'reg', $formData = [], $error = '', $success = '')
