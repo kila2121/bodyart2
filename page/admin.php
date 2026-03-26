@@ -103,12 +103,12 @@ ob_start();
 
     <!-- Мастера -->
     <?php
-    include_once "component\admin_panel\masters_section\masters.php";
+    include_once "component/admin_panel/masters_section/masters.php";
     ?>
 
     <!-- Услуги -->
     <?php
-    include_once "component\admin_panel\services_section\services.php";
+    include_once "component/admin_panel/services_section/services.php";
     ?>
 
     <!-- Отзывы -->
