@@ -1,8 +1,6 @@
 <?php
-// Получаем данные из глобальной переменной
 $appoint = $GLOBALS['master_appointments'] ?? [];
 
-// Фильтруем только выполненные заказы
 $completedAppointments = array_filter($appoint, function ($app) {
     return isset($app['status']) && $app['status'] === 'completed';
 });

@@ -1,6 +1,5 @@
 <?php
 
-// Проверяем, авторизован ли пользователь
 if (!isset($_SESSION['id'])) {
     $_SESSION['error'] = 'Необходимо авторизоваться';
     header("Location: /index.php");
@@ -9,7 +8,6 @@ if (!isset($_SESSION['id'])) {
 
 $userId = $_SESSION['id'];
 
-// Получаем данные пользователя
 $user = null;
 try {
     $stmt = $db->dbs->prepare("SELECT * FROM user WHERE id = ?");
@@ -24,7 +22,6 @@ if (!$user) {
     exit;
 }
 
-// Получаем записи пользователя
 $appointments = [];
 try {
     $stmt = $db->dbs->prepare("
@@ -45,7 +42,6 @@ try {
     error_log("Ошибка получения записей: " . $e->getMessage());
 }
 
-// Подсчет статистики
 $totalAppointments = count($appointments);
 $completedAppointments = 0;
 $upcomingAppointments = 0;
@@ -67,7 +63,8 @@ ob_start();
     <div class="profile-header">
         <div class="profile-avatar">
             <?php if (!empty($user['avatar_url'])): ?>
-                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>">
+                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>"
+                    loading="lazy">
             <?php else: ?>
                 <div class="avatar-placeholder">
                     <?= mb_strtoupper(mb_substr($user['login'] ?: $user['fio'], 0, 1)) ?>
@@ -138,7 +135,6 @@ ob_start();
         }
     }
 
-    // Переключение табов
     document.addEventListener('DOMContentLoaded', function () {
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -150,20 +146,17 @@ ob_start();
             document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
             document.getElementById(tabId + '-tab').classList.add('active');
 
-            // Сохраняем в URL hash
             window.location.hash = tabId;
         }
 
-        // Проверяем hash при загрузке
         if (window.location.hash) {
-            const tab = window.location.hash.substring(1); // убираем #
+            const tab = window.location.hash.substring(1);
             const activeBtn = document.querySelector(`[data-tab="${tab}"]`);
             if (activeBtn) {
                 switchTab(tab);
             }
         }
 
-        // Обработчики кликов
         tabBtns.forEach(btn => {
             btn.addEventListener('click', function () {
                 const tab = this.dataset.tab;

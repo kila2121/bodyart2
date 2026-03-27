@@ -22,7 +22,6 @@ if (!$master) {
     exit;
 }
 
-// Получаем работы мастера из галереи
 $works = [];
 try {
     $stmt = $db->dbs->prepare("
@@ -38,7 +37,6 @@ try {
     error_log("Ошибка получения работ мастера: " . $e->getMessage());
 }
 
-// Получаем отзывы на мастера с аватарами пользователей
 $reviews = [];
 try {
     $stmt = $db->dbs->prepare("
@@ -56,7 +54,6 @@ try {
     error_log("Ошибка получения отзывов: " . $e->getMessage());
 }
 
-// Получаем услуги мастера
 $masterServices = [];
 try {
     $stmt = $db->dbs->prepare("
@@ -74,7 +71,6 @@ try {
     error_log("Ошибка получения услуг мастера: " . $e->getMessage());
 }
 
-// Считаем количество выполненных работ
 $worksCount = 0;
 try {
     $stmt = $db->dbs->prepare("
@@ -92,31 +88,22 @@ ob_start();
 ?>
 
 <section class="master-detail">
-    <!-- Hero секция с фото мастера -->
     <?php include_once "component/details_master_component/hero/hero.php"; ?>
 
-    <!-- Основной контент -->
     <div class="master-content">
         <div class="master-content-inner">
-            <!-- Две колонки -->
             <div class="content-columns">
-                <!-- Левая колонка -->
                 <div class="content-column left-column">
-                    <!-- О мастере -->
                     <?php include_once "component/details_master_component/aboutMaster/aboutMaster.php"; ?>
 
-                    <!-- Контакты -->
                     <?php include_once "component/details_master_component/contact/contact.php"; ?>
                 </div>
 
-                <!-- Правая колонка -->
                 <div class="content-column right-column">
-                    <!-- Работы мастера -->
                     <?php if (!empty($works)): ?>
                         <?php include_once "component/details_master_component/master_work/master_work.php"; ?>
                     <?php endif; ?>
 
-                    <!-- Отзывы -->
                     <?php if (!empty($reviews)):
                         include_once "component/details_master_component/reviews/reviews.php";
                     else: ?>
@@ -129,19 +116,12 @@ ob_start();
                         </div>
                     <?php endif; ?>
 
-                    <!-- Кнопка записи -->
                     <?php include_once "component/details_master_component/sticky-action/sticky-action.php"; ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<script>
-    function bookAppointment(masterId) {
-        window.location.href = '/page/appointment.php?master=' + masterId;
-    }
-</script>
 
 <?php
 $content = ob_get_clean();

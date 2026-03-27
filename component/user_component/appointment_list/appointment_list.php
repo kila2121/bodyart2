@@ -36,7 +36,7 @@
                     <div class="master-avatar-small">
                         <?php if (!empty($app['master_avatar'])): ?>
                             <img src="<?= htmlspecialchars($app['master_avatar']) ?>"
-                                alt="<?= htmlspecialchars($app['master_name']) ?>">
+                                alt="<?= htmlspecialchars($app['master_name']) ?>" loading="lazy">
                         <?php else: ?>
                             <div class="avatar-placeholder small">
                                 <?= mb_strtoupper(mb_substr($app['master_name'] ?: 'М', 0, 1)) ?>
@@ -61,7 +61,7 @@
 
             <div class="appointment-footer">
                 <?php if ($app['status'] === 'completed' && !$app['review_id']): ?>
-                    <button class="button button-review" onclick="console.log(<?= $app['id'] ?>);showReview(<?= $app['id'] ?>)">
+                    <button class="button button-review" onclick="showReview(<?= $app['id'] ?>)">
                         <i class="fas fa-star"></i> Оставить отзыв
                     </button>
                 <?php elseif ($app['review_id']): ?>
@@ -98,12 +98,10 @@
         console.log('ID записи:', appointmentId);
         console.log('Ищем элемент:', 'review-form-' + appointmentId);
         console.log('Найден элемент:', document.getElementById('review-form-' + appointmentId));
-        // Скрываем все открытые формы
         document.querySelectorAll('.review-form-container').forEach(form => {
             form.style.display = 'none';
         });
 
-        // Показываем форму для этой записи
         const form = document.getElementById('review-form-' + appointmentId);
         if (form) {
             form.style.display = 'block';

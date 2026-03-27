@@ -5,7 +5,6 @@ if (!isset($_SESSION['id']) || $_SESSION['status'] !== 100) {
     exit();
 }
 
-// Получение данных
 try {
     $masters = $db->dbs->query("
         SELECT m.*, u.login
@@ -68,7 +67,6 @@ ob_start();
 <div class="admin-panel">
     <h1>Админ-панель</h1>
 
-    <!-- Статистика -->
     <div class="stats">
         <div class="stat-card">
             <div class="number"><?= $stats['total_masters'] ?? 0 ?></div>
@@ -92,7 +90,6 @@ ob_start();
         </div>
     </div>
 
-    <!-- Вкладки -->
     <div class="nav-tabs">
         <button class="active" onclick="showTab('masters')">Мастера</button>
         <button onclick="showTab('services')">Услуги</button>
@@ -103,27 +100,22 @@ ob_start();
             <?= $stats['pending_appointments'] ? '(' . $stats['pending_appointments'] . ')' : '' ?></button>
     </div>
 
-    <!-- Мастера -->
     <?php
     include_once "component/admin_panel/masters_section/masters.php";
     ?>
 
-    <!-- Услуги -->
     <?php
     include_once "component/admin_panel/services_section/services.php";
     ?>
 
-    <!-- Отзывы -->
     <?php
     include_once "component/admin_panel/reviews_section/reviews.php";
     ?>
 
-    <!-- Пользователи -->
     <?php
     include_once "component/admin_panel/users_section/users.php";
     ?>
 
-    <!-- Записи -->
     <?php
     include_once "component/admin_panel/appoint_section/appoint.php";
     ?>
@@ -260,9 +252,7 @@ ob_start();
             });
     }
 
-    // Инициализация при загрузке
     document.addEventListener('DOMContentLoaded', function () {
-        // Сохраняем активную вкладку
         const activeTab = localStorage.getItem('adminActiveTab');
         if (activeTab) {
             const tab = document.querySelector(`[onclick="showTab('${activeTab}')"]`);

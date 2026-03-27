@@ -7,7 +7,7 @@
     </div>
     <div class="works-grid">
         <?php foreach ($works as $work): ?>
-            <div class="work-item" onclick="window.location.href='/page/gallery.php?id=<?= $work['id'] ?>'">
+            <div class="work-item" onclick="window.location.href='/index.php?page=gallery&id=<?= $work['id'] ?>'">
                 <img src="<?= htmlspecialchars($work['url']) ?>"
                     alt="<?= htmlspecialchars($work['title'] ?? 'Работа мастера') ?>" loading="lazy">
                 <?php if (!empty($work['title'])): ?>

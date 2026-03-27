@@ -7,7 +7,6 @@ if (!isset($_SESSION['id']) || $_SESSION['role'] !== 'master') {
 
 $userId = $_SESSION['id'];
 
-// ===== 2. ПОЛУЧЕНИЕ ДАННЫХ ПОЛЬЗОВАТЕЛЯ =====
 try {
     $stmt = $db->dbs->prepare("SELECT * FROM user WHERE id = ?");
     $stmt->execute([$userId]);
@@ -23,7 +22,6 @@ try {
     exit;
 }
 
-// ===== 3. ПОЛУЧЕНИЕ ДАННЫХ МАСТЕРА =====
 try {
     $stmt = $db->dbs->prepare("SELECT * FROM master WHERE email = ? OR phone = ?");
     $stmt->execute([$user['email'], $user['phone']]);
@@ -33,7 +31,6 @@ try {
     $master = null;
 }
 
-// ===== 4. ПОЛУЧЕНИЕ ДАННЫХ (если мастер найден) =====
 $toMeAppointments = [];
 $appointments = [];
 $works = [];
@@ -43,7 +40,6 @@ if ($master) {
     $masterId = $master['id'];
 
     try {
-        // 4.1 Записи
         $stmt = $db->dbs->prepare("
             SELECT a.*, s.name as service_name, s.price,
                    u.fio as client_name, u.phone as client_phone
@@ -56,7 +52,6 @@ if ($master) {
         $stmt->execute([$masterId]);
         $toMeAppointments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 4.2 Работы
         $stmt = $db->dbs->prepare("
             SELECT g.*, a.id as appointment_id, a.start_time
             FROM gallery g
@@ -67,7 +62,6 @@ if ($master) {
         $stmt->execute([$masterId]);
         $works = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // 4.3 Статистика
         foreach ($toMeAppointments as $app) {
             if ($app['status'] === 'completed')
                 $stats['completed']++;
@@ -103,7 +97,6 @@ if ($master) {
     }
 }
 
-// ===== 5. ПЕРЕДАЧА ДАННЫХ В ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
 $GLOBALS['master_appointments'] = $toMeAppointments;
 $GLOBALS['master_by_master'] = $appointments;
 $GLOBALS['master_data'] = $master;
@@ -112,15 +105,14 @@ $GLOBALS['show_upload_button'] = true;
 ob_start();
 ?>
 
-<!-- ===== 6. ВЫВОД ===== -->
 <div class="user-profile master-profile">
     <?php include_once "component/change_theme/changeTheme.php"; ?>
 
-    <!-- Шапка профиля -->
     <div class="profile-header">
         <div class="profile-avatar">
             <?php if (!empty($user['avatar_url']) && $user['avatar_url'] !== '/public/uploads/avatars/default.jpg'): ?>
-                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>">
+                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>"
+                    loading="lazy">
             <?php else: ?>
                 <div class="avatar-placeholder">
                     <?= mb_strtoupper(mb_substr($user['login'] ?: $user['fio'], 0, 1)) ?>
@@ -139,7 +131,6 @@ ob_start();
         </div>
     </div>
 
-    <!-- Статистика -->
     <?php if ($master): ?>
         <?php include "component/master_profile_component/stats/stats.php"; ?>
     <?php else: ?>
@@ -199,7 +190,6 @@ ob_start();
     <?php endif; ?>
 </div>
 
-<!-- Модальное окно (без изменений) -->
 <div class="modal-overlay" id="upload-modal-overlay"></div>
 <div class="modal" id="upload-modal">
     <button class="modal-close" onclick="closeUploadModal()">&times;</button>
@@ -224,14 +214,12 @@ ob_start();
     </div>
 </div>
 
-<!-- Форма для аватара (без изменений) -->
 <form id="avatar-upload-form" method="POST" action="/action.php?action=upload_avatar" enctype="multipart/form-data"
     style="display: none;">
     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
     <input type="file" name="avatar" id="avatar-input" accept="image/jpeg,image/png,image/gif,image/webp">
 </form>
 
-<!-- Скрипты (без изменений) -->
 <script>
     function openUploadModal(appointmentId) {
         document.getElementById('upload-appointment-id').value = appointmentId;
@@ -247,7 +235,6 @@ ob_start();
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        // Табы
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -258,11 +245,9 @@ ob_start();
             document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
             document.getElementById(tabId + '-tab').classList.add('active');
 
-            // Сохраняем в URL hash
             window.location.hash = tabId;
         }
 
-        // Проверяем hash при загрузке
         if (window.location.hash) {
             const tab = window.location.hash.substring(1); // убираем #
             const activeBtn = document.querySelector(`[data-tab="${tab}"]`);
@@ -271,7 +256,6 @@ ob_start();
             }
         }
 
-        // Обработчики кликов
         tabBtns.forEach(btn => {
             btn.addEventListener('click', function () {
                 const tab = this.dataset.tab;
@@ -279,10 +263,8 @@ ob_start();
             });
         });
 
-        // Закрытие модалки
         document.getElementById('upload-modal-overlay').addEventListener('click', closeUploadModal);
 
-        // Аватар
         const avatarContainer = document.querySelector(".profile-avatar");
         const avatarInput = document.getElementById('avatar-input');
 

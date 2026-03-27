@@ -27,45 +27,43 @@
 
 <script>
     function openMasterModal(masterId, masterName, masterSpec) {
-        // Показываем модалку
         document.querySelector('.appointment-modal-overlay').classList.add('active');
         document.querySelector('.appointment-modal').classList.add('active');
         document.body.classList.add('modal-open');
 
-        // Меняем заголовок
         document.getElementById('modal-title').innerText = 'Запись к мастеру ' + masterName;
 
-        // Показываем форму мастера, скрываем форму услуги
         document.getElementById('form-master').style.display = 'block';
         document.getElementById('form-service').style.display = 'none';
 
-        // Устанавливаем ID мастера в скрытое поле
         document.getElementById('selected-master-id').value = masterId;
 
-        // Загружаем услуги мастера
         const serviceSelect = document.getElementById('service-select-master');
         serviceSelect.disabled = true;
         serviceSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
 
-        fetch('/api/get_services_by_master.php?master_id=' + masterId)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.services.length > 0) {
-                    serviceSelect.innerHTML = '<option value="">Выберите услугу</option>';
-                    data.services.forEach(service => {
-                        const option = document.createElement('option');
-                        option.value = service.id;
-                        option.textContent = service.name + ' - ' + service.price + ' ₽ (' + service.duration + ' мин)';
-                        serviceSelect.appendChild(option);
-                    });
-                    serviceSelect.disabled = false;
-                } else {
-                    serviceSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
-                    serviceSelect.disabled = true;
-                }
-            });
+        async function getServiceByMaster() {
+            await fetch('/api/get_services_by_master.php?master_id=' + masterId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.services.length > 0) {
+                        serviceSelect.innerHTML = '<option value="">Выберите услугу</option>';
+                        data.services.forEach(service => {
+                            const option = document.createElement('option');
+                            option.value = service.id;
+                            option.textContent = service.name + ' - ' + service.price + ' ₽ (' + service.duration + ' мин)';
+                            serviceSelect.appendChild(option);
+                        });
+                        serviceSelect.disabled = false;
+                    } else {
+                        serviceSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
+                        serviceSelect.disabled = true;
+                    }
+                });
+        }
 
-        // Сбрасываем дату и время
+        getServiceByMaster();
+
         const dateInput = document.getElementById('appointment-date-master');
         const timeSelect = document.getElementById('appointment-time-master');
         dateInput.disabled = true;
@@ -73,12 +71,10 @@
         timeSelect.disabled = true;
         timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
 
-        // Обработчик выбора услуги
         serviceSelect.onchange = function () {
             if (this.value) {
                 dateInput.disabled = false;
                 document.getElementById('modal-service-id-master').value = this.value;
-                // Сбрасываем время при смене услуги
                 timeSelect.disabled = true;
                 timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
             } else {
@@ -89,7 +85,6 @@
             }
         };
 
-        // Обработчик выбора даты
         dateInput.onchange = function () {
             const serviceId = serviceSelect.value;
 
@@ -128,7 +123,6 @@
         document.body.classList.remove('modal-open');
     }
 
-    // Закрытие по ESC
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeAppointmentModal();

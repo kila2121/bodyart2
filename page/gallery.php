@@ -3,6 +3,22 @@
 $allGallery = [];
 $categories = [];
 
+
+if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
+    $id = (int) $_GET["id"];
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (typeof openModalById === 'function') {
+                openModalById(<?= $id ?>);
+            }
+        });
+    </script>
+    <?php
+}
+?>
+
+<?php
 try {
     if (!$db || !$db->dbs) {
         throw new Exception("Не удалось подключиться");
@@ -92,6 +108,13 @@ ob_start();
 </div>
 
 <script>
+    window.openModalById = function (id) {
+        console.log('openModalById вызван с id:', id);
+        updateAllItems();
+        const index = allItems.findIndex(item => item.dataset.id == id);
+        if (index !== -1) showModalByIndex(index);
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         console.log('DOM загружен, инициализация галереи');
 
@@ -177,7 +200,6 @@ ob_start();
             if (index !== -1) showModalByIndex(index);
         }
 
-        // ПРОВЕРКА: Добавляем обработчик клика прямо на body для теста
         document.body.addEventListener('click', function (e) {
             const navBtn = e.target.closest('.gmodal-nav-btn');
             if (navBtn && modal.classList.contains('active')) {
@@ -212,7 +234,6 @@ ob_start();
             }
         });
 
-        // Клик по карточке
         galleryContainer.addEventListener('click', function (e) {
             const card = e.target.closest('.gallery-item');
             if (card) {
@@ -241,7 +262,6 @@ ob_start();
             }
         });
 
-        // Фильтрация галереи
         const filterButtons = document.querySelectorAll('.gallery-filter .filter-btn');
         function filterGallery(filterValue) {
             console.log('Фильтрация по:', filterValue);
@@ -271,11 +291,9 @@ ob_start();
             }
         }
 
-        // Инициализация
         updateAllItems();
         console.log('Инициализация завершена, количество элементов:', allItems.length);
 
-        // Свайпы для мобильных устройств
         let touchstartX = 0;
         modal.addEventListener('touchstart', e => {
             touchstartX = e.changedTouches[0].screenX;

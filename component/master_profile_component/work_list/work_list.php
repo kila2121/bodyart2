@@ -4,7 +4,7 @@
             <div class="work-image">
                 <img src="<?= htmlspecialchars($work['url']) ?>"
                     alt="<?= htmlspecialchars($work['title'] ?: 'Фото работы') ?>"
-                    onerror="this.src='/public/uploads/gallery_work/default.jpg'">
+                    onerror="this.src='/public/uploads/gallery_work/default.jpg'" loading="lazy">
 
                 <?php if (!empty($work['title'])): ?>
                     <div class="work-title-overlay"><?= htmlspecialchars($work['title']) ?></div>
