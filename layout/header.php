@@ -86,11 +86,8 @@
     <?php include __DIR__ . "/../component/modal_window/reg_form.php"; ?>
 </div>
 
-<link rel="stylesheet" href="/component/modal_window/style_reg_form.css">
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Модальное окно
         const modal = document.querySelector('.modal');
         const overlay = document.querySelector('.modal-overlay');
         const openBtn = document.getElementById('openModalBtn');
@@ -130,7 +127,6 @@
             });
         }
 
-        // Бургер-меню
         const burger = document.querySelector('.burger-menu');
         const navLinks = document.querySelector('.nav_links');
         const menuOverlay = document.querySelector('.menu-overlay');
@@ -161,12 +157,10 @@
 
             menuOverlay.addEventListener('click', closeMenu);
 
-            // Закрытие при клике по ссылке
             navLinks.querySelectorAll('.nav_link').forEach(link => {
                 link.addEventListener('click', closeMenu);
             });
 
-            // Закрытие при изменении размера окна (если меню было открыто)
             window.addEventListener('resize', function () {
                 if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
                     closeMenu();

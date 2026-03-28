@@ -99,22 +99,17 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="/component/modal_window/appointment_form.css">
-
 <script>
     function openServiceModal(serviceId) {
-        // Показываем модалку
         document.querySelector('.appointment-modal-overlay').classList.add('active');
         document.querySelector('.appointment-modal').classList.add('active');
         document.body.classList.add('modal-open');
 
         document.getElementById('modal-title').textContent = 'Запись на услугу';
 
-        // Скрываем форму мастера, показываем форму услуги
         document.getElementById('form-master').style.display = 'none';
         document.getElementById('form-service').style.display = 'block';
 
-        // Загружаем данные услуги
         fetch('/api/get_service_by_id.php?id=' + serviceId)
             .then(r => r.json())
             .then(data => {

@@ -28,19 +28,14 @@ ob_start();
 <div class="home-content">
     <?php include_once "component/change_theme/changeTheme.php"; ?>
 
-    <!-- Преимущества -->
     <?php include_once "component/index_component/advantages/advantages.php"; ?>
 
-    <!-- О студии -->
     <?php include_once "component/index_component/aboutUs/aboutUs.php"; ?>
 
-    <!-- Популярные услуги -->
     <?php include_once "component/index_component/popularServices/popularServices.php"; ?>
 
-    <!-- Отзывы -->
     <?php include_once "component/index_component/reviews/reviews.php"; ?>
 
-    <!-- Призыв к действию -->
     <?php include_once "component/index_component/goAppointment/goAppointment.php"; ?>
 
     <?php include_once "component/index_component/contact_section/contact_section.php"; ?>
@@ -57,6 +52,8 @@ $template->addStyle("/component/index_component/reviews/reviews.css");
 $template->addStyle("/component/index_component/goAppointment/goAppointment.css");
 $template->addStyle("/component/index_component/contact_section/contact_section.css");
 $template->addStyle("/component/change_theme/changeTheme.css");
+$template->addStyle("/component/modal_window/style_reg_form.css");
+$template->addStyle("/component/modal_window/appointment_form.css");
 $template->addStyle("/styles/page/index.css");
 $template->render($content);
 ?>

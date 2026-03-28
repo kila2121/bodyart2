@@ -101,7 +101,6 @@ function renderCards($services)
 echo renderCards($services);
 ?>
 
-<!-- Модалка записи -->
 <div class="appointment-modal-overlay" onclick="closeAppointmentModal()"></div>
 <div class="appointment-modal">
     <div class="modal-header">
@@ -112,8 +111,6 @@ echo renderCards($services);
         <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/component/modal_window/appointment_form.php"; ?>
     </div>
 </div>
-
-<link rel="stylesheet" href="/component/modal_window/appointment_form.css">
 
 <script>
     function openServiceModal(serviceId) {
