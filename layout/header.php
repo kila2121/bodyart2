@@ -2,7 +2,7 @@
     <div class="headerContent">
         <div class="nav">
             <div class="logo">
-                <img src="../public/logo.jpg" alt="Логотип BodyArt Studio" width="60" height="60" class="logo_img">
+                <img src="../public/logo.webp" alt="Логотип BodyArt Studio" width="60" height="60" class="logo_img">
                 <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
             </div>
             <nav class="nav_links">
