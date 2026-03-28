@@ -1,13 +1,11 @@
-/* ========== HERO SECTION - FULLY OPTIMIZED ========== */
+/* ========== HERO SECTION – ГАРАНТИРОВАННЫЙ ФОН ========== */
 
-/* Базовые переменные для адаптации */
 :root {
     --hero-padding-top: clamp(60px, 10vh, 120px);
     --hero-padding-bottom: clamp(30px, 5vh, 80px);
     --hero-margin-bottom: clamp(30px, 6vh, 100px);
 }
 
-/* Контейнер hero */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -21,27 +19,44 @@
     width: 100%;
     margin: 0 0 var(--hero-margin-bottom) 0;
     isolation: isolate;
-    contain: layout style paint;
 }
 
-/* Фоновое изображение */
-.hero-background {
+/* Обёртка для фона – гарантированное отображение */
+.hero-bg-wrapper {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 0;
-    pointer-events: none;
+    overflow: hidden;
 }
 
-.hero-background img,
-.hero-background source {
+.hero-bg-wrapper picture,
+.hero-bg-wrapper img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.hero-background-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
     display: block;
+}
+
+/* Fallback, если изображение не загрузилось */
+.hero-bg-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    z-index: -1;
 }
 
 /* Оверлей */
@@ -70,7 +85,6 @@
     padding: 0 clamp(16px, 4vw, 32px);
 }
 
-/* Заголовок */
 .head {
     margin-bottom: clamp(24px, 5vh, 50px);
 }
@@ -118,7 +132,6 @@
     transform: scaleX(1);
 }
 
-/* Подзаголовок */
 .subtitle {
     font-size: clamp(14px, 2.5vw, 20px);
     max-width: min(800px, 95%);
@@ -148,7 +161,6 @@
     margin-bottom: clamp(32px, 5vh, 60px);
 }
 
-/* Десктоп: 4 колонки */
 @media (min-width: 1200px) {
     .grid_container {
         grid-template-columns: repeat(4, 1fr);
@@ -156,7 +168,6 @@
     }
 }
 
-/* Планшеты: 2 колонки */
 @media (min-width: 768px) and (max-width: 1199px) {
     .grid_container {
         grid-template-columns: repeat(2, 1fr);
@@ -164,7 +175,6 @@
     }
 }
 
-/* Мобильные: 1 колонка */
 @media (max-width: 767px) {
     .grid_container {
         grid-template-columns: 1fr;
@@ -184,7 +194,6 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    will-change: transform;
 }
 
 [data-theme="light"] .card {
@@ -201,11 +210,6 @@
     }
 }
 
-[data-theme="light"] .card:hover {
-    background: white;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-}
-
 .card .icons {
     font-size: clamp(28px, 5vw, 40px);
     color: var(--accent-color);
@@ -220,20 +224,12 @@
     font-weight: 600;
 }
 
-[data-theme="light"] .card h3 {
-    color: var(--text-color);
-}
-
 .card p {
     font-size: clamp(12px, 2vw, 14px);
     opacity: 0.8;
     line-height: 1.5;
     color: white;
     margin: 0;
-}
-
-[data-theme="light"] .card p {
-    color: var(--text-secondary);
 }
 
 /* Блок доверия */
@@ -247,7 +243,6 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Десктоп: 4 колонки */
 @media (min-width: 992px) {
     .trust {
         grid-template-columns: repeat(4, 1fr);
@@ -255,7 +250,6 @@
     }
 }
 
-/* Планшеты: 2 колонки */
 @media (min-width: 576px) and (max-width: 991px) {
     .trust {
         grid-template-columns: repeat(2, 1fr);
@@ -263,7 +257,6 @@
     }
 }
 
-/* Мобильные: 1 колонка */
 @media (max-width: 575px) {
     .trust {
         grid-template-columns: 1fr;
@@ -283,7 +276,6 @@
     gap: 15px;
 }
 
-/* Адаптация для планшетов */
 @media (min-width: 576px) and (max-width: 991px) {
     .trust_item {
         flex-direction: column;
@@ -292,7 +284,6 @@
     }
 }
 
-/* Мобильные - горизонтальное расположение */
 @media (max-width: 575px) {
     .trust_item {
         flex-direction: row;
@@ -321,7 +312,6 @@
     gap: 4px;
 }
 
-/* Центрирование для планшетов */
 @media (min-width: 576px) and (max-width: 991px) {
     .trust_info {
         align-items: center;
@@ -329,7 +319,6 @@
     }
 }
 
-/* Выравнивание по левому краю для мобильных */
 @media (max-width: 575px) {
     .trust_info {
         align-items: flex-start;
@@ -352,10 +341,6 @@
     opacity: 0.8;
     color: white;
     font-weight: 500;
-}
-
-[data-theme="light"] .trust_label {
-    color: var(--text-secondary);
 }
 
 /* Скролл индикатор */
@@ -399,11 +384,6 @@
     letter-spacing: 0.5px;
 }
 
-[data-theme="light"] .scroll_text {
-    color: var(--text-secondary);
-}
-
-/* Анимация */
 @keyframes bounce {
 
     0%,
@@ -423,9 +403,7 @@
     }
 }
 
-/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ (МАКСИМАЛЬНАЯ) ========== */
-
-/* Планшеты (768px - 991px) */
+/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
 @media (max-width: 991px) {
     .hero {
         min-height: auto;
@@ -441,7 +419,6 @@
     }
 }
 
-/* Мобильные телефоны (576px - 767px) */
 @media (max-width: 767px) {
     .hero {
         padding: 50px 0 30px;
@@ -517,9 +494,27 @@
     .scroll_arrow .icons2 {
         font-size: 16px;
     }
+
+    .hero-bg-wrapper {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+    }
+
+    .hero-background-img {
+        object-fit: cover;
+        object-position: center 30%;
+        min-height: 100%;
+        min-width: 100%;
+    }
+
+    .hero-bg-wrapper::after {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1f1f1f 100%);
+    }
 }
 
-/* Маленькие телефоны (375px - 575px) */
 @media (max-width: 575px) {
     .hero {
         padding: 40px 0 25px;
@@ -593,9 +588,16 @@
         font-size: 10px;
         max-width: 180px;
     }
+
+    .hero-bg-wrapper {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1f1f1f 100%);
+    }
+
+    .hero-background-img {
+        opacity: 0.9;
+    }
 }
 
-/* Очень маленькие телефоны (до 374px) */
 @media (max-width: 374px) {
     .hero {
         padding: 30px 0 20px;
@@ -646,18 +648,16 @@
     }
 }
 
-/* Оптимизация для устройств с высоким DPI */
+/* Оптимизация для высокого DPI */
 @media (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
-
-    .hero-background img,
-    .hero-background source {
+    .hero-background-img {
         image-rendering: -webkit-optimize-contrast;
         image-rendering: crisp-edges;
     }
 }
 
-/* Улучшение производительности */
+/* Уважение к настройкам пользователя */
 @media (prefers-reduced-motion: reduce) {
 
     .card,
@@ -675,7 +675,7 @@
     }
 }
 
-/* Оптимизация для печати */
+/* Печать */
 @media print {
     .hero {
         min-height: auto;
@@ -683,7 +683,7 @@
         color: black;
     }
 
-    .hero-background,
+    .hero-bg-wrapper,
     .hero-overlay,
     .scroll_indicator {
         display: none;
