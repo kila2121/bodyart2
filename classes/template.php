@@ -58,11 +58,24 @@ class Template
             <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2"
                 as="font" type="font/woff2" crossorigin>
 
+            <?php if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/public/hero.webp')): ?>
+                <link rel="preload" as="image" href="/public/hero.webp" fetchpriority="high">
+            <?php else: ?>
+                <link rel="preload" as="image" href="/public/hero.jpg" fetchpriority="high">
+            <?php endif; ?>
+
             <link rel="preload" href="<?= $this->baseUrl . "styles/global_style.css" ?>" as="style"
                 onload="this.onload=null;this.rel='stylesheet'">
             <noscript>
                 <link rel="stylesheet" href="<?= $this->baseUrl . "styles/global_style.css" ?>">
             </noscript>
+
+            <?php foreach ($this->styles as $style): ?>
+                <link rel="preload" href="<?= $style ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+                <noscript>
+                    <link rel="stylesheet" href="<?= $style ?>">
+                </noscript>
+            <?php endforeach; ?>
 
             <link rel="preload" href="<?= $this->baseUrl . "component/message/message.css" ?>" as="style"
                 onload="this.onload=null;this.rel='stylesheet'">
@@ -81,19 +94,6 @@ class Template
             <noscript>
                 <link rel="stylesheet" href="<?= $this->baseUrl . "component/modal_window/appointment_form.css" ?>">
             </noscript>
-
-            <?php if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/public/hero.webp')): ?>
-                <link rel="preload" as="image" href="/public/hero.webp" fetchpriority="high">
-            <?php else: ?>
-                <link rel="preload" as="image" href="/public/hero.jpg" fetchpriority="high">
-            <?php endif; ?>
-
-            <?php foreach ($this->styles as $style): ?>
-                <link rel="preload" href="<?= $style ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
-                <noscript>
-                    <link rel="stylesheet" href="<?= $style ?>">
-                </noscript>
-            <?php endforeach; ?>
         </head>
 
         <body data-form-error="<?= $hasFormError ?>" data-active-tab="<?= $activeTab ?>">
