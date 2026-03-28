@@ -13,8 +13,22 @@ if ($stats === false) {
 
 list($happyUsers, $completeWork, $avarageRaiting, $competedUsers) = $stats;
 
+$heroImageJpg = '/public/hero.jpg';
+$heroImageWebp = '/public/hero.webp';
+$webpExists = file_exists($_SERVER['DOCUMENT_ROOT'] . $heroImageWebp);
 ?>
+
 <div class="hero">
+    <picture class="hero-background">
+        <?php if ($webpExists): ?>
+            <source srcset="<?= $heroImageWebp ?>" type="image/webp">
+        <?php endif; ?>
+        <img src="<?= $heroImageJpg ?>" alt="BodyArt Studio — студия татуировок и пирсинга" fetchpriority="high"
+            width="1920" height="1080" decoding="async">
+    </picture>
+
+    <div class="hero-overlay"></div>
+
     <div class="hero_content">
         <div class="head">
             <h1 class="title">
