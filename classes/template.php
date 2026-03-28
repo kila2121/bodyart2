@@ -82,9 +82,10 @@ class Template
                 <link rel="stylesheet" href="<?= $this->baseUrl . "component/modal_window/appointment_form.css" ?>">
             </noscript>
 
-            <link rel="preload" as="image" href="/public/hero.jpg" fetchpriority="high">
             <?php if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/public/hero.webp')): ?>
                 <link rel="preload" as="image" href="/public/hero.webp" fetchpriority="high">
+            <?php else: ?>
+                <link rel="preload" as="image" href="/public/hero.jpg" fetchpriority="high">
             <?php endif; ?>
 
             <?php foreach ($this->styles as $style): ?>
