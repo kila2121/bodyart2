@@ -22,7 +22,75 @@ class pdo_create
         }
     }
 
-    // Упрощенный метод для обработки параметров
+    private function convertToWebP($source, $dest = null, $quality = 80)
+    {
+        if (!extension_loaded('gd')) {
+            return false;
+        }
+
+        if ($dest === null) {
+            $info = pathinfo($source);
+            $dest = $info['dirname'] . '/' . $info['filename'] . '.webp';
+        }
+
+        if (file_exists($dest) && filemtime($dest) >= filemtime($source)) {
+            return $dest;
+        }
+
+        $imageInfo = getimagesize($source);
+        if (!$imageInfo) {
+            $this->last_error = 'Не удалось определить тип изображения';
+            return false;
+        }
+
+        $mime = $imageInfo['mime'];
+        $image = null;
+
+        try {
+            switch ($mime) {
+                case 'image/jpeg':
+                    $image = imagecreatefromjpeg($source);
+                    break;
+                case 'image/png':
+                    $image = imagecreatefrompng($source);
+                    imagepalettetotruecolor($image);
+                    imagealphablending($image, true);
+                    imagesavealpha($image, true);
+                    break;
+                case 'image/gif':
+                    $image = imagecreatefromgif($source);
+                    break;
+                case 'image/webp':
+                    if ($dest !== $source) {
+                        copy($source, $dest);
+                    }
+                    return $dest;
+                default:
+                    $this->last_error = "Неподдерживаемый тип изображения: {$mime}";
+                    return false;
+            }
+
+            if (!$image) {
+                $this->last_error = 'Не удалось создать изображение из файла';
+                return false;
+            }
+
+            $result = imagewebp($image, $dest, $quality);
+            imagedestroy($image);
+
+            if (!$result) {
+                $this->last_error = 'Ошибка конвертации в WebP';
+                return false;
+            }
+
+            return $dest;
+        } catch (Exception $e) {
+            $this->last_error = 'Исключение при конвертации: ' . $e->getMessage();
+            error_log('WebP conversion exception: ' . $e->getMessage());
+            return false;
+        }
+    }
+
     public function replaceParam($param, $type)
     {
         if ($param === null) {
@@ -188,13 +256,11 @@ class pdo_create
 
     public function uploading($input = 'files', $path = '/public/uploads', $prefix = '')
     {
-        $mas = [];
         $input_name = $input;
         $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        $max_size = 5 * 1024 * 1024; // Увеличил до 5MB
+        $max_size = 5 * 1024 * 1024;
 
-        // Исправление пути
-        $upload_dir = $_SERVER['DOCUMENT_ROOT'] . $path; // Используем DOCUMENT_ROOT, а не __DIR__
+        $upload_dir = $_SERVER['DOCUMENT_ROOT'] . $path;
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0755, true);
         }
@@ -249,7 +315,7 @@ class pdo_create
                 continue;
             }
 
-            // Проверка MIME через finfo (надежно)
+            // Проверка MIME через finfo
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime = finfo_file($finfo, $file['tmp_name']);
             finfo_close($finfo);
@@ -259,7 +325,7 @@ class pdo_create
                 continue;
             }
 
-            // Проверка через getimagesize (дополнительная защита)
+            // Проверка через getimagesize
             $imageInfo = getimagesize($file['tmp_name']);
             if (!$imageInfo) {
                 $this->last_error = 'Файл поврежден или не является изображением';
@@ -283,14 +349,40 @@ class pdo_create
             $destination = $upload_dir . '/' . $final_name;
 
             if (move_uploaded_file($file['tmp_name'], $destination)) {
-                // Возвращаем URL, а не путь
-                $uploaded_paths[] = $path . '/' . $final_name;
+                $name_without_ext = pathinfo($final_name, PATHINFO_FILENAME);
+                $webp_dest = $upload_dir . '/' . $name_without_ext . '.webp';
+
+                try {
+                    $webp_created = $this->convertToWebP($destination, $webp_dest, 80);
+                } catch (Exception $e) {
+                    error_log("WebP conversion error: " . $e->getMessage());
+                    $webp_created = false;
+                }
+
+                if ($webp_created && file_exists($webp_dest)) {
+                    // Успех: сохраняем путь к WebP в БД
+                    $uploaded_paths[] = $path . '/' . $name_without_ext . '.webp';
+
+                    // Удаляем оригинал — он больше не нужен
+                    if (file_exists($destination)) {
+                        unlink($destination);
+                        error_log("Оригинал удалён: $destination");
+                    }
+                } else {
+                    // WebP не создался — оставляем оригинал
+                    $uploaded_paths[] = $path . '/' . $final_name;
+                    error_log("WebP не создан, оставлен оригинал: $destination");
+                }
             } else {
                 $this->last_error = 'Ошибка при сохранении файла';
             }
         }
 
-        return !empty($uploaded_paths) ? $uploaded_paths : false;
+        if (!empty($uploaded_paths)) {
+            $this->last_error = '';
+            return $uploaded_paths;
+        }
+        return false;
     }
 
     public function message($text, $type = 'info')

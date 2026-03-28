@@ -70,6 +70,18 @@ class Template
                 <link rel="stylesheet" href="<?= $this->baseUrl . "component/message/message.css" ?>">
             </noscript>
 
+            <link rel="preload" href="<?= $this->baseUrl . "component/modal_window/style_reg_form.css" ?>" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="<?= $this->baseUrl . "component/modal_window/style_reg_form.css" ?>">
+            </noscript>
+
+            <link rel="preload" href="<?= $this->baseUrl . "component/modal_window/appointment_form.css" ?>" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="<?= $this->baseUrl . "component/modal_window/appointment_form.css" ?>">
+            </noscript>
+
             <link rel="preload" as="image" href="/public/hero.jpg" fetchpriority="high">
             <?php if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/public/hero.webp')): ?>
                 <link rel="preload" as="image" href="/public/hero.webp" fetchpriority="high">

@@ -228,7 +228,7 @@ if (isset($_REQUEST['action'])) {
         if (!empty($_FILES['photo']['name'])) {
             $uploaded = $db->uploading('photo', '/public/uploads/avatars/master_avatars', 'master_' . time());
 
-            if ($uploaded) {
+            if ($uploaded !== false && !empty($uploaded)) {
                 $avatar_url = $uploaded[0];
             } else {
                 $_SESSION['error'] = $db->last_error ?: 'Ошибка при загрузке фото';
@@ -314,7 +314,7 @@ if (isset($_REQUEST['action'])) {
             }
         } catch (Exception $e) {
             error_log("Ошибка добавления мастера: " . $e->getMessage());
-            $_SESSION['error'] = 'Ошибка базы данных' . $e;
+            $_SESSION['error'] = 'Ошибка базы данных';
         }
         header("Location: /index.php?page=admin");
         exit();
@@ -1565,7 +1565,7 @@ if (isset($_REQUEST['action'])) {
             Cache::delete('categories_gallery');
             Cache::delete('popular_services');
 
-            $stmt = $db->dbs->prepare("SELECT a.id_master FROM appointment WHERE id = ?");
+            $stmt = $db->dbs->prepare("SELECT id_master FROM appointment WHERE id = ?");
             $stmt->execute([$id_appointment]);
             $masterId = $stmt->fetchColumn();
             if ($masterId) {
@@ -1585,11 +1585,9 @@ if (isset($_REQUEST['action'])) {
 
     // Удаление работы мастера
     if ($_REQUEST['action'] == 'delete_work') {
-        // Определяем, AJAX ли это
         $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
 
-        // Получаем ID (из тела JSON для AJAX, из GET для обычной формы)
         $input = json_decode(file_get_contents('php://input'), true);
         $galleryId = $input['id'] ?? $_GET['id'] ?? null;
 

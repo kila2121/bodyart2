@@ -52,8 +52,6 @@ $template->addStyle("/component/index_component/reviews/reviews.css");
 $template->addStyle("/component/index_component/goAppointment/goAppointment.css");
 $template->addStyle("/component/index_component/contact_section/contact_section.css");
 $template->addStyle("/component/change_theme/changeTheme.css");
-$template->addStyle("/component/modal_window/style_reg_form.css");
-$template->addStyle("/component/modal_window/appointment_form.css");
 $template->addStyle("/styles/page/index.css");
 $template->render($content);
 ?>
