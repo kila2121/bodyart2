@@ -13,7 +13,6 @@ if ($stats === false) {
 
 list($happyUsers, $completeWork, $avarageRaiting, $competedUsers) = $stats;
 
-$heroImageJpg = '/public/hero.jpg';
 $heroImageWebp = '/public/hero.webp';
 $webpExists = file_exists($_SERVER['DOCUMENT_ROOT'] . $heroImageWebp);
 ?>
@@ -23,7 +22,6 @@ $webpExists = file_exists($_SERVER['DOCUMENT_ROOT'] . $heroImageWebp);
         <?php if ($webpExists): ?>
             <picture>
                 <source srcset="<?= $heroImageWebp ?>" type="image/webp" media="(min-width: 768px)">
-                <source srcset="<?= $heroImageJpg ?>" media="(min-width: 768px)">
                 <img src="<?= $heroImageJpg ?>" alt="BodyArt Studio фон" class="hero-background-img" fetchpriority="high"
                     loading="eager">
             </picture>
