@@ -2,8 +2,8 @@
     <div class="headerContent">
         <div class="nav">
             <div class="logo">
-                <img src="/public/logo.webp" srcset="/public/logo.webp 120w, /public/logo.jpg 1024w" sizes="60px"
-                    width="60" height="60" alt="Логотип BodyArt Studio" class="logo_img" loading="eager">
+                <img src="/public/logo.webp" srcset="/public/logo.webp 120w" sizes="60px" width="60" height="60"
+                    alt="Логотип BodyArt Studio" class="logo_img" loading="eager">
                 <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
             </div>
             <nav class="nav_links">
