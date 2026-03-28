@@ -90,7 +90,6 @@ ob_start();
                     if (filterValue === 'all') {
                         card.style.display = 'flex';
                     } else {
-                        // Используем data-category атрибут вместо поиска по классу
                         const cardCategory = card.dataset.category;
                         if (cardCategory === filterValue) {
                             card.style.display = 'flex';

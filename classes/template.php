@@ -43,11 +43,38 @@ class Template
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="csrf-token" content="<?= generate_csrf_token() ?>">
             <title><?php echo htmlspecialchars($this->title); ?></title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <link rel="stylesheet" href="<?php echo $this->baseUrl . "styles/global_style.css" ?>">
-            <link rel="stylesheet" href="<?php echo $this->baseUrl . "component/message/message.css" ?>">
+
+            <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+            <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+            <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            </noscript>
+
+            <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2"
+                as="font" type="font/woff2" crossorigin>
+            <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2"
+                as="font" type="font/woff2" crossorigin>
+
+            <link rel="preload" href="<?= $this->baseUrl . "styles/global_style.css" ?>" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="<?= $this->baseUrl . "styles/global_style.css" ?>">
+            </noscript>
+
+            <link rel="preload" href="<?= $this->baseUrl . "component/message/message.css" ?>" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="<?= $this->baseUrl . "component/message/message.css" ?>">
+            </noscript>
+
             <?php foreach ($this->styles as $style): ?>
-                <link rel="stylesheet" href="<?php echo $style; ?>">
+                <link rel="preload" href="<?= $style ?>" as="style" onload="this.onload=null;this.rel='stylesheet'">
+                <noscript>
+                    <link rel="stylesheet" href="<?= $style ?>">
+                </noscript>
             <?php endforeach; ?>
         </head>
 
@@ -64,9 +91,11 @@ class Template
                 include $this->basePath . "/layout/footer.php";
                 ?>
             </div>
+
             <?php foreach ($this->scripts as $script): ?>
-                <script src="<?php echo $script; ?>"></script>
+                <script src="<?= $script ?>" defer></script>
             <?php endforeach; ?>
+
         </body>
 
         </html>
