@@ -1,4 +1,13 @@
-/* ========== HERO SECTION ========== */
+/* ========== HERO SECTION - FULLY OPTIMIZED ========== */
+
+/* Базовые переменные для адаптации */
+:root {
+    --hero-padding-top: clamp(60px, 10vh, 120px);
+    --hero-padding-bottom: clamp(30px, 5vh, 80px);
+    --hero-margin-bottom: clamp(30px, 6vh, 100px);
+}
+
+/* Контейнер hero */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -6,22 +15,24 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: clamp(60px, 10vw, 120px) 0 clamp(30px, 8vw, 80px);
+    padding: var(--hero-padding-top) 0 var(--hero-padding-bottom);
     text-align: center;
     color: white;
     width: 100%;
-    margin: 0;
-    margin-bottom: clamp(50px, 8vw, 100px);
+    margin: 0 0 var(--hero-margin-bottom) 0;
+    isolation: isolate;
+    contain: layout style paint;
 }
 
+/* Фоновое изображение */
 .hero-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     z-index: 0;
+    pointer-events: none;
 }
 
 .hero-background img,
@@ -29,8 +40,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
+/* Оверлей */
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -39,29 +53,35 @@
     height: 100%;
     background: linear-gradient(135deg, rgba(13, 13, 13, 0.85) 0%, rgba(26, 26, 26, 0.8) 100%);
     z-index: 1;
+    pointer-events: none;
 }
 
 [data-theme="light"] .hero-overlay {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 245, 0.8) 100%);
 }
 
+/* Контент */
 .hero_content {
     position: relative;
     z-index: 2;
-    max-width: 1400px;
+    max-width: min(1400px, 95%);
+    width: 100%;
     margin: 0 auto;
-    padding: 0 clamp(15px, 4vw, 20px);
+    padding: 0 clamp(16px, 4vw, 32px);
 }
 
+/* Заголовок */
 .head {
-    margin-bottom: clamp(30px, 6vw, 50px);
+    margin-bottom: clamp(24px, 5vh, 50px);
 }
 
 .title {
-    font-size: clamp(1.8rem, 6vw, 3.5rem);
-    margin-bottom: clamp(15px, 3vw, 20px);
+    font-size: clamp(28px, 6vw, 56px);
+    margin-bottom: clamp(12px, 2vh, 20px);
     line-height: 1.2;
     color: white;
+    font-weight: 700;
+    letter-spacing: -0.02em;
 }
 
 [data-theme="light"] .title {
@@ -75,8 +95,8 @@
 .title_highlight {
     background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     position: relative;
     display: inline-block;
 }
@@ -90,11 +110,18 @@
     height: 3px;
     background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
     border-radius: 2px;
+    transform: scaleX(0.7);
+    transition: transform 0.3s ease;
 }
 
+.hero:hover .title_highlight::after {
+    transform: scaleX(1);
+}
+
+/* Подзаголовок */
 .subtitle {
-    font-size: clamp(1rem, 3vw, 1.3rem);
-    max-width: min(800px, 90%);
+    font-size: clamp(14px, 2.5vw, 20px);
+    max-width: min(800px, 95%);
     margin: 0 auto;
     opacity: 0.9;
     line-height: 1.6;
@@ -114,22 +141,50 @@
     color: var(--accent-color);
 }
 
+/* Карточки */
 .grid_container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
-    gap: clamp(15px, 3vw, 25px);
-    margin-bottom: clamp(30px, 6vw, 50px);
+    gap: clamp(16px, 2vw, 24px);
+    margin-bottom: clamp(32px, 5vh, 60px);
+}
+
+/* Десктоп: 4 колонки */
+@media (min-width: 1200px) {
+    .grid_container {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Планшеты: 2 колонки */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .grid_container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Мобильные: 1 колонка */
+@media (max-width: 767px) {
+    .grid_container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .card {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-lg);
-    padding: clamp(20px, 4vw, 25px);
+    border-radius: 20px;
+    padding: clamp(20px, 4vw, 28px);
     text-align: center;
-    transition: var(--transition-normal);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    will-change: transform;
 }
 
 [data-theme="light"] .card {
@@ -137,30 +192,32 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.card .icons {
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    color: var(--accent-color);
-    margin-bottom: clamp(15px, 3vw, 20px);
-}
-
 @media (hover: hover) {
     .card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         border-color: var(--accent-color);
-        box-shadow: var(--shadow-accent);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         background: rgba(255, 255, 255, 0.08);
     }
 }
 
 [data-theme="light"] .card:hover {
     background: white;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card .icons {
+    font-size: clamp(28px, 5vw, 40px);
+    color: var(--accent-color);
+    margin-bottom: clamp(12px, 2vh, 20px);
+    display: inline-block;
 }
 
 .card h3 {
-    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
-    margin-bottom: 10px;
+    font-size: clamp(16px, 2.5vw, 18px);
+    margin-bottom: 8px;
     color: white;
+    font-weight: 600;
 }
 
 [data-theme="light"] .card h3 {
@@ -168,25 +225,51 @@
 }
 
 .card p {
-    font-size: clamp(0.85rem, 2vw, 0.9rem);
+    font-size: clamp(12px, 2vw, 14px);
     opacity: 0.8;
     line-height: 1.5;
     color: white;
+    margin: 0;
 }
 
 [data-theme="light"] .card p {
     color: var(--text-secondary);
 }
 
+/* Блок доверия */
 .trust {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-    gap: clamp(20px, 4vw, 30px);
-    margin-bottom: 40px;
-    padding: clamp(20px, 4vw, 30px);
+    gap: clamp(16px, 3vw, 24px);
+    margin-bottom: 32px;
+    padding: clamp(20px, 4vw, 32px);
     background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-lg);
+    border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Десктоп: 4 колонки */
+@media (min-width: 992px) {
+    .trust {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+}
+
+/* Планшеты: 2 колонки */
+@media (min-width: 576px) and (max-width: 991px) {
+    .trust {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* Мобильные: 1 колонка */
+@media (max-width: 575px) {
+    .trust {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
 }
 
 [data-theme="light"] .trust {
@@ -200,30 +283,34 @@
     gap: 15px;
 }
 
-@media (max-width: 992px) {
+/* Адаптация для планшетов */
+@media (min-width: 576px) and (max-width: 991px) {
     .trust_item {
         flex-direction: column;
         text-align: center;
-    }
-}
-
-@media (max-width: 576px) {
-    .trust_item {
-        flex-direction: row;
-        text-align: left;
         gap: 12px;
     }
 }
 
+/* Мобильные - горизонтальное расположение */
+@media (max-width: 575px) {
+    .trust_item {
+        flex-direction: row;
+        text-align: left;
+        gap: 16px;
+        justify-content: flex-start;
+    }
+}
+
 .trust_icon {
-    width: clamp(45px, 8vw, 50px);
-    height: clamp(45px, 8vw, 50px);
+    width: clamp(40px, 8vw, 50px);
+    height: clamp(40px, 8vw, 50px);
     background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    font-size: clamp(16px, 3vw, 20px);
     color: white;
     flex-shrink: 0;
 }
@@ -231,42 +318,47 @@
 .trust_info {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 4px;
 }
 
-@media (max-width: 992px) {
+/* Центрирование для планшетов */
+@media (min-width: 576px) and (max-width: 991px) {
     .trust_info {
         align-items: center;
+        text-align: center;
     }
 }
 
-@media (max-width: 576px) {
+/* Выравнивание по левому краю для мобильных */
+@media (max-width: 575px) {
     .trust_info {
         align-items: flex-start;
+        text-align: left;
     }
 }
 
 .trust_number {
-    font-size: clamp(1.5rem, 4vw, 1.8rem);
-    font-weight: 700;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 800;
     background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    color: transparent;
     line-height: 1;
 }
 
 .trust_label {
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-size: clamp(11px, 2.5vw, 14px);
     opacity: 0.8;
-    margin-top: 5px;
     color: white;
+    font-weight: 500;
 }
 
 [data-theme="light"] .trust_label {
     color: var(--text-secondary);
 }
 
+/* Скролл индикатор */
 .scroll_link {
     text-decoration: none;
     color: inherit;
@@ -277,36 +369,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     cursor: pointer;
-    z-index: var(--z-tooltip);
-    margin-top: 40px;
+    margin-top: clamp(30px, 5vh, 60px);
+    transition: opacity 0.3s ease;
+}
+
+.scroll_indicator:hover {
+    opacity: 0.8;
 }
 
 .scroll_arrow {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    animation: bounce 2s infinite;
+    animation: bounce 2s ease-in-out infinite;
 }
 
 .icons2 {
-    font-size: 1rem;
-    opacity: 0.7;
+    font-size: 20px;
+    opacity: 0.8;
     color: var(--accent-color);
 }
 
 .scroll_text {
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    font-size: clamp(12px, 2vw, 14px);
     opacity: 0.8;
-    white-space: nowrap;
     color: white;
+    letter-spacing: 0.5px;
 }
 
 [data-theme="light"] .scroll_text {
     color: var(--text-secondary);
 }
 
+/* Анимация */
 @keyframes bounce {
 
     0%,
@@ -318,68 +415,57 @@
     }
 
     40% {
-        transform: translateY(-10px);
+        transform: translateY(-12px);
     }
 
     60% {
-        transform: translateY(-5px);
+        transform: translateY(-6px);
     }
 }
 
-/* Мобильная адаптация */
-@media (max-width: 768px) {
+/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ (МАКСИМАЛЬНАЯ) ========== */
+
+/* Планшеты (768px - 991px) */
+@media (max-width: 991px) {
     .hero {
         min-height: auto;
-        padding: clamp(40px, 8vw, 60px) 0;
-        background-attachment: scroll;
-        /* фикс на мобилках */
+        padding: 60px 0 40px;
     }
 
     .title {
-        font-size: clamp(1.5rem, 5vw, 2rem);
+        letter-spacing: -0.01em;
     }
 
-    .grid_container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .trust {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .trust_item {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .trust_info {
-        align-items: center;
-    }
-
-    .scroll_text {
-        white-space: normal;
-        max-width: 200px;
-        font-size: 0.75rem;
+    .subtitle {
+        padding: 0 20px;
     }
 }
 
-@media (max-width: 480px) {
-    .trust {
-        grid-template-columns: 1fr;
-        gap: 20px;
+/* Мобильные телефоны (576px - 767px) */
+@media (max-width: 767px) {
+    .hero {
+        padding: 50px 0 30px;
+        margin-bottom: 40px;
     }
 
-    .trust_item {
-        flex-direction: row;
-        justify-content: flex-start;
-        text-align: left;
+    .hero_content {
+        padding: 0 20px;
     }
 
-    .trust_info {
-        align-items: flex-start;
+    .title {
+        font-size: 32px;
+        line-height: 1.3;
+    }
+
+    .title_highlight::after {
+        bottom: -3px;
+        height: 2px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        line-height: 1.5;
+        padding: 0;
     }
 
     .card {
@@ -387,50 +473,229 @@
     }
 
     .card .icons {
-        font-size: 2rem;
+        font-size: 32px;
+        margin-bottom: 12px;
     }
 
     .card h3 {
-        font-size: 1rem;
+        font-size: 16px;
     }
 
     .card p {
-        font-size: 0.85rem;
+        font-size: 12px;
     }
-}
 
-@media (max-width: 360px) {
+    .trust {
+        padding: 20px;
+    }
+
+    .trust_item {
+        gap: 14px;
+    }
+
     .trust_icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
     }
 
     .trust_number {
-        font-size: 1.3rem;
+        font-size: 24px;
     }
 
     .trust_label {
-        font-size: 0.7rem;
+        font-size: 12px;
     }
-}
-@media (min-width: 992px) {
-    .grid_container {
-        grid-template-columns: repeat(4, 1fr);
+
+    .scroll_text {
+        max-width: 220px;
+        white-space: normal;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .scroll_arrow .icons2 {
+        font-size: 16px;
     }
 }
 
-/* Планшеты: 2 колонки */
-@media (max-width: 991px) and (min-width: 577px) {
-    .grid_container {
-        grid-template-columns: repeat(2, 1fr);
+/* Маленькие телефоны (375px - 575px) */
+@media (max-width: 575px) {
+    .hero {
+        padding: 40px 0 25px;
+        margin-bottom: 30px;
     }
-}
 
-/* Телефоны: 1 колонка (так как карточки крупные) */
-@media (max-width: 576px) {
+    .hero_content {
+        padding: 0 16px;
+    }
+
+    .title {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .subtitle {
+        font-size: 13px;
+    }
+
     .grid_container {
-        grid-template-columns: 1fr;
+        gap: 14px;
+        max-width: 100%;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .card .icons {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .card h3 {
+        font-size: 15px;
+    }
+
+    .card p {
+        font-size: 11px;
+    }
+
+    .trust {
+        padding: 16px;
         gap: 16px;
+    }
+
+    .trust_item {
+        gap: 12px;
+    }
+
+    .trust_icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .trust_number {
+        font-size: 22px;
+    }
+
+    .trust_label {
+        font-size: 11px;
+    }
+
+    .scroll_indicator {
+        margin-top: 25px;
+        gap: 8px;
+    }
+
+    .scroll_text {
+        font-size: 10px;
+        max-width: 180px;
+    }
+}
+
+/* Очень маленькие телефоны (до 374px) */
+@media (max-width: 374px) {
+    .hero {
+        padding: 30px 0 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .subtitle {
+        font-size: 12px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .card .icons {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+
+    .card p {
+        font-size: 10px;
+    }
+
+    .trust_icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .trust_number {
+        font-size: 20px;
+    }
+
+    .trust_label {
+        font-size: 10px;
+    }
+
+    .scroll_text {
+        font-size: 9px;
+        max-width: 160px;
+    }
+}
+
+/* Оптимизация для устройств с высоким DPI */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+
+    .hero-background img,
+    .hero-background source {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Улучшение производительности */
+@media (prefers-reduced-motion: reduce) {
+
+    .card,
+    .scroll_arrow,
+    .title_highlight::after {
+        transition: none;
+    }
+
+    .scroll_arrow {
+        animation: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}
+
+/* Оптимизация для печати */
+@media print {
+    .hero {
+        min-height: auto;
+        padding: 20px 0;
+        color: black;
+    }
+
+    .hero-background,
+    .hero-overlay,
+    .scroll_indicator {
+        display: none;
+    }
+
+    .hero_content {
+        position: static;
+    }
+
+    .card {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        background: white;
     }
 }
