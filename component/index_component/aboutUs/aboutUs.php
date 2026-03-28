@@ -45,6 +45,6 @@ list($yearWork, $mastersCount, $countComletedWork) = $stats;
     </div>
 
     <div class="about-image">
-        <img src="/public/studio-interior.jpg" alt="Интерьер студии" loading="lazy">
+        <img src="/public/studio-interior.webp" alt="Интерьер студии" loading="lazy">
     </div>
 </section>
