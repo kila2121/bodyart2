@@ -10,7 +10,14 @@ try {
 
     $allMasters = Cache::get('all_masters');
     if ($allMasters === false) {
-        $allMasters = $db->dbs->query("SELECT * FROM master ORDER BY spec, fio")->fetchAll(PDO::FETCH_ASSOC);
+        $allMasters = $db->dbs->query("SELECT 
+                                        m.*,
+                                        COUNT(a.id) AS orders_count
+                                    FROM master m
+                                    LEFT JOIN appointment a ON a.id_master = m.id 
+                                        AND a.status IN ('completed', 'confirmed', 'pending')
+                                    GROUP BY m.id
+                                    ORDER BY orders_count DESC, m.spec, m.fio")->fetchAll(PDO::FETCH_ASSOC);
         Cache::set('all_masters', $allMasters, 3600);
     }
 
@@ -37,27 +44,72 @@ ob_start();
         В нашей студии работают профессиональные мастера с многолетним опытом.
         Каждый специалист имеет свою уникальную специализацию и стиль работы.
     </p>
+    <div class="masters-layout">
+        <div class="masters-main">
+            <?php if (!empty($spec)): ?>
+                <div class="masters-filter" id="masters-filter">
+                    <button class="active" data-filter="all">Все</button>
+                    <?php foreach ($spec as $sp): ?>
+                        <button data-filter="<?php echo htmlspecialchars($sp); ?>">
+                            <?php echo htmlspecialchars($sp); ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
-    <?php if (!empty($spec)): ?>
-        <div class="masters-filter" id="masters-filter">
-            <button class="active" data-filter="all">Все</button>
-            <?php foreach ($spec as $sp): ?>
-                <button data-filter="<?php echo htmlspecialchars($sp); ?>">
-                    <?php echo htmlspecialchars($sp); ?>
-                </button>
-            <?php endforeach; ?>
+            <div id="masters-container">
+                <?php
+                if (!empty($allMasters)) {
+                    $GLOBALS['mastersData'] = $allMasters;
+                    include_once "component/masters/card_masters/card.php";
+                } else {
+                    echo "<p>Мастера временно недоступны</p>";
+                }
+                ?>
+            </div>
         </div>
-    <?php endif; ?>
+        <aside class="masters-sidebar">
+            <div class="sidebar-widget">
+                <h3>ПОПУЛЯРНЫЕ МАСТЕРА</h3>
+                <ul class="popular-masters-list">
+                    <?php
+                    $popularMasters = array_slice($allMasters, 0, 5);
+                    foreach ($popularMasters as $master): ?>
+                        <li>
+                            <a href="/index.php?page=details_master&id=<?= $master['id'] ?>">
+                                <?= htmlspecialchars($master['fio']) ?>
+                                <span><?= htmlspecialchars($master['spec']) ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
 
-    <div id="masters-container">
-        <?php
-        if (!empty($allMasters)) {
-            $GLOBALS['mastersData'] = $allMasters;
-            include_once "component/masters/card_masters/card.php";
-        } else {
-            echo "<p>Мастера временно недоступны</p>";
-        }
-        ?>
+            <div class="sidebar-widget">
+                <h3>СОЦСЕТИ</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-vk"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>РЕЖИМ РАБОТЫ</h3>
+                <div class="contact-info">
+                    <p><i class="far fa-clock"></i> 10:00 – 22:00</p>
+                    <p><i class="fas fa-calendar-week"></i> Без выходных</p>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>КОНТАКТЫ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone-alt"></i> +7 (999) 123-45-67</p>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва</p>
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 

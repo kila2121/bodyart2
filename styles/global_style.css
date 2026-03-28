@@ -664,7 +664,17 @@ body.modal-open {
   background: rgba(255, 51, 102, 0.1);
   color: var(--accent-color);
 }
+.masters-page,
+.masters-layout,
+.masters-main,
+.masters-sidebar {
+  overflow: visible !important;
+}
 
+.layout,
+.main {
+  overflow: visible !important;
+}
 /* --------------------------------------------
    7. Анимации
 -------------------------------------------- */

@@ -1,293 +1,237 @@
-/* ========== MASTERS PAGE STYLES ========== */
+/* =================================================
+   MASTERS PAGE – СТИЛЬ САЙТА
+   ================================================= */
 
-/* ========== MAIN ========== */
 .masters-page {
-    max-width: var(--container-width);
+    max-width: 1400px;
     margin: 0 auto;
-    padding: clamp(1.5rem, 5vw, 2.5rem) var(--container-padding);
-    min-height: 60vh;
-    background-color: var(--primary-bg);
-    animation: fadeInUp 0.5s ease-out;
+    background: var(--primary-bg);
+    padding: 0 var(--container-padding);
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ========== HEADER ========== */
+/* ЗАГОЛОВОК */
 .page-header {
     text-align: center;
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    margin: 48px 0 24px;
 }
 
 .page-header h1 {
-    color: var(--accent-color);
-    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-size: 2.2rem;
     font-weight: 600;
-    letter-spacing: -0.02em;
-    margin: 0 0 var(--space-sm) 0;
-    position: relative;
-    display: inline-block;
+    color: var(--text-color);
+    margin: 0;
 }
 
 .page-header h1::after {
     content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: clamp(40px, 8vw, 60px);
+    display: block;
+    width: 50px;
     height: 2px;
     background: var(--accent-color);
-    opacity: 0.5;
+    margin: 12px auto 0;
 }
 
-/* ========== DESCRIPTION ========== */
 .masters-description {
     text-align: center;
-    margin: clamp(1.5rem, 4vw, 2.5rem) auto;
+    max-width: 700px;
+    margin: 0 auto 48px;
     color: var(--text-secondary);
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-    max-width: min(700px, 90%);
-    line-height: 1.6;
-    padding: 0 var(--space-md);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-/* ========== FILTER ========== */
+/* СЕТКА */
+.masters-layout {
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    margin-bottom: 64px;
+}
+
+.masters-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.masters-sidebar {
+    position: sticky;
+    top: 100px;
+    width: 280px;
+    flex-shrink: 0;
+}
+
+/* ФИЛЬТР */
 .masters-filter {
     display: flex;
-    justify-content: center;
-    gap: clamp(0.25rem, 1vw, 0.5rem);
-    margin: clamp(1.5rem, 4vw, 2rem) 0;
     flex-wrap: wrap;
-    padding: 0 var(--space-sm);
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 40px;
 }
 
 .masters-filter button {
-    background: transparent;
+    background: var(--secondary-bg);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    padding: 0.6rem 1.5rem;
-    border-radius: 999px;
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    padding: 6px 16px;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
-    transition: var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-    z-index: var(--z-dropdown);
-    white-space: nowrap;
+    transition: all 0.2s ease;
+    border-radius: var(--radius-md);
 }
 
-/* Планшеты */
-@media (max-width: 768px) {
-    .masters-filter button {
-        padding: 0.5rem 1.2rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Телефоны (≤576px) */
-@media (max-width: 576px) {
-    .masters-filter {
-        gap: 10px;
-    }
-
-    .masters-filter button {
-        white-space: normal;
-        flex: 1 1 auto;
-        min-width: 100px;
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-/* Маленькие телефоны (≤480px) */
-@media (max-width: 480px) {
-    .masters-filter button {
-        min-width: calc(50% - 10px);
-        flex: 1 0 auto;
-        padding: 0.45rem 0.8rem;
-        font-size: 0.75rem;
-    }
-}
-
-/* Очень маленькие (≤360px) */
-@media (max-width: 360px) {
-    .masters-filter button {
-        min-width: 100%;
-        flex: 1 0 100%;
-    }
-}
-
-.masters-filter button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 100%;
-    background: var(--accent-color);
-    transition: width var(--transition-normal);
-    z-index: -1;
-    opacity: 0.1;
-}
-
-@media (hover: hover) {
-    .masters-filter button:hover::before {
-        width: 100%;
-    }
-
-    .masters-filter button:hover {
-        border-color: var(--accent-color);
-        color: var(--accent-color);
-        transform: translateY(-1px);
-    }
+.masters-filter button:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
 .masters-filter button.active {
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: white;
-    box-shadow: var(--shadow-sm);
 }
 
-.masters-filter button.active::before {
-    display: none;
+/* КАРТОЧКИ */
+#masters-container .masters-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
 }
 
-/* ========== NO RESULTS ========== */
-.no-results-message {
-    text-align: center;
-    padding: clamp(2rem, 8vw, 4rem) var(--space-md);
-    color: var(--text-secondary);
-    font-size: clamp(1rem, 2.5vw, 1.1rem);
-    background: var(--card-bg);
-    border-radius: var(--radius-lg);
-    margin: var(--space-xl) auto;
-    max-width: 400px;
-    border: 1px dashed var(--border-color);
-    width: 100%;
-}
-
-/* ========== LOADING ========== */
-.masters-loading {
-    text-align: center;
-    padding: clamp(2rem, 8vw, 4rem);
-    color: var(--text-secondary);
-}
-
-.masters-loading i {
-    color: var(--accent-color);
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
+@media (max-width: 1100px) {
+    #masters-container .masters-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* ========== ERROR ========== */
-.masters-error {
-    text-align: center;
-    padding: var(--space-xl);
-    color: var(--error-color);
-    background: rgba(239, 68, 68, 0.05);
-    border-radius: var(--radius-lg);
-    margin: var(--space-xl) auto;
-    max-width: 400px;
+@media (max-width: 768px) {
+    #masters-container .masters-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* ========== АДАПТИВНОСТЬ ========== */
+/* ========== САЙДБАР ========== */
+.masters-sidebar {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+}
+
+.sidebar-widget {
+    margin-bottom: 28px;
+}
+
+.sidebar-widget:last-child {
+    margin-bottom: 0;
+}
+
+.sidebar-widget h3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent-color);
+    margin-bottom: 16px;
+}
+
+/* список мастеров */
+.popular-masters-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-masters-list li {
+    margin-bottom: 12px;
+}
+
+.popular-masters-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.85rem;
+    padding: 4px 0;
+    transition: color 0.2s;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popular-masters-list a:hover {
+    color: var(--accent-color);
+}
+
+.popular-masters-list span {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+}
+
+/* соцсети */
+.social-links {
+    display: flex;
+    gap: 20px;
+}
+
+.social-links a {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+/* контакты */
+.contact-info p {
+    margin: 0 0 12px 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.contact-info p:hover {
+    color: var(--accent-color);
+}
+
+.contact-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* АДАПТИВНОСТЬ */
 @media (max-width: 992px) {
-    .masters-page {
-        padding: clamp(1.2rem, 4vw, 2rem) var(--container-padding);
+    .masters-layout {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .masters-sidebar {
+        position: static;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 768px) {
     .masters-page {
-        padding: var(--space-lg) var(--space-sm);
-    }
-
-    .page-header {
-        margin-bottom: var(--space-lg);
-    }
-
-    .masters-description {
-        margin: 20px auto var(--space-lg);
-    }
-
-    .masters-filter {
-        margin: 20px 0 var(--space-lg);
-        gap: 0.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .masters-page {
-        padding: var(--space-md) 0.25rem;
+        padding: 0 16px;
     }
 
     .page-header h1 {
-        font-size: 1.8rem;
-        margin-bottom: var(--space-xs);
-    }
-
-    .masters-description {
-        font-size: 0.9rem;
-        margin: 15px auto var(--space-lg);
-    }
-}
-
-/* Ландшафтная ориентация */
-@media (max-width: 768px) and (orientation: landscape) {
-    .masters-filter {
-        gap: 0.5rem;
+        font-size: 1.6rem;
     }
 
     .masters-filter button {
-        padding: 0.4rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+        padding: 4px 12px;
+        font-size: 0.75rem;
     }
 
-    .masters-filter button:hover {
-        transform: none;
-    }
-
-    .masters-loading i {
-        animation: none;
-    }
-}
-
-/* Touch devices optimization */
-@media (hover: none) and (pointer: coarse) {
-
-    .masters-filter button:hover,
-    .master-card:hover,
-    .book-btn:hover {
-        transform: none;
+    .masters-sidebar {
+        padding: 20px;
     }
 }
