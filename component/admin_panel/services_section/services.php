@@ -3,7 +3,6 @@
         <button class="btn btn-primary" onclick="showForm('addServiceForm')">+ Добавить услугу</button>
     </div>
 
-    <!-- Форма добавления услуги -->
     <div id="addServiceForm" class="form-container" style="display: none;">
         <h3>Добавить услугу</h3>
         <form method="POST" action="/index.php?action=add_service">
@@ -20,7 +19,6 @@
         </form>
     </div>
 
-    <!-- Форма редактирования услуги -->
     <div id="editServiceForm" class="form-container" style="display: none;">
         <h3>Редактирование услуги</h3>
         <form method="POST" action="/index.php?action=edit_service" id="editServiceFormElement">
@@ -59,7 +57,6 @@
         </form>
     </div>
 
-    <!-- Список услуг -->
     <div class="table-responsive">
         <table>
             <thead>

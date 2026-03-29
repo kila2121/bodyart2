@@ -332,7 +332,6 @@ if (isset($message)) {
         window.initPhoneMask();
         window.initValidation();
 
-        // Следим за изменениями в контейнере (для AJAX)
         const observer = new MutationObserver(function (mutations) {
             if (document.getElementById('phone')) {
                 window.initPhoneMask();
@@ -342,29 +341,36 @@ if (isset($message)) {
         });
         observer.observe(document.body, { childList: true, subtree: true });
 
-        if (formsContainer) {
+        async function loadTab(tab) {
+            await fetch("/component/modal_window/reg_form.php", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'switchTab=' + tab + '&ajax=1'
+            })
+                .then(response => response.text())
+                .then(html => {
+                    formsContainer.innerHTML = html;
+                    window.initPhoneMask();
+                    window.initValidation();
+                })
+                .catch(error => console.error('Ошибка:', error));
+        }
+
+        function switchTab() {
             formsContainer.addEventListener('click', function (e) {
                 const tabLink = e.target.closest('.tab-link');
                 if (!tabLink) return;
 
                 e.preventDefault();
                 const tab = tabLink.dataset.tab;
-
-                fetch("/component/modal_window/reg_form.php", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'switchTab=' + tab + '&ajax=1'
-                })
-                    .then(response => response.text())
-                    .then(html => {
-                        formsContainer.innerHTML = html;
-                        window.initPhoneMask();
-                        window.initValidation();
-                    })
-                    .catch(error => console.error('Ошибка:', error));
+                loadTab(tab);
             });
+
+        }
+        if (formsContainer) {
+            switchTab();
         }
     });
 </script>

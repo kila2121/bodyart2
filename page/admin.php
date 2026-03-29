@@ -141,12 +141,12 @@ ob_start();
         document.getElementById(formId).style.display = 'none';
     }
 
-    function editMaster(id) {
+    async function editMaster(id) {
         showForm('editMasterForm');
         document.getElementById('editMasterFormElement').reset();
         document.getElementById('current_master_photo').innerHTML = 'Загрузка...';
 
-        fetch('/api/get_master_by_id.php?id=' + id)
+        await fetch('/api/get_master_by_id.php?id=' + id)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -155,6 +155,8 @@ ob_start();
                     document.getElementById('edit_master_spec').value = data.master.spec;
                     document.getElementById('edit_master_experience').value = data.master.experience;
                     document.getElementById('edit_master_description').value = data.master.description;
+                    document.getElementById('edit_master_phone').value = data.master.phone;
+                    document.getElementById('edit_master_email').value = data.master.email;
 
                     if (data.master.avatar_url && data.master.avatar_url !== '/masters/default.jpg') {
                         document.getElementById('current_master_photo').innerHTML =
@@ -174,11 +176,11 @@ ob_start();
             });
     }
 
-    function editService(id) {
+    async function editService(id) {
         showForm('editServiceForm');
         document.getElementById('editServiceFormElement').reset();
 
-        fetch('/api/get_service_by_id.php?id=' + id)
+        await fetch('/api/get_service_by_id.php?id=' + id)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -200,10 +202,10 @@ ob_start();
             });
     }
 
-    function updateStatus(id, status) {
+    async function updateStatus(id, status) {
         if (!confirm('Изменить статус?')) return;
 
-        fetch('/action.php?action=update_appointment_status', {
+        await fetch('/action.php?action=update_appointment_status', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -226,10 +228,10 @@ ob_start();
             });
     }
 
-    function updateUserRole(id, status) {
+    async function updateUserRole(id, status) {
         if (!confirm('Изменить роль?')) return;
 
-        fetch('/action.php?action=change_user_role', {
+        await fetch('/action.php?action=change_user_role', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

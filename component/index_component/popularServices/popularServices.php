@@ -87,7 +87,6 @@
     </div>
 </section>
 
-<!-- Модалка записи -->
 <div class="appointment-modal-overlay" onclick="closeAppointmentModal()"></div>
 <div class="appointment-modal">
     <div class="modal-header">

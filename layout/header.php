@@ -16,7 +16,6 @@
 
         <div class="auth-buttons">
             <?php if (isset($_SESSION['id']) && $_SESSION['status'] === 100): ?>
-                <!-- Администратор -->
                 <form method="POST" action="/index.php?page=admin">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                     <button type="submit" class="button button-admin">

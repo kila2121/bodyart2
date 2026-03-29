@@ -5,7 +5,6 @@
         <button class="settings-nav-btn" data-section="security">Безопасность</button>
     </div>
 
-    <!-- Личные данные -->
     <div class="settings-section active" id="profile-section">
         <h2>Личные данные</h2>
 
@@ -35,7 +34,6 @@
         </form>
     </div>
 
-    <!-- Профиль мастера -->
     <div class="settings-section" id="master-section">
         <h2>Профиль мастера</h2>
 
@@ -69,7 +67,6 @@
         <?php endif; ?>
     </div>
 
-    <!-- Безопасность -->
     <div class="settings-section" id="security-section">
         <h2>Безопасность</h2>
 

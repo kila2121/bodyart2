@@ -1,5 +1,4 @@
 <?php
-// Проверяем наличие сообщений в сессии
 $messages = [];
 
 if (isset($_SESSION['success'])) {
@@ -18,7 +17,6 @@ if (isset($_SESSION['form_error'])) {
 if (empty($messages))
     return;
 
-// Выводим сообщения с помощью метода message() с указанием типа
 global $db;
 foreach ($messages as $msg) {
     echo $db->message($msg['text'], $msg['type']);
@@ -30,7 +28,6 @@ foreach ($messages as $msg) {
         const toasts = document.querySelectorAll('.toast');
 
         toasts.forEach(toast => {
-            // Кнопка закрытия
             const closeBtn = toast.querySelector('.btn-close');
             if (closeBtn) {
                 closeBtn.addEventListener('click', () => {
@@ -39,7 +36,6 @@ foreach ($messages as $msg) {
                 });
             }
 
-            // Автоматическое закрытие через 5 секунд
             setTimeout(() => {
                 toast.classList.add('hide');
                 setTimeout(() => toast.remove(), 300);

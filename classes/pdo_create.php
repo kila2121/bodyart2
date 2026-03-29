@@ -108,15 +108,12 @@ class pdo_create
         return $param;
     }
 
-    // ИСПРАВЛЕННЫЙ МЕТОД actionTable
     public function actionTable($action, $param, $table)
     {
-        // Экранируем имя таблицы
         $table = '`' . str_replace('`', '``', $table) . '`';
 
         switch ($action) {
             case 'add':
-                // Определяем поля и значения
                 $fields = [];
                 $placeholders = [];
                 $values = [];
@@ -127,8 +124,6 @@ class pdo_create
                     $placeholder = ':' . $key;
                     $placeholders[] = $placeholder;
 
-                    // УБИРАЕМ ПОВТОРНОЕ ХЕШИРОВАНИЕ!
-                    // Просто передаём значение как есть
                     $values[$placeholder] = $value;
                 }
 
@@ -150,7 +145,6 @@ class pdo_create
                     $placeholder = ':' . $key;
                     $sets[] = "$field = $placeholder";
 
-                    // ОСОБАЯ ОБРАБОТКА ПАРОЛЯ
                     if (in_array($key, ['pasw', 'pass', 'pas', 'passw', 'password'])) {
                         $values[$placeholder] = password_hash($value, PASSWORD_DEFAULT);
                     } else {
@@ -287,7 +281,6 @@ class pdo_create
         $uploaded_paths = [];
 
         foreach ($files as $file) {
-            // Проверка ошибок загрузки
             if ($file['error'] !== UPLOAD_ERR_OK) {
                 $errorMessages = [
                     UPLOAD_ERR_INI_SIZE => 'Файл превышает максимальный размер, установленный в PHP',
@@ -302,20 +295,17 @@ class pdo_create
                 continue;
             }
 
-            // Проверка размера
             if ($file['size'] > $max_size) {
                 $this->last_error = 'Файл не должен превышать 5MB';
                 continue;
             }
 
-            // Проверка расширения
             $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             if (!in_array($ext, $allowed_extensions)) {
                 $this->last_error = 'Разрешены только изображения (JPEG, PNG, GIF, WEBP)';
                 continue;
             }
 
-            // Проверка MIME через finfo
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $mime = finfo_file($finfo, $file['tmp_name']);
             finfo_close($finfo);
@@ -325,16 +315,14 @@ class pdo_create
                 continue;
             }
 
-            // Проверка через getimagesize
             $imageInfo = getimagesize($file['tmp_name']);
             if (!$imageInfo) {
                 $this->last_error = 'Файл поврежден или не является изображением';
                 continue;
             }
 
-            // Генерация безопасного имени
             if (!empty($prefix)) {
-                $final_name = $prefix . '_' . uniqid() . '.' . $ext;
+                $base_name = $prefix . '_' . uniqid();
             } else {
                 $original_name = pathinfo($file['name'], PATHINFO_FILENAME);
                 $safe_name = preg_replace('/[^a-zA-Zа-яА-Я0-9\s]/u', '', $original_name);
@@ -343,38 +331,49 @@ class pdo_create
                 if (empty($safe_name)) {
                     $safe_name = 'file';
                 }
-                $final_name = $safe_name . '_' . uniqid() . '.' . $ext;
+                $base_name = $safe_name . '_' . uniqid();
             }
 
-            $destination = $upload_dir . '/' . $final_name;
+            if ($ext === 'webp') {
+                $final_name = $base_name . '.webp';
+                $destination = $upload_dir . '/' . $final_name;
 
-            if (move_uploaded_file($file['tmp_name'], $destination)) {
-                $name_without_ext = pathinfo($final_name, PATHINFO_FILENAME);
-                $webp_dest = $upload_dir . '/' . $name_without_ext . '.webp';
-
-                try {
-                    $webp_created = $this->convertToWebP($destination, $webp_dest, 80);
-                } catch (Exception $e) {
-                    error_log("WebP conversion error: " . $e->getMessage());
-                    $webp_created = false;
-                }
-
-                if ($webp_created && file_exists($webp_dest)) {
-                    // Успех: сохраняем путь к WebP в БД
-                    $uploaded_paths[] = $path . '/' . $name_without_ext . '.webp';
-
-                    // Удаляем оригинал — он больше не нужен
-                    if (file_exists($destination)) {
-                        unlink($destination);
-                        error_log("Оригинал удалён: $destination");
-                    }
-                } else {
-                    // WebP не создался — оставляем оригинал
+                if (move_uploaded_file($file['tmp_name'], $destination)) {
                     $uploaded_paths[] = $path . '/' . $final_name;
-                    error_log("WebP не создан, оставлен оригинал: $destination");
+                    error_log("WEBP файл сохранён: $destination");
+                } else {
+                    $this->last_error = 'Ошибка при сохранении WEBP файла';
+                }
+                continue;
+            }
+
+            $original_name_full = $base_name . '.' . $ext;
+            $original_dest = $upload_dir . '/' . $original_name_full;
+
+            if (!move_uploaded_file($file['tmp_name'], $original_dest)) {
+                $this->last_error = 'Ошибка при сохранении файла';
+                continue;
+            }
+
+            $webp_dest = $upload_dir . '/' . $base_name . '.webp';
+
+            try {
+                $webp_created = $this->convertToWebP($original_dest, $webp_dest, 80);
+            } catch (Exception $e) {
+                error_log("WebP conversion error: " . $e->getMessage());
+                $webp_created = false;
+            }
+
+            if ($webp_created && file_exists($webp_dest)) {
+                $uploaded_paths[] = $path . '/' . $base_name . '.webp';
+
+                if (file_exists($original_dest)) {
+                    unlink($original_dest);
+                    error_log("Оригинал удалён: $original_dest");
                 }
             } else {
-                $this->last_error = 'Ошибка при сохранении файла';
+                $uploaded_paths[] = $path . '/' . $original_name_full;
+                error_log("WebP не создан, оставлен оригинал: $original_dest");
             }
         }
 

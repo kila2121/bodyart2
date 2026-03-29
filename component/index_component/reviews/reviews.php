@@ -20,7 +20,6 @@
             }
 
 
-            // Массив с цветами для аватаров (если нет фото)
             $avatarColors = ['#ff3366', '#10b981', '#f59e0b', '#8b5cf6', '#3b82f6'];
             $avatarIndex = 0;
 
@@ -28,29 +27,22 @@
                 $avatarIndex++;
                 $avatarColor = $avatarColors[$avatarIndex % count($avatarColors)];
 
-                // Имя пользователя (если нет login, используем fio или "Гость")
                 $userName = $review['login'] ?: ($review['fio'] ?: 'Гость');
 
-                // Первая буква имени для аватара
                 $firstLetter = mb_strtoupper(mb_substr($userName, 0, 1));
 
-                // Проверяем, есть ли аватар
                 $hasAvatar = !empty($review['avatar_url']) && $review['avatar_url'] !== '/public/avatars/default.jpg';
                 ?>
                 <div class="review-card">
                     <div class="review-card-inner">
-                        <!-- Верхняя часть с цитатой -->
                         <div class="review-quote">
                             <i class="fas fa-quote-left quote-icon"></i>
                         </div>
 
-                        <!-- Текст отзыва -->
                         <p class="review-text"><?= htmlspecialchars(mb_substr($review['comment'], 0, 150)) ?>...</p>
 
-                        <!-- Нижняя часть с автором и рейтингом -->
                         <div class="review-footer">
                             <div class="review-author-block">
-                                <!-- Аватар -->
                                 <?php if ($hasAvatar): ?>
                                     <img src="<?= htmlspecialchars($review['avatar_url']) ?>"
                                         alt="<?= htmlspecialchars($userName) ?>" class="review-avatar">
@@ -69,7 +61,6 @@
                                 </div>
                             </div>
 
-                            <!-- Рейтинг звездами -->
                             <div class="review-rating">
                                 <?php
                                 $rating = (int) $review['rating'];
@@ -88,7 +79,6 @@
                                 <span class="rating-value"><?= $rating ?>.0</span>
                             </div>
                         </div>
-                        <!-- Декоративный элемент -->
                         <div class="review-glow" style="background: <?= $avatarColor ?>;"></div>
                     </div>
                 </div>

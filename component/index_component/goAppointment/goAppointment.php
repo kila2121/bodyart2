@@ -19,16 +19,15 @@
         function openPanel() {
             contactPanel.classList.add('active');
             if (panelOverlay) panelOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Блокируем скролл
+            document.body.style.overflow = 'hidden';
         }
 
         function closePanel() {
             contactPanel.classList.remove('active');
             if (panelOverlay) panelOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Возвращаем скролл
+            document.body.style.overflow = '';
         }
 
-        // Открытие по кнопке
         if (contactButton && contactPanel) {
             contactButton.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -36,31 +35,26 @@
             });
         }
 
-        // Закрытие по крестику
         if (closeButton) {
             closeButton.addEventListener('click', closePanel);
         }
 
-        // Закрытие по оверлею
         if (panelOverlay) {
             panelOverlay.addEventListener('click', closePanel);
         }
 
-        // Закрытие по Escape
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && contactPanel.classList.contains('active')) {
                 closePanel();
             }
         });
 
-        // Обработка формы (чтобы не перезагружалась)
         const contactForm = document.getElementById('quickContactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', function (e) {
                 e.preventDefault();
                 alert('Спасибо! Мы перезвоним вам в ближайшее время.');
                 closePanel();
-                // Здесь можно добавить AJAX отправку
             });
         }
     });

@@ -1,4 +1,3 @@
-<!-- ПЕРВАЯ ФОРМА - для мастеров -->
 <div class="appointment-form-container" id="form-master">
     <form method="POST" action="/action.php?action=create_appointment">
         <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
@@ -45,7 +44,6 @@
     </form>
 </div>
 
-<!-- ВТОРАЯ ФОРМА - для услуг -->
 <form method="POST" action="/action.php?action=create_appointment" id="form-service">
     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
     <input type="hidden" name="service_id" id="modal-service-id" value="">
@@ -102,8 +100,7 @@
 </form>
 
 <script>
-    // Загрузка мастеров по специализации услуги (для второй формы)
-    window.loadMastersByService = function (serviceId) {
+    window.loadMastersByService = async function (serviceId) {
         const masterSelect = document.getElementById('master-select');
         const dateInput = document.getElementById('appointment-date');
         const timeSelect = document.getElementById('appointment-time');
@@ -116,7 +113,7 @@
         masterSelect.innerHTML = '<option value="">Загрузка мастеров...</option>';
         masterSelect.disabled = true;
 
-        fetch('/api/get_masters_by_service.php?service_id=' + serviceId)
+        await fetch('/api/get_masters_by_service.php?service_id=' + serviceId)
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.masters && data.masters.length > 0) {
@@ -135,8 +132,7 @@
             });
     }
 
-    // Загрузка доступного времени (для обеих форм)
-    window.loadAvailableTimes = function (date, masterId, serviceId, formType) {
+    window.loadAvailableTimes = async function (date, masterId, serviceId, formType) {
         const timeSelect = formType === 'master'
             ? document.getElementById('appointment-time-master')
             : document.getElementById('appointment-time');
@@ -144,7 +140,7 @@
         timeSelect.innerHTML = '<option value="">Загрузка...</option>';
         timeSelect.disabled = true;
 
-        fetch(`/api/get_available_times.php?date=${date}&master=${masterId}&service=${serviceId}`)
+        await fetch(`/api/get_available_times.php?date=${date}&master=${masterId}&service=${serviceId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.times.length > 0) {
@@ -163,7 +159,6 @@
             });
     }
 
-    // Обработчики для второй формы
     document.addEventListener('DOMContentLoaded', function () {
         const masterSelect = document.getElementById('master-select');
         const dateInput = document.getElementById('appointment-date');
@@ -192,7 +187,6 @@
         }
     });
 
-    // Функции для открытия модалок авторизации
     function openAuthModalFromAppointment() {
         closeAppointmentModal();
         const modal = document.querySelector('.modal');

@@ -3,7 +3,6 @@
         <button class="btn btn-primary" onclick="showForm('addMasterForm')">+ Добавить мастера</button>
     </div>
 
-    <!-- Форма добавления мастера -->
     <div id="addMasterForm" class="form-container" style="display: none;">
         <h3>Добавить мастера</h3>
         <form method="POST" enctype="multipart/form-data" action="/index.php?action=add_master">
@@ -22,7 +21,6 @@
         </form>
     </div>
 
-    <!-- Форма редактирования мастера -->
     <div id="editMasterForm" class="form-container" style="display: none;">
         <h3>Редактирование мастера</h3>
         <form method="POST" enctype="multipart/form-data" action="/index.php?action=edit_master"
@@ -51,11 +49,11 @@
             </div>
             <div class="form-group">
                 <label>Телефон:</label>
-                <input type="tel" name="phone" id="phone" placeholder="Номер телефона" required>
+                <input type="tel" name="phone" id="edit_master_phone" placeholder="Номер телефона" required>
             </div>
             <div class="form-group">
                 <label>Почта:</label>
-                <input type="email" name="email" id="email" placeholder="Почта" required>
+                <input type="email" name="email" id="edit_master_email" placeholder="Почта" required>
             </div>
             <div class="form-group">
                 <label>Текущее фото:</label>
@@ -71,7 +69,6 @@
         </form>
     </div>
 
-    <!-- Список мастеров -->
     <div class="table-responsive">
         <table>
             <thead>

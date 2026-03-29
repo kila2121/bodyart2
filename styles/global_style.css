@@ -25,6 +25,7 @@
   --foreground: #ededed;
 
   --container-padding: clamp(1rem, 5vw, 2rem);
+  --container-width-gallery: min(1400px, 100% - var(--container-padding) * 2);
   --container-width: min(1200px, 100% - var(--container-padding) * 2);
   --font-size-base: clamp(16px, 1.5vw, 18px);
   --font-size-small: clamp(14px, 1.2vw, 16px);

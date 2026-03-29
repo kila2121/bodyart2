@@ -109,9 +109,9 @@ ob_start();
 </form>
 
 <script>
-    function cancelAppointment(appointmentId) {
+    async function cancelAppointment(appointmentId) {
         if (confirm('Вы уверены, что хотите отменить запись?')) {
-            fetch('/action.php?action=cancel_appointment', {
+            await fetch('/action.php?action=cancel_appointment', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

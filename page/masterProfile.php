@@ -140,7 +140,6 @@ ob_start();
         </div>
     <?php endif; ?>
 
-    <!-- Вкладки -->
     <?php if ($master): ?>
         <div class="profile-tabs">
             <button class="tab-btn active" data-tab="appointments">Записи ко мне</button>
@@ -283,9 +282,9 @@ ob_start();
         }
     });
 
-    function deleteWork(workId) {
+    async function deleteWork(workId) {
         if (confirm('Вы уверены, что хотите удалить это фото?')) {
-            fetch('/action.php?action=delete_work', {
+            await fetch('/action.php?action=delete_work', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',

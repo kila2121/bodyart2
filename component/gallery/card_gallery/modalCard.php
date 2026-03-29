@@ -27,19 +27,16 @@ if (empty($galleryItems)) {
             style="display: none">
 
             <div class="gmodal-layout">
-                <!-- Изображение -->
                 <div class="gmodal-image">
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $title; ?>" loading="lazy"
                         onerror="this.src='/public/uploads/gallery_work/default.jpg'">
                 </div>
 
-                <!-- Текстовая панель слева вверху -->
                 <div class="gmodal-text-panel">
                     <h2 class="gmodal-title"><?php echo $title; ?></h2>
                     <span class="gmodal-category"><?php echo $categoryName; ?></span>
                 </div>
 
-                <!-- Правая панель с иконкой избранного и крестиком -->
                 <div class="gmodal-actions-panel">
                     <?php if (!empty($item['is_featured'])): ?>
                         <span class="gmodal-featured-badge">
@@ -48,7 +45,6 @@ if (empty($galleryItems)) {
                     <?php endif; ?>
                 </div>
 
-                <!-- Нижняя панель навигации (без onclick) -->
                 <div class="gmodal-bottom-bar">
                     <div class="gmodal-nav">
                         <button class="gmodal-nav-btn prev">
@@ -65,7 +61,6 @@ if (empty($galleryItems)) {
                     </div>
                 </div>
 
-                <!-- Карточка мастера -->
                 <div class="gmodal-master-card">
                     <div class="gmodal-master-content">
                         <div class="gmodal-master-avatar">

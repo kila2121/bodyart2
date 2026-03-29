@@ -1,4 +1,3 @@
-<!-- Hero секция -->
 <?php
 $stats = Cache::get('hero_stats');
 

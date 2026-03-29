@@ -48,21 +48,17 @@ if (empty($galleryItems)) {
 } else {
     foreach ($galleryItems as $item) {
         $categoryName = getCategoryName($item['category']);
-        $featuredClass = $item['is_featured'] ? 'featured' : '';
         $imageUrl = htmlspecialchars($item['url']);
         $title = htmlspecialchars($item['title'] ?: 'Без названия');
         $createdAt = date('d.m.Y', strtotime($item['created_at']));
         ?>
 
-        <div class="gallery-item <?php echo $featuredClass; ?>"
-            data-category="<?php echo htmlspecialchars($item['category']); ?>" data-id="<?php echo $item['id']; ?>">
+        <div class="gallery-item" data-category="<?php echo htmlspecialchars($item['category']); ?>"
+            data-id="<?php echo $item['id']; ?>">
             <div class="gallery-item-inner">
                 <div class="gallery-image-wrapper">
                     <img src="<?php echo $imageUrl; ?>" alt="<?php echo $title; ?>" loading="lazy"
                         onerror="this.src='/public/uploads/gallery_work/default.jpg'">
-                    <?php if ($item['is_featured']): ?>
-                        <span class="featured-badge">★ Избранное</span>
-                    <?php endif; ?>
                 </div>
 
                 <div class="gallery-item-info">

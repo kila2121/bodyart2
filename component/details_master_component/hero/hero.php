@@ -7,7 +7,6 @@
         </a>
 
         <div class="master-hero-main">
-            <!-- Фото мастера -->
             <div class="master-hero-avatar">
                 <img src="<?= htmlspecialchars(!empty($master['avatar_url']) ? $master['avatar_url'] : '/public/uploads/avatars/default.jpg') ?>"
                     alt="<?= htmlspecialchars($master['fio']) ?>">

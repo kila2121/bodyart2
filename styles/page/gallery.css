@@ -1,6 +1,6 @@
 /* gallery.css - стили для страницы галереи */
 .gallery-page {
-    max-width: var(--container-width);
+    max-width: var(--container-width-gallery);
     margin: 0 auto;
     padding: clamp(30px, 5vw, 40px) var(--container-padding);
     background-color: var(--primary-bg);

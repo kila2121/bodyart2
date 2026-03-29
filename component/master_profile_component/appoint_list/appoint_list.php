@@ -90,9 +90,9 @@
 </div>
 
 <script>
-    function cancelAppointment(id) {
+    async function cancelAppointment(id) {
         if (confirm('Отменить запись?')) {
-            fetch('/action.php?action=cancel_appointment', {
+            await fetch('/action.php?action=cancel_appointment', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -116,10 +116,10 @@
         }
     }
 
-    function updateStatus(id, status) {
+    async function updateStatus(id, status) {
         if (!confirm('Изменить статус?')) return;
 
-        fetch('/action.php?action=update_appointment_status', {
+        await fetch('/action.php?action=update_appointment_status', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

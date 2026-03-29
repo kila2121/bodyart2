@@ -32,6 +32,33 @@ try {
         $categories = $db->dbs->query("SELECT DISTINCT category FROM services ORDER BY category")->fetchAll(PDO::FETCH_COLUMN);
         Cache::set('categories_services', $categories, 3600);
     }
+    $popularServices = Cache::get('popular_services');
+    if ($popularServices === false) {
+        $popularServices = $db->dbs->query("
+                        SELECT 
+                        s.id, 
+                        s.name, 
+                        s.price, 
+                        s.duration, 
+                        s.category,
+                        (
+                            SELECT g.url 
+                            FROM gallery g
+                            LEFT JOIN appointment a ON a.id = g.id_appointment
+                            WHERE a.id_service = s.id
+                            ORDER BY g.is_featured DESC, g.created_at DESC
+                            LIMIT 1
+                        ) as gallery_url,
+                        COUNT(a.id) as appointments_count
+                    FROM services s
+                    LEFT JOIN appointment a ON a.id_service = s.id
+                    WHERE s.is_active = 1
+                    GROUP BY s.id, s.name, s.price, s.duration, s.category
+                    ORDER BY appointments_count DESC, s.name
+                    LIMIT 4
+                    ")->fetchAll(PDO::FETCH_ASSOC);
+        Cache::set("popular_services", $popularServices, 3600);
+    }
 
 } catch (Exception $e) {
     error_log("Ошибка в services.php: " . $e->getMessage());
@@ -51,26 +78,78 @@ ob_start();
         Все процедуры выполняются профессиональными мастерами
         с использованием стерильных материалов.
     </p>
-    <?php if (!empty($categories)): ?>
-        <div class="services-filter" id="services-filter">
-            <button class="active" data-filter="all">Все</button>
-            <?php foreach ($categories as $category): ?>
-                <button data-filter="<?php echo htmlspecialchars($category); ?>">
-                    <?php echo htmlspecialchars($category); ?>
-                </button>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+    <div class="services-layout">
+        <div class="services-main">
+            <?php if (!empty($categories)): ?>
+                <div class="services-filter" id="services-filter">
+                    <button class="active" data-filter="all">Все</button>
+                    <?php foreach ($categories as $category): ?>
+                        <button data-filter="<?php echo htmlspecialchars($category); ?>">
+                            <?php echo htmlspecialchars($category); ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
-    <div id="services-container">
-        <?php
-        if (!empty($allServices)) {
-            $GLOBALS["AllServices"] = $allServices;
-            include_once "component/services/card_services/card.php";
-        } else {
-            echo "<p>Услуги временно недоступны</p>";
-        }
-        ?>
+            <div id="services-container">
+                <?php
+                if (!empty($allServices)) {
+                    $GLOBALS["AllServices"] = $allServices;
+                    include_once "component/services/card_services/card.php";
+                } else {
+                    echo "<p>Услуги временно недоступны</p>";
+                }
+                ?>
+            </div>
+        </div>
+
+        <aside class="services-sidebar">
+            <div class="sidebar-widget">
+                <h3>ПОПУЛЯРНЫЕ УСЛУГИ</h3>
+                <ul class="popular-services-list">
+                    <?php
+
+
+                    if (!empty($popularServices)):
+                        foreach ($popularServices as $service): ?>
+                            <li>
+                                <a onclick="openServiceModal(<?= $service['id'] ?>)">
+                                    <?= htmlspecialchars($service['name']) ?>
+                                    <span><?= htmlspecialchars($service['category']) ?></span>
+                                </a>
+                            </li>
+                        <?php endforeach;
+                    else: ?>
+                        <li>Скоро здесь появятся популярные услуги</li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>СОЦСЕТИ</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-vk"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>РЕЖИМ РАБОТЫ</h3>
+                <div class="contact-info">
+                    <p><i class="far fa-clock"></i> 10:00 – 22:00</p>
+                    <p><i class="fas fa-calendar-week"></i> Без выходных</p>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>КОНТАКТЫ</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone-alt"></i> +7 (999) 123-45-67</p>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Москва</p>
+                </div>
+            </div>
+        </aside>
     </div>
 </section>
 

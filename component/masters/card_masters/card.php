@@ -32,7 +32,6 @@ if (empty($mastersItems)) {
 
         $html .= '<div class="master-card" data-category="' . htmlspecialchars($master['spec']) . '">';
 
-        // Аватар с ссылкой на детальную страницу
         $html .= '<form method="POST" action="/index.php" class="master-avatar-link-form">';
         $html .= '<input type="hidden" name="csrf_token" value="' . generate_csrf_token() . '">';
         $html .= '<input type="hidden" name="page" value="details_master">';
@@ -44,7 +43,6 @@ if (empty($mastersItems)) {
         $html .= '</button>';
         $html .= '</form>';
 
-        // Имя с ссылкой
         $html .= '<form method="POST" action="/index.php" class="master-name-link">';
         $html .= '<input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">';
         $html .= '<input type="hidden" name="page" value="details_master">';
@@ -94,7 +92,6 @@ if (empty($mastersItems)) {
 }
 ?>
 
-<!-- Модалка записи -->
 <div class="appointment-modal-overlay" onclick="closeAppointmentModal()"></div>
 <div class="appointment-modal">
     <div class="modal-header">
@@ -109,28 +106,23 @@ if (empty($mastersItems)) {
 <link rel="stylesheet" href="/component/modal_window/appointment_form.css">
 
 <script>
-    function openMasterModal(masterId, masterName, masterSpec) {
-        // Показываем модалку
+    async function openMasterModal(masterId, masterName, masterSpec) {
         document.querySelector('.appointment-modal-overlay').classList.add('active');
         document.querySelector('.appointment-modal').classList.add('active');
         document.body.classList.add('modal-open');
 
-        // Меняем заголовок
         document.getElementById('modal-title').innerText = 'Запись к мастеру ' + masterName;
 
-        // Показываем форму мастера, скрываем форму услуги
         document.getElementById('form-master').style.display = 'block';
         document.getElementById('form-service').style.display = 'none';
 
-        // Устанавливаем ID мастера в скрытое поле
         document.getElementById('selected-master-id').value = masterId;
 
-        // Загружаем услуги мастера
         const serviceSelect = document.getElementById('service-select-master');
         serviceSelect.disabled = true;
         serviceSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
 
-        fetch('/api/get_services_by_master.php?master_id=' + masterId)
+        await fetch('/api/get_services_by_master.php?master_id=' + masterId)
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.services.length > 0) {
@@ -148,7 +140,6 @@ if (empty($mastersItems)) {
                 }
             });
 
-        // Сбрасываем дату и время
         const dateInput = document.getElementById('appointment-date-master');
         const timeSelect = document.getElementById('appointment-time-master');
         dateInput.disabled = true;
@@ -156,12 +147,10 @@ if (empty($mastersItems)) {
         timeSelect.disabled = true;
         timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
 
-        // Обработчик выбора услуги
-        serviceSelect.onchange = function () {
+        serviceSelect.onchange = async function () {
             if (this.value) {
                 dateInput.disabled = false;
                 document.getElementById('modal-service-id-master').value = this.value;
-                // Сбрасываем время при смене услуги
                 timeSelect.disabled = true;
                 timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
             } else {
@@ -172,15 +161,14 @@ if (empty($mastersItems)) {
             }
         };
 
-        // Обработчик выбора даты
-        dateInput.onchange = function () {
+        dateInput.onchange = async function () {
             const serviceId = serviceSelect.value;
 
             if (this.value && masterId && serviceId) {
                 timeSelect.disabled = false;
                 timeSelect.innerHTML = '<option value="">Загрузка...</option>';
 
-                fetch(`/api/get_available_times.php?date=${this.value}&master=${masterId}&service=${serviceId}`)
+                await fetch(`/api/get_available_times.php?date=${this.value}&master=${masterId}&service=${serviceId}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.success && data.times.length > 0) {
@@ -211,7 +199,6 @@ if (empty($mastersItems)) {
         document.body.classList.remove('modal-open');
     }
 
-    // Закрытие по ESC
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') {
             closeAppointmentModal();

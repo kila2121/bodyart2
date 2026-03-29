@@ -26,9 +26,9 @@
 </div>
 
 <script>
-    function deleteWork(workId) {
+    async function deleteWork(workId) {
         if (confirm('Вы уверены, что хотите удалить это фото?')) {
-            fetch('/action.php?action=delete_work', {
+            await fetch('/action.php?action=delete_work', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
