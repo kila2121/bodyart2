@@ -114,6 +114,67 @@ class Template
                 <script src="<?= $script ?>" defer></script>
             <?php endforeach; ?>
 
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    window.showMessage = function (type = "info", message) {
+                        let icon = '';
+                        let borderColor = '';
+
+                        switch (type) {
+                            case 'success':
+                                icon = '<i class="fas fa-check-circle"></i>';
+                                borderColor = '#10b981';
+                                break;
+                            case 'error':
+                                icon = '<i class="fas fa-exclamation-triangle"></i>';
+                                borderColor = '#ef4444';
+                                break;
+                            case 'info':
+                            default:
+                                icon = '<i class="fas fa-info-circle"></i>';
+                                borderColor = 'var(--accent-color)';
+                                break;
+                        }
+
+                        let container = document.querySelector('.toast-container');
+                        if (!container) {
+                            container = document.createElement('div');
+                            container.className = 'toast-container';
+                            document.body.appendChild(container);
+                        }
+
+                        // Создаём toast в стиле message.css
+                        const toast = document.createElement('div');
+                        toast.className = `toast ${type}`;
+                        toast.innerHTML = `
+                <div class="toast-header">
+                    <button class="btn-close">&times;</button>
+                </div>
+                <div class="toast-body">
+                    ${icon}
+                    <span class="toast-message">${message}</span>
+                </div>
+            `;
+
+                        container.appendChild(toast);
+
+                        // Кнопка закрытия
+                        const closeBtn = toast.querySelector('.btn-close');
+                        closeBtn.addEventListener('click', () => {
+                            toast.classList.add('hide');
+                            setTimeout(() => toast.remove(), 300);
+                        });
+
+                        // Авто-закрытие через 4 секунды
+                        setTimeout(() => {
+                            if (toast && toast.parentNode) {
+                                toast.classList.add('hide');
+                                setTimeout(() => toast.remove(), 300);
+                            }
+                        }, 4000);
+                    };
+                });
+            </script>
         </body>
 
         </html>

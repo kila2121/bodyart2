@@ -3,6 +3,8 @@
 <?php include_once "classes/template.php";
 include_once "classes/cache.php";
 
+global $db;
+
 if (isset($_REQUEST["page"])) {
     $page = $_REQUEST["page"];
     if ($page == "index") {
@@ -40,6 +42,7 @@ ob_start();
 
     <?php include_once "component/index_component/contact_section/contact_section.php"; ?>
 </div>
+
 
 <?php
 $content = ob_get_clean();

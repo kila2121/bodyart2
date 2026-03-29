@@ -165,13 +165,12 @@ ob_start();
                         document.getElementById('current_master_photo').innerHTML = 'Нет фото';
                     }
                 } else {
-                    alert('Ошибка: ' + data.message);
+                    window.showMessage('error', 'Ошибка редактирование мастера');
                     hideForm('editMasterForm');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Ошибка при загрузке данных');
+                window.showMessage('error', 'Ошибка редактирование мастера');
                 hideForm('editMasterForm');
             });
     }
@@ -191,13 +190,12 @@ ob_start();
                     document.getElementById('edit_service_duration').value = data.service.duration;
                     document.getElementById('edit_service_description').value = data.service.description;
                 } else {
-                    alert('Ошибка: ' + data.message);
+                    window.showMessage('error', 'Ошибка редактирования услуги');
                     hideForm('editServiceForm');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Ошибка при загрузке данных');
+                window.showMessage('error', 'Ошибка редактирования услуги');
                 hideForm('editServiceForm');
             });
     }
@@ -217,14 +215,13 @@ ob_start();
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    window.showMessage('success', 'Статус успешно изменен');
                 } else {
-                    alert('Ошибка: ' + data.message);
+                    window.showMessage('error', 'Ошибка изменения статуса');
                 }
             })
             .catch(e => {
-                console.error('Ошибка:', e);
-                alert('Ошибка изменения статуса');
+                window.showMessage('error', 'Ошибка изменения статуса');
             });
     }
 
@@ -243,14 +240,13 @@ ob_start();
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    window.showMessage('success', 'Роль успешно изменена');
                 } else {
-                    alert('Ошибка: ' + data.message);
+                    window.showMessage('error', 'Ошибка изменения роли');
                 }
             })
             .catch(e => {
-                console.error('Ошибка:', e);
-                alert('Ошибка изменения роли');
+                window.showMessage('error', 'Ошибка изменения роли');
             });
     }
 

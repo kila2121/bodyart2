@@ -473,6 +473,8 @@ if (isset($_REQUEST['action'])) {
                     } else {
                         $_SESSION['success'] = 'Мастер удалён, но не удалось удалить аккаунт пользователя';
                     }
+                } else {
+                    $_SESSION['success'] = 'Мастер успешно удалён';
                 }
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении мастера';
