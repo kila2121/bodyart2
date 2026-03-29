@@ -416,8 +416,21 @@ if (isset($_REQUEST['action'])) {
         try {
             // Проверяем наличие записей
             $check = $db->dbs->prepare('SELECT COUNT(*) FROM appointment WHERE id_master = :id');
+            $contact = $db->dbs->prepare('SELECT phone, email from master WHERE id = :id');
             $check->execute([':id' => $_REQUEST['id']]);
+            $contact->execute([':id' => $_REQUEST['id']]);
+            $masterData = $contact->fetch(PDO::FETCH_ASSOC);
             $appointments_count = $check->fetchColumn();
+
+            $userId = null;
+            if ($masterData && !empty($masterData['phone']) && !empty($masterData['email'])) {
+                $userQuery = $db->dbs->prepare('SELECT id FROM user WHERE phone = :phone AND email = :email');
+                $userQuery->execute([
+                    ':phone' => $masterData['phone'],
+                    ':email' => $masterData['email']
+                ]);
+                $userId = $userQuery->fetchColumn();
+            }
 
             if ($appointments_count > 0) {
                 $_SESSION['error'] = 'Невозможно удалить мастера, у него есть записи';
@@ -454,14 +467,19 @@ if (isset($_REQUEST['action'])) {
                 foreach ($masters as $id) {
                     Cache::delete('services_by_master_' . $id);
                 }
-
-                $_SESSION['success'] = 'Мастер успешно удален';
+                if ($userId) {
+                    if ($db->actionTable('del', ['id' => $userId], 'user')) {
+                        $_SESSION['success'] = 'Мастер и его аккаунт успешно удалены';
+                    } else {
+                        $_SESSION['success'] = 'Мастер удалён, но не удалось удалить аккаунт пользователя';
+                    }
+                }
             } else {
                 $_SESSION['error'] = 'Ошибка при удалении мастера';
             }
         } catch (Exception $e) {
             error_log("Ошибка удаления мастера: " . $e->getMessage());
-            $_SESSION['error'] = 'Ошибка базы данных';
+            $_SESSION['error'] = 'Ошибка базы данных' . $e;
         }
         header("Location: /index.php?page=admin");
         exit();

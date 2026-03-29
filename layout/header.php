@@ -1,11 +1,13 @@
 <header class="header">
     <div class="headerContent">
         <div class="nav">
-            <div class="logo">
-                <img src="/public/logo.webp" srcset="/public/logo.webp 120w" sizes="60px" width="60" height="60"
-                    alt="Логотип BodyArt Studio" class="logo_img" loading="eager">
-                <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
-            </div>
+            <a href="/index.php?page=index">
+                <div class="logo">
+                    <img src="/public/logo.webp" srcset="/public/logo.webp 120w" sizes="60px" width="60" height="60"
+                        alt="Логотип BodyArt Studio" class="logo_img" loading="eager">
+                    <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
+                </div>
+            </a>
             <nav class="nav_links">
                 <a href="/index.php?page=index" class="nav_link">О студии</a>
                 <a href="/index.php?page=services" class="nav_link">Услуги</a>
