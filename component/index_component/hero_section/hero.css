@@ -1,12 +1,19 @@
-/* ========== HERO SECTION – ГАРАНТИРОВАННЫЙ ФОН ========== */
+/* =================================================
+   HERO SECTION – ПОЛНОСТЬЮ ОПТИМИЗИРОВАННЫЙ
+   ================================================= */
 
+/* ------------------------------------------------
+   1. ПЕРЕМЕННЫЕ
+------------------------------------------------ */
 :root {
     --hero-padding-top: clamp(60px, 10vh, 120px);
     --hero-padding-bottom: clamp(30px, 5vh, 80px);
     --hero-margin-bottom: clamp(30px, 6vh, 100px);
 }
 
-/* ========== ОСНОВНЫЕ СТИЛИ (тёмная тема по умолчанию) ========== */
+/* ------------------------------------------------
+   2. ОСНОВНЫЕ СТИЛИ (тёмная тема по умолчанию)
+------------------------------------------------ */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -91,6 +98,7 @@
     line-height: 1.2;
     font-weight: 700;
     letter-spacing: -0.02em;
+    color: white;
 }
 
 .title_line {
@@ -129,13 +137,17 @@
     margin: 0 auto;
     opacity: 0.9;
     line-height: 1.6;
+    color: white;
 }
 
 .subtitle_highlight {
     font-weight: 600;
+    color: var(--accent-light);
 }
 
-/* Карточки */
+/* ------------------------------------------------
+   3. КАРТОЧКИ
+------------------------------------------------ */
 .grid_container {
     display: grid;
     gap: clamp(16px, 2vw, 24px);
@@ -197,6 +209,7 @@
     font-size: clamp(16px, 2.5vw, 18px);
     margin-bottom: 8px;
     font-weight: 600;
+    color: white;
 }
 
 .card p {
@@ -204,9 +217,12 @@
     opacity: 0.8;
     line-height: 1.5;
     margin: 0;
+    color: white;
 }
 
-/* Блок доверия */
+/* ------------------------------------------------
+   4. БЛОК ДОВЕРИЯ
+------------------------------------------------ */
 .trust {
     display: grid;
     gap: clamp(16px, 3vw, 24px);
@@ -309,9 +325,12 @@
     font-size: clamp(11px, 2.5vw, 14px);
     opacity: 0.8;
     font-weight: 500;
+    color: white;
 }
 
-/* Скролл индикатор */
+/* ------------------------------------------------
+   5. СКРОЛЛ ИНДИКАТОР
+------------------------------------------------ */
 .scroll_link {
     text-decoration: none;
     color: inherit;
@@ -349,6 +368,7 @@
     font-size: clamp(12px, 2vw, 14px);
     opacity: 0.8;
     letter-spacing: 0.5px;
+    color: white;
 }
 
 @keyframes bounce {
@@ -370,7 +390,9 @@
     }
 }
 
-/* ========== СВЕТЛАЯ ТЕМА ========== */
+/* ------------------------------------------------
+   6. СВЕТЛАЯ ТЕМА
+------------------------------------------------ */
 [data-theme="light"] .hero {
     color: var(--text-color);
 }
@@ -417,20 +439,22 @@
     color: var(--text-secondary);
 }
 
-[data-theme="light"] .scroll_text {
-    color: var(--text-secondary);
-}
-
 [data-theme="light"] .trust_icon {
     background: linear-gradient(45deg, var(--accent-color), var(--accent-light));
     color: white;
+}
+
+[data-theme="light"] .scroll_text {
+    color: var(--text-secondary);
 }
 
 [data-theme="light"] .icons2 {
     color: var(--accent-color);
 }
 
-/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
+/* ------------------------------------------------
+   7. МОБИЛЬНАЯ АДАПТАЦИЯ
+------------------------------------------------ */
 @media (max-width: 991px) {
     .hero {
         min-height: auto;
@@ -683,7 +707,9 @@
     }
 }
 
-/* Оптимизация для высокого DPI */
+/* ------------------------------------------------
+   8. ОПТИМИЗАЦИЯ
+------------------------------------------------ */
 @media (-webkit-min-device-pixel-ratio: 2),
 (min-resolution: 192dpi) {
     .hero-background-img {
@@ -692,7 +718,6 @@
     }
 }
 
-/* Уважение к настройкам пользователя */
 @media (prefers-reduced-motion: reduce) {
 
     .card,
@@ -710,7 +735,9 @@
     }
 }
 
-/* Печать */
+/* ------------------------------------------------
+   9. ПЕЧАТЬ
+------------------------------------------------ */
 @media print {
     .hero {
         min-height: auto;
