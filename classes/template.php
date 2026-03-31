@@ -44,6 +44,7 @@ class Template
             <meta name="csrf-token" content="<?= generate_csrf_token() ?>">
             <title><?php echo htmlspecialchars($this->title); ?></title>
 
+            <link rel="icon" type="image/x-icon" href="/favicon.ico">
             <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
             <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
