@@ -1,27 +1,85 @@
-<div class="appointment-form-container" id="form-master">
-    <form method="POST" action="/action.php?action=create_appointment">
+<div class="modal-body">
+    <div class="appointment-form-container" id="form-master">
+        <form method="POST" action="/action.php?action=create_appointment">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            <input type="hidden" name="service_id" id="modal-service-id-master" value="">
+            <input type="hidden" name="master_id" id="selected-master-id" value="">
+
+            <div class="form-group">
+                <label for="service-select-master">Выберите услугу:</label>
+                <select id="service-select-master" name="service_id_select" required disabled>
+                    <option value="">Загрузка...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="appointment-date-master">Выберите дату:</label>
+                <input type="date" id="appointment-date-master" name="date" required disabled
+                    min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+3 months')); ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="appointment-time-master">Выберите время:</label>
+                <select id="appointment-time-master" name="time" required disabled>
+                    <option value="">Сначала выберите дату</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Комментарий</label>
+                <textarea name="notes" id="notes" rows="3" placeholder="Опишите пожелания, эскиз и т.д."></textarea>
+            </div>
+
+            <?php if (!isset($_SESSION['id'])): ?>
+                <div class="auth-warning">
+                    <p>Для записи необходимо
+                        <a href="#" onclick="openAuthModalFromAppointment(); return false;">войти</a> или
+                        <a href="#" onclick="openRegModalFromAppointment(); return false;">зарегистрироваться</a>
+                    </p>
+                </div>
+            <?php endif; ?>
+            <div style="display:none" id="yourself" class="self-booking-warning">
+                <i class="fas fa-ban"></i>
+                <span>Вы не можете записаться на услугу к самому себе!</span>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="closeAppointmentModal()">Отмена</button>
+                <button type="submit" class="btn btn-primary" <?= !isset($_SESSION['id']) ? 'disabled' : '' ?>>Записаться</button>
+            </div>
+        </form>
+    </div>
+
+    <form method="POST" action="/action.php?action=create_appointment" id="form-service">
         <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-        <input type="hidden" name="service_id" id="modal-service-id-master" value="">
-        <input type="hidden" name="master_id" id="selected-master-id" value="">
+        <input type="hidden" name="service_id" id="modal-service-id" value="">
 
-        <div class="form-group">
-            <label for="service-select-master">Выберите услугу:</label>
-            <select id="service-select-master" name="service_id_select" required disabled>
-                <option value="">Загрузка...</option>
-            </select>
+        <div class="service-info" id="service-info" style="display: none;">
+            <h3 id="service-name"></h3>
+            <div class="service-details">
+                <span class="price" id="service-price"></span>
+                <span class="duration" id="service-duration"></span>
+            </div>
         </div>
 
         <div class="form-group">
-            <label for="appointment-date-master">Выберите дату:</label>
-            <input type="date" id="appointment-date-master" name="date" required disabled
-                min="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d', strtotime('+3 months')); ?>">
+            <label>Мастер</label>
+            <select name="master_id" id="master-select" required disabled>
+                <option value="">Сначала выберите услугу</option>
+            </select>
         </div>
 
-        <div class="form-group">
-            <label for="appointment-time-master">Выберите время:</label>
-            <select id="appointment-time-master" name="time" required disabled>
-                <option value="">Сначала выберите дату</option>
-            </select>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Дата</label>
+                <input type="date" name="date" id="appointment-date" min="<?= date('Y-m-d') ?>" required disabled>
+            </div>
+
+            <div class="form-group">
+                <label>Время</label>
+                <select name="time" id="appointment-time" required disabled>
+                    <option value="">Сначала выберите дату</option>
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
@@ -37,68 +95,15 @@
                 </p>
             </div>
         <?php endif; ?>
+
         <div class="form-actions">
             <button type="button" class="btn btn-secondary" onclick="closeAppointmentModal()">Отмена</button>
-            <button type="submit" class="btn btn-primary" <?= !isset($_SESSION['id']) ? 'disabled' : '' ?>>Записаться</button>
+            <button type="submit" class="btn btn-primary" <?= !isset($_SESSION['id']) ? 'disabled' : '' ?>>
+                Записаться
+            </button>
         </div>
     </form>
 </div>
-
-<form method="POST" action="/action.php?action=create_appointment" id="form-service">
-    <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-    <input type="hidden" name="service_id" id="modal-service-id" value="">
-
-    <div class="service-info" id="service-info" style="display: none;">
-        <h3 id="service-name"></h3>
-        <div class="service-details">
-            <span class="price" id="service-price"></span>
-            <span class="duration" id="service-duration"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>Мастер</label>
-        <select name="master_id" id="master-select" required disabled>
-            <option value="">Сначала выберите услугу</option>
-        </select>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group">
-            <label>Дата</label>
-            <input type="date" name="date" id="appointment-date" min="<?= date('Y-m-d') ?>" required disabled>
-        </div>
-
-        <div class="form-group">
-            <label>Время</label>
-            <select name="time" id="appointment-time" required disabled>
-                <option value="">Сначала выберите дату</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="notes">Комментарий</label>
-        <textarea name="notes" id="notes" rows="3" placeholder="Опишите пожелания, эскиз и т.д."></textarea>
-    </div>
-
-    <?php if (!isset($_SESSION['id'])): ?>
-        <div class="auth-warning">
-            <p>Для записи необходимо
-                <a href="#" onclick="openAuthModalFromAppointment(); return false;">войти</a> или
-                <a href="#" onclick="openRegModalFromAppointment(); return false;">зарегистрироваться</a>
-            </p>
-        </div>
-    <?php endif; ?>
-
-    <div class="form-actions">
-        <button type="button" class="btn btn-secondary" onclick="closeAppointmentModal()">Отмена</button>
-        <button type="submit" class="btn btn-primary" <?= !isset($_SESSION['id']) ? 'disabled' : '' ?>>
-            Записаться
-        </button>
-    </div>
-</form>
-
 <script>
     window.loadMastersByService = async function (serviceId) {
         const masterSelect = document.getElementById('master-select');
@@ -185,6 +190,7 @@
                 }
             });
         }
+
     });
 
     function openAuthModalFromAppointment() {

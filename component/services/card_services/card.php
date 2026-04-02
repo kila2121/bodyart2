@@ -107,13 +107,11 @@ echo renderCards($services);
         <h2 id="modal-title">Запись на услугу</h2>
         <button class="modal-close" onclick="closeAppointmentModal()">&times;</button>
     </div>
-    <div class="modal-body">
-        <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/component/modal_window/appointment_form.php"; ?>
-    </div>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/component/modal_window/appointment_form.php"; ?>
 </div>
 
 <script>
-    function openServiceModal(serviceId) {
+    async function openServiceModal(serviceId) {
         document.querySelector('.appointment-modal-overlay').classList.add('active');
         document.querySelector('.appointment-modal').classList.add('active');
         document.body.classList.add('modal-open');
@@ -123,7 +121,7 @@ echo renderCards($services);
         document.getElementById('form-master').style.display = 'none';
         document.getElementById('form-service').style.display = 'block';
 
-        fetch('/api/get_service_by_id.php?id=' + serviceId)
+        await fetch('/api/get_service_by_id.php?id=' + serviceId)
             .then(r => r.json())
             .then(data => {
                 if (data.success) {

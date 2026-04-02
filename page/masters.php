@@ -31,6 +31,7 @@ try {
     error_log("Ошибка в masters.php: " . $e->getMessage());
 }
 
+
 ob_start();
 ?>
 <?php include_once "component/change_theme/changeTheme.php"; ?>
@@ -155,5 +156,6 @@ $template->addStyle("/styles/page/masters.css");
 $template->addStyle("/component/masters/hero/hero.css");
 $template->addStyle("/component/masters/card_masters/card.css");
 $template->addStyle("/component/change_theme/changeTheme.css");
+$template->addScript("/script/function.js");
 $template->render($content);
 ?>

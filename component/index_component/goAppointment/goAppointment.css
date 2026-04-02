@@ -1,138 +1,197 @@
-/* ===== CTA COMPONENT ===== */
+/* ===== CTA COMPONENT - GO APPOINTMENT ===== */
+/* Используем переменные из global_style.css */
+
 .cta-section {
-    margin: clamp(40px, 8vw, 80px) 0 clamp(20px, 5vw, 40px);
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
-    border-radius: var(--radius-lg);
-    padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 40px);
-    text-align: center;
     position: relative;
-    overflow: hidden;
-    isolation: isolate;
+    margin: clamp(40px, 8vw, 80px) 0 clamp(20px, 5vw, 40px);
+    padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 40px);
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-light) 100%);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transform: none;
+    isolation: auto;
+    overflow: visible;
 }
 
-.cta-section::before {
-    content: '';
+/* Декоративные элементы */
+.cta-decoration {
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: min(200px, 30vw);
-    height: min(200px, 30vw);
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
     z-index: 0;
 }
 
-.cta-section::after {
+.cta-decoration::before,
+.cta-decoration::after {
     content: '';
     position: absolute;
-    bottom: -50px;
-    left: -50px;
+    border-radius: 50%;
+}
+
+.cta-decoration::before {
+    top: -10%;
+    right: -5%;
+    width: min(200px, 35vw);
+    height: min(200px, 35vw);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.cta-decoration::after {
+    bottom: -15%;
+    left: -10%;
     width: min(250px, 40vw);
     height: min(250px, 40vw);
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    z-index: 0;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .cta-content {
     position: relative;
-    z-index: var(--z-dropdown);
-    max-width: 700px;
+    z-index: 1;
+    max-width: min(700px, 90%);
     margin: 0 auto;
 }
 
 .cta-content h2 {
+    margin: 0 0 var(--space-md);
     font-size: clamp(1.5rem, 5vw, 2.2rem);
     font-weight: 700;
-    color: white;
-    margin-bottom: 16px;
-    text-shadow: var(--shadow-sm);
-    word-wrap: break-word;
+    color: var(--text-color);
+    line-height: 1.3;
 }
 
 .cta-content p {
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 32px;
+    margin: 0 0 clamp(24px, 5vw, 32px);
     font-size: clamp(1rem, 3vw, 1.2rem);
-    line-height: 1.5;
+    line-height: 1.6;
+    color: var(--text-secondary);
 }
 
 .cta-buttons {
     display: flex;
-    gap: 16px;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: clamp(12px, 3vw, 16px);
+    justify-content: center;
+    align-items: center;
 }
 
-.btn {
-    padding: clamp(12px, 2.5vw, 14px) clamp(24px, 5vw, 32px);
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: clamp(0.9rem, 2.2vw, 1rem);
-    text-decoration: none;
-    transition: var(--transition-normal);
+.cta-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    border: none;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: clamp(12px, 2.5vw, 14px) clamp(24px, 5vw, 32px);
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
+    border: 2px solid transparent;
+    transition: all var(--transition-normal);
+    white-space: nowrap;
+    min-height: 48px;
 }
 
-.btn-primary {
-    background: white;
+/* Primary button - светлая версия для контраста */
+.cta-btn-primary {
+    background: rgba(255, 255, 255, 0.95);
     color: var(--accent-color);
+    border-color: rgba(255, 255, 255, 0.95);
     box-shadow: var(--shadow-md);
 }
 
 @media (hover: hover) {
-    .btn-primary:hover {
-        background: rgba(255, 255, 255, 0.9);
-        transform: translateY(-3px);
+    .cta-btn-primary:hover {
+        background: #ffffff;
+        border-color: #ffffff;
+        transform: translateY(-2px);
         box-shadow: var(--shadow-lg);
     }
 }
 
-.btn-outline {
+.cta-btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Outline button - светлая обводка для темного фона */
+.cta-btn-outline {
     background: transparent;
-    color: white;
-    border: 2px solid white;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 @media (hover: hover) {
-    .btn-outline:hover {
-        background: white;
-        color: var(--accent-color);
-        transform: translateY(-3px);
-        box-shadow: var(--shadow-lg);
+    .cta-btn-outline:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.8);
+        color: #ffffff;
+        transform: translateY(-2px);
     }
 }
 
-/* Мобильная адаптация */
+.cta-btn-outline:active {
+    transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
-    .btn {
-        width: 100%;
-        justify-content: center;
+    .cta-section {
+        padding: 30px 20px;
+        margin: 30px 0;
+    }
+
+    .cta-btn {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 140px;
     }
 }
 
 @media (max-width: 480px) {
     .cta-section {
-        padding: 30px 20px;
+        padding: 24px 16px;
+        margin: 24px 0;
+        border-radius: var(--radius-md);
     }
 
     .cta-content h2 {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
+        margin-bottom: 12px;
     }
 
     .cta-content p {
-        font-size: 0.9rem;
-        margin-bottom: 24px;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
     }
 
     .cta-buttons {
         flex-direction: column;
         gap: 12px;
+    }
+
+    .cta-btn {
+        width: 100%;
+        flex: none;
+        min-height: 44px;
+        padding: 12px 20px;
+    }
+
+    .cta-decoration::before,
+    .cta-decoration::after {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cta-btn,
+    .cta-section {
+        transition: none;
+    }
+
+    .cta-btn:hover {
+        transform: none;
     }
 }

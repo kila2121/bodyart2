@@ -69,10 +69,16 @@
                         </button>
                     </div>
                 <?php elseif ($app['status'] === 'confirmed'): ?>
-                    <button class="button button-complete" value="completed"
-                        onclick="updateStatus(<?= $app['id'] ?>, this.value)">
-                        <i class="fas fa-check-double"></i> Завершить
-                    </button>
+                    <div class="appointment-actions-group">
+                        <button class="button button-complete" value="completed"
+                            onclick="updateStatus(<?= $app['id'] ?>, this.value)">
+                            <i class="fas fa-check-double"></i> Завершить
+                        </button>
+                        <button class="button button-extend" value="completed"
+                            onclick="updateStatusAndExtend(<?= $app['id'] ?>, 'completed', <?= $masterId ?>, '<?= htmlspecialchars($master['fio']) ?>', '<?= htmlspecialchars($master['spec']) ?>', <?= $app['id_user'] ?>)">
+                            <i class="fas fa-plus"></i> Продлить
+                        </button>
+                    </div>
                 <?php elseif ($app['status'] === 'completed' && !empty($GLOBALS['show_upload_button'])): ?>
                     <button class="button button-upload" onclick="openUploadModal(<?= $app['id'] ?>)">
                         <i class="fas fa-camera"></i> Добавить фото
@@ -87,6 +93,17 @@
             </div>
         </div>
     <?php endforeach; ?>
+</div>
+
+<div class="appointment-modal-overlay" onclick="closeAppointmentModal()"></div>
+<div class="appointment-modal">
+    <div class="modal-header">
+        <h2 id="modal-title">Запись на услугу</h2>
+        <button class="modal-close" onclick="closeAppointmentModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/component/modal_window/appointment_form.php"; ?>
+    </div>
 </div>
 
 <script>
@@ -104,10 +121,14 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        location.reload()
+                        window.showMessage('success', 'Запись успешно отменена');
                     } else {
-                        alert('Ошибка: ' + data.message);
+                        window.showMessage('error', 'Ошибка отмены записи');
                     }
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
                 })
                 .catch(e => {
                     console.error('Ошибка:', e);
@@ -131,14 +152,46 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    window.showMessage('success', 'Статус успешно обновлен');
                 } else {
-                    alert('Ошибка: ' + data.message);
+                    window.showMessage('error', 'Ошибка изменения статуса');
                 }
+
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
             })
             .catch(e => {
                 console.error('Ошибка:', e);
                 alert('Произошла обновления статуса');
             });
+    }
+
+    async function updateStatusAndExtend(id, status, masterId, masterName, masterSpec, clientId) {
+        if (!confirm('Завершить запись и создать новую для клиента?')) return;
+
+        try {
+            const response = await fetch('/action.php?action=update_appointment_status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({ id: id, status: status })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Открываем модалку для продления с указанием клиента
+                window.openExtendModal(masterId, masterName, masterSpec, clientId);
+            } else {
+                alert('Ошибка: ' + data.message);
+            }
+        } catch (e) {
+            console.error('Ошибка:', e);
+            alert('Произошла ошибка при обновлении статуса');
+        }
     }
 </script>

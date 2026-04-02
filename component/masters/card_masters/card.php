@@ -19,6 +19,26 @@ if (isset($GLOBALS['mastersData']) && !empty($GLOBALS['mastersData'])) {
     $mastersItems = selectMasters();
 }
 
+$userId = $_SESSION['id'];
+$masterId = null;
+try {
+    $stmt = $db->dbs->prepare("SELECT * FROM user WHERE id = ?");
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user['status'] == 80) {
+        $stmt = $db->dbs->prepare("SELECT id FROM master WHERE email = ? OR phone = ?");
+        $stmt->execute([$user['email'], $user['phone']]);
+        $masterData = $stmt->fetch(PDO::FETCH_ASSOC);
+        $masterId = $masterData ? (int) $masterData['id'] : null;
+    }
+
+
+} catch (Exception $e) {
+    error_log("Ошибка: " . $e->getMessage());
+    $masterId = null;
+}
+
 if (empty($mastersItems)) {
     echo '<p class="no-masters">Мастера временно не доступны</p>';
 } else {
@@ -79,7 +99,7 @@ if (empty($mastersItems)) {
 
         $html .= '<div class="master-footer">';
         $html .= '<span class="status-badge ' . $statusClass . '"><i class="fas fa-circle"></i> ' . $statusText . '</span>';
-        $html .= '<button class="book-btn" onclick="openMasterModal(' . $master['id'] . ', \'' . htmlspecialchars($master['fio']) . '\', \'' . htmlspecialchars($master['spec']) . '\')">';
+        $html .= '<button class="book-btn" onclick="openMasterModal(' . $master['id'] . ', \'' . htmlspecialchars($master['fio']) . '\', \'' . htmlspecialchars($master['spec']) . '\'), checkYourSelf()">';
         $html .= '<i class="fas fa-arrow-right"></i> Записаться';
         $html .= '</button>';
         $html .= '</div>';
@@ -103,105 +123,70 @@ if (empty($mastersItems)) {
     </div>
 </div>
 
-<link rel="stylesheet" href="/component/modal_window/appointment_form.css">
-
 <script>
-    async function openMasterModal(masterId, masterName, masterSpec) {
-        document.querySelector('.appointment-modal-overlay').classList.add('active');
-        document.querySelector('.appointment-modal').classList.add('active');
-        document.body.classList.add('modal-open');
-
-        document.getElementById('modal-title').innerText = 'Запись к мастеру ' + masterName;
-
-        document.getElementById('form-master').style.display = 'block';
-        document.getElementById('form-service').style.display = 'none';
-
-        document.getElementById('selected-master-id').value = masterId;
+    function resetFormState() {
+        const yourselfBlock = document.getElementById('yourself');
+        if (yourselfBlock) {
+            yourselfBlock.style.display = 'none';
+        }
 
         const serviceSelect = document.getElementById('service-select-master');
-        serviceSelect.disabled = true;
-        serviceSelect.innerHTML = '<option value="">Загрузка услуг...</option>';
+        const submitBtn = document.querySelector('#form-master button[type="submit"]');
+        const notesField = document.getElementById('notes');
 
-        await fetch('/api/get_services_by_master.php?master_id=' + masterId)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success && data.services.length > 0) {
-                    serviceSelect.innerHTML = '<option value="">Выберите услугу</option>';
-                    data.services.forEach(service => {
-                        const option = document.createElement('option');
-                        option.value = service.id;
-                        option.textContent = service.name + ' - ' + service.price + ' ₽ (' + service.duration + ' мин)';
-                        serviceSelect.appendChild(option);
-                    });
-                    serviceSelect.disabled = false;
-                } else {
-                    serviceSelect.innerHTML = '<option value="">Нет доступных услуг</option>';
-                    serviceSelect.disabled = true;
-                }
-            });
-
-        const dateInput = document.getElementById('appointment-date-master');
-        const timeSelect = document.getElementById('appointment-time-master');
-        dateInput.disabled = true;
-        dateInput.value = '';
-        timeSelect.disabled = true;
-        timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
-
-        serviceSelect.onchange = async function () {
-            if (this.value) {
-                dateInput.disabled = false;
-                document.getElementById('modal-service-id-master').value = this.value;
-                timeSelect.disabled = true;
-                timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
-            } else {
-                dateInput.disabled = true;
-                dateInput.value = '';
-                timeSelect.disabled = true;
-                timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
-            }
-        };
-
-        dateInput.onchange = async function () {
-            const serviceId = serviceSelect.value;
-
-            if (this.value && masterId && serviceId) {
-                timeSelect.disabled = false;
-                timeSelect.innerHTML = '<option value="">Загрузка...</option>';
-
-                await fetch(`/api/get_available_times.php?date=${this.value}&master=${masterId}&service=${serviceId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success && data.times.length > 0) {
-                            timeSelect.innerHTML = '<option value="">Выберите время</option>';
-                            data.times.forEach(time => {
-                                const option = document.createElement('option');
-                                option.value = time;
-                                option.textContent = time;
-                                timeSelect.appendChild(option);
-                            });
-                            timeSelect.disabled = false;
-                        } else {
-                            timeSelect.innerHTML = '<option value="">Нет свободного времени</option>';
-                            timeSelect.disabled = true;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Ошибка загрузки времени:', error);
-                        timeSelect.innerHTML = '<option value="">Ошибка загрузки</option>';
-                    });
-            }
-        };
-    }
-
-    function closeAppointmentModal() {
-        document.querySelector('.appointment-modal-overlay').classList.remove('active');
-        document.querySelector('.appointment-modal').classList.remove('active');
-        document.body.classList.remove('modal-open');
-    }
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            closeAppointmentModal();
+        if (notesField && notesField.disabled) {
+            notesField.disabled = false;
+            notesField.style.opacity = '';
         }
-    });
+        if (submitBtn && submitBtn.disabled && <?= json_encode(isset($_SESSION['id'])) ?>) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+        }
+    }
+
+    function checkYourSelf() {
+        setTimeout(() => {
+            const masterId = parseInt(document.getElementById('selected-master-id').value);
+            const masterIdUser = <?= json_encode($masterId) ?>;
+
+            console.log('Проверка:', { masterIdUser, masterId });
+
+            if (masterIdUser && masterId && masterIdUser === masterId) {
+                const yourselfBlock = document.getElementById('yourself');
+                if (yourselfBlock) {
+                    yourselfBlock.style.display = 'flex';
+                }
+
+                const elementsToDisable = [
+                    'service-select-master',
+                    'appointment-date-master',
+                    'appointment-time-master'
+                ];
+
+                elementsToDisable.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.disabled = true;
+                        el.style.opacity = '0.6';
+                        el.style.cursor = 'not-allowed';
+                    }
+                });
+
+                const notesField = document.getElementById('notes');
+                if (notesField) {
+                    notesField.disabled = true;
+                    notesField.style.opacity = '0.6';
+                }
+
+                const submitBtn = document.querySelector('#form-master button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.style.opacity = '0.5';
+                    submitBtn.style.cursor = 'not-allowed';
+                    submitBtn.title = 'Нельзя записаться к себе';
+                }
+            }
+        }, 200);
+    }
 </script>

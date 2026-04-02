@@ -1363,7 +1363,17 @@ if (isset($_REQUEST['action'])) {
             exit;
         }
 
-        $userId = $_SESSION['id'];
+        $isExtend = isset($_POST['is_extend']) && $_POST['is_extend'] == '1';
+        $extendClientId = isset($_POST['extend_client_id']) ? (int) $_POST['extend_client_id'] : 0;
+        $userId = null;
+
+        if ($isExtend && isset($_SESSION['role']) && $_SESSION['role'] === 'master' && $extendClientId > 0) {
+            // При продлении - записываем клиента, а не мастера
+            $userId = $extendClientId;
+        } else {
+            $userId = $_SESSION['id'];
+        }
+
         $serviceId = (int) $_POST['service_id'];
         $masterId = (int) $_POST['master_id'];
         $date = $_POST['date'];

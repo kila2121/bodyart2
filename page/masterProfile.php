@@ -321,5 +321,6 @@ $template->addStyle("/component/master_profile_component/add_work/add_work.css")
 $template->addStyle("/component/change_theme/changeTheme.css");
 $template->addStyle("/component/user_component/appointment_list/appointment_list.css");
 $template->addStyle("/styles/page/masterProfile.css");
+$template->addScript("/script/function.js");
 $template->render($content);
 ?>

@@ -1,10 +1,11 @@
 <section class="cta-section">
+    <div class="cta-decoration"></div>
     <div class="cta-content">
         <h2>Готовы изменить свой образ?</h2>
         <p>Запишитесь на консультацию или задайте вопросы нашим мастерам</p>
         <div class="cta-buttons">
-            <a href="/index.php?page=services" class="btn btn-primary">Выбрать услугу</a>
-            <a id="cont" class="btn btn-outline">Связаться с нами</a>
+            <a href="/index.php?page=services" class="cta-btn cta-btn-primary">Выбрать услугу</a>
+            <a id="cont" class="cta-btn cta-btn-outline">Связаться с нами</a>
         </div>
     </div>
 </section>

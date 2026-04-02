@@ -1067,3 +1067,7 @@ body.modal-open {
     min-height: -webkit-fill-available;
   }
 }
+
+.header {
+  position: relative !important;
+}
