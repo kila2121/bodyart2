@@ -1,120 +1,120 @@
-/* appoint.css - стили для раздела записи */
+/* appoint.css — стили для раздела записей */
 
 .appointments-list {
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 2.5vw, 15px);
+    gap: var(--space-md);
 }
 
 .appointment-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: clamp(15px, 3vw, 20px);
-    background: var(--secondary-bg);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
-    transition: var(--transition-normal);
-    gap: 15px;
     flex-wrap: wrap;
+    gap: var(--space-md);
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    transition: border-color var(--transition-fast);
 }
 
-@media (max-width: 992px) {
-    .appointment-item {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-
-@media (max-width: 576px) {
-    .appointment-item {
-        padding: 12px;
-    }
-}
-
-@media (hover: hover) {
-    .appointment-item:hover {
-        border-color: var(--accent-color);
-        box-shadow: var(--shadow-sm);
-    }
+.appointment-item:hover {
+    border-color: var(--accent-color);
 }
 
 .appointment-info {
-    font-size: clamp(13px, 2.8vw, 14px);
+    font-size: 0.9rem;
     line-height: 1.6;
     color: var(--text-color);
-    flex: 1 1 auto;
+    flex: 1;
     min-width: 200px;
-}
-
-@media (max-width: 992px) {
-    .appointment-info {
-        width: 100%;
-    }
 }
 
 .appointment-info strong {
     color: var(--accent-color);
-    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--space-xs);
 }
 
 .appointment-status {
-    min-width: 150px;
-}
-
-@media (max-width: 992px) {
-    .appointment-status {
-        width: 100%;
-    }
+    min-width: 160px;
 }
 
 .appointment-status select {
     width: 100%;
-    padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 15px);
-    border: 2px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    font-size: clamp(13px, 2.8vw, 14px);
-    color: var(--text-color);
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
     background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.875rem;
     cursor: pointer;
-    transition: var(--transition-fast);
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 14px;
-}
-
-@media (hover: hover) {
-    .appointment-status select:hover {
-        border-color: var(--accent-color);
-    }
+    transition: border-color var(--transition-fast);
+    min-height: 40px;
 }
 
 .appointment-status select:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
 }
 
-/* ===== СТАТУСЫ В СЕЛЕКТЕ ===== */
-select option[value="pending"] {
-    background: rgba(245, 158, 11, 0.1);
+/* Цвета статусов для селекта */
+.appointment-status select option[value="pending"] {
     color: var(--warning-color);
 }
 
-select option[value="confirmed"] {
-    background: rgba(16, 185, 129, 0.1);
+.appointment-status select option[value="confirmed"] {
     color: var(--success-color);
 }
 
-select option[value="completed"] {
-    background: rgba(59, 130, 246, 0.1);
+.appointment-status select option[value="completed"] {
     color: #3b82f6;
 }
 
-select option[value="cancelled"] {
-    background: rgba(239, 68, 68, 0.1);
+.appointment-status select option[value="cancelled"] {
     color: var(--error-color);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .appointment-item {
+        flex-direction: column;
+        align-items: stretch;
+        padding: var(--space-md);
+    }
+
+    .appointment-info {
+        min-width: auto;
+        text-align: center;
+    }
+
+    .appointment-info strong {
+        font-size: 1rem;
+    }
+
+    .appointment-status {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .appointment-status select {
+        font-size: 16px;
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .appointment-item {
+        padding: var(--space-sm);
+    }
+
+    .appointment-info {
+        font-size: 0.85rem;
+    }
+
+    .appointment-info strong {
+        font-size: 0.95rem;
+    }
 }

@@ -1,146 +1,213 @@
-/* users.css - стили для раздела пользователи */
+/* users.css — стили для раздела пользователей */
 
-/* ===== ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ ===== */
 .table-responsive {
     overflow-x: auto;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    background: var(--card-bg);
     -webkit-overflow-scrolling: touch;
-}
-
-@media (max-width: 768px) {
-    .table-responsive {
-        margin: 0 -5px;
-        border-radius: var(--radius-sm);
-    }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    font-size: 0.9rem;
 }
 
 th {
     background: var(--secondary-bg);
-    padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
+    padding: var(--space-md);
     text-align: left;
     font-weight: 600;
-    color: var(--text-color);
-    font-size: clamp(13px, 2.8vw, 14px);
-    border-bottom: 2px solid var(--accent-color);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     white-space: nowrap;
 }
 
 td {
-    padding: clamp(10px, 3vw, 14px) clamp(12px, 3.5vw, 16px);
+    padding: var(--space-md);
     border-bottom: 1px solid var(--border-color);
-    color: var(--text-color);
-    font-size: clamp(13px, 2.8vw, 14px);
-    word-break: break-word;
 }
 
 tr:last-child td {
     border-bottom: none;
 }
 
-@media (hover: hover) {
-    tr:hover td {
-        background: var(--secondary-bg);
-    }
+tr:hover td {
+    background: var(--secondary-bg);
 }
 
-/* ===== СТАТУСЫ ПОЛЬЗОВАТЕЛЕЙ ===== */
+/* Бейджи статуса */
 .status-badge {
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 30px;
-    font-size: clamp(12px, 2.5vw, 13px);
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--radius-md);
+    font-size: 0.75rem;
     font-weight: 500;
-    text-align: center;
-    white-space: nowrap;
-}
-
-@media (max-width: 768px) {
-    .status-badge {
-        padding: 3px 8px;
-    }
-}
-
-@media (max-width: 576px) {
-    .status-badge {
-        font-size: 11px;
-        padding: 2px 6px;
-    }
+    background: var(--secondary-bg);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
 }
 
 .status-badge.admin {
     background: var(--accent-color);
+    border-color: var(--accent-color);
     color: white;
 }
 
-.status-badge.user {
-    background: var(--text-secondary);
+.status-badge.master {
+    background: var(--warning-color);
+    border-color: var(--warning-color);
     color: white;
 }
 
-.status-badge.protected {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-}
-
-/* ===== КНОПКИ В ТАБЛИЦЕ ===== */
-td .btn {
-    padding: 5px 10px;
-    margin: 0 2px;
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border-color);
-    min-width: auto;
-    width: auto;
-}
-
-@media (max-width: 768px) {
-    td .btn {
-        padding: 4px 8px;
-        font-size: 12px;
-        margin: 2px;
-    }
-}
-
-@media (max-width: 576px) {
-    td .btn {
-        padding: 4px 6px;
-        font-size: 11px;
-    }
-}
-
-td .btn-danger {
-    background: transparent;
-    color: var(--error-color);
-    border-color: var(--error-color);
-}
-
-@media (hover: hover) {
-    td .btn-danger:hover {
-        background: var(--error-color);
-        color: white;
-        border-color: var(--error-color);
-    }
-}
-
+/* Селект роли */
 td select {
-    padding: 4px 8px;
-    font-size: clamp(12px, 2.5vw, 13px);
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
     background: var(--card-bg);
     color: var(--text-color);
+    font-size: 0.875rem;
     cursor: pointer;
+    min-height: 36px;
+    min-width: 120px;
+}
+
+/* Кнопка редактирования/удаления с ховером */
+td .btn {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    min-width: 36px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+td .btn:hover {
+    transform: translateY(-1px);
+}
+
+td .btn:active {
+    transform: scale(0.95);
 }
 
 td form {
     display: inline;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: none;
+        background: transparent;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-md);
+        padding: var(--space-md);
+    }
+
+    td {
+        border: none;
+        padding: var(--space-sm) 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-color);
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        flex-shrink: 0;
+    }
+
+    td:nth-child(1)::before {
+        content: "Логин";
+    }
+
+    td:nth-child(2)::before {
+        content: "Email";
+    }
+
+    td:nth-child(3)::before {
+        content: "ФИО";
+    }
+
+    td:nth-child(4)::before {
+        content: "Статус";
+    }
+
+    td:nth-child(5)::before {
+        content: "Действия";
+    }
+
+    td select {
+        min-height: 40px;
+        font-size: 16px;
+        flex: 1;
+        min-width: 100px;
+    }
+
+    td .btn {
+        padding: 0.6rem;
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    tr {
+        padding: var(--space-sm);
+    }
+
+    td {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+    }
+
+    td::before {
+        margin-bottom: var(--space-xs);
+    }
+
+    td .btn,
+    td select {
+        width: 100%;
+    }
+
+    td .btn {
+        justify-content: center;
+    }
 }

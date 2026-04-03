@@ -1,314 +1,286 @@
+/* admin.css — стили для админ-панели BodyArt Studio */
+
 .admin-panel {
     max-width: 1400px;
-    margin: clamp(20px, 4vw, 40px) auto;
-    background: var(--card-bg);
-    padding: clamp(20px, 4vw, 30px);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-lg);
+    margin: 0 auto;
+    padding: var(--space-lg);
 }
 
 .admin-panel h1 {
-    margin: 0 0 clamp(20px, 4vw, 30px) 0;
-    font-size: clamp(1.8rem, 5vw, 2rem);
+    font-size: 1.75rem;
     font-weight: 600;
+    margin-bottom: var(--space-lg);
     color: var(--text-color);
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 15px;
 }
 
-/* ===== СТАТИСТИКА ===== */
+/* Статистика — минималистичные карточки */
 .stats {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: clamp(15px, 3vw, 20px);
-    margin-bottom: 30px;
-}
-
-@media (max-width: 1200px) {
-    .stats {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .stats {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 768px) and (orientation: landscape) {
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
 }
 
 .stat-card {
     background: var(--secondary-bg);
-    padding: clamp(20px, 4vw, 25px);
-    text-align: center;
-    border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
-    transition: var(--transition-normal);
-    will-change: transform;
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    text-align: center;
+    transition: border-color var(--transition-fast);
 }
 
-@media (hover: hover) {
-    .stat-card:hover {
-        transform: translateY(-4px);
-        border-color: var(--accent-color);
-        box-shadow: var(--shadow-accent);
-    }
+.stat-card:hover {
+    border-color: var(--accent-color);
 }
 
 .stat-card .number {
-    font-size: clamp(28px, 5vw, 36px);
+    font-size: 2rem;
     font-weight: 700;
     color: var(--accent-color);
-    line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-xs);
 }
 
 .stat-card div:last-child {
+    font-size: 0.875rem;
     color: var(--text-secondary);
-    font-size: clamp(12px, 2.5vw, 14px);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    word-wrap: break-word;
 }
 
-/* ===== ВКЛАДКИ ===== */
+/* Табы — подчеркивание вместо кнопок */
 .nav-tabs {
     display: flex;
-    gap: 5px;
-    border-bottom: 2px solid var(--border-color);
-    margin-bottom: 25px;
     flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .nav-tabs button {
-    padding: clamp(10px, 2.5vw, 12px) clamp(16px, 4vw, 24px);
+    background: transparent;
     border: none;
-    background: none;
-    cursor: pointer;
-    font-size: clamp(14px, 3vw, 15px);
+    padding: var(--space-md) var(--space-lg);
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
-    position: relative;
-    transition: color var(--transition-fast);
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-@media (max-width: 768px) {
-    .nav-tabs button {
-        white-space: normal;
-        flex: 1 1 auto;
-        text-align: center;
-    }
-}
-
-@media (max-width: 576px) {
-    .nav-tabs button {
-        flex: 1 1 100%;
-        border-bottom: 1px solid var(--border-color);
-    }
-}
-
-@media (hover: hover) {
-    .nav-tabs button:hover {
-        color: var(--accent-color);
-        background: rgba(255, 51, 102, 0.05);
-    }
+.nav-tabs button:hover {
+    color: var(--text-color);
 }
 
 .nav-tabs button.active {
     color: var(--accent-color);
-    font-weight: 600;
+    border-bottom-color: var(--accent-color);
 }
 
-.nav-tabs button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--accent-color);
-    box-shadow: var(--shadow-accent);
-}
-
-@media (max-width: 576px) {
-    .nav-tabs button.active::after {
-        display: none;
-    }
-
-    .nav-tabs button.active {
-        background: rgba(255, 51, 102, 0.1);
-    }
-}
-
+/* Контент вкладок */
 .tab-content {
     display: none;
 }
 
 .tab-content.active {
     display: block;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn var(--transition-normal);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===== ЗАГОЛОВКИ СЕКЦИЙ ===== */
+/* Заголовки секций */
 h2 {
-    font-size: clamp(1.3rem, 4vw, 1.5rem);
+    font-size: 1.25rem;
     font-weight: 600;
+    margin-bottom: var(--space-lg);
     color: var(--text-color);
-    margin: 0 0 20px 0;
 }
 
 h3 {
-    font-size: clamp(1.1rem, 3.5vw, 1.2rem);
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: var(--space-md);
     color: var(--text-color);
-    margin: 0 0 15px 0;
 }
 
-/* ===== КНОПКИ ===== */
+/* Кнопки — плоский дизайн */
 .btn {
-    padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 16px);
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: clamp(13px, 2.8vw, 14px);
-    font-weight: 500;
-    transition: var(--transition-normal);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
+    gap: var(--space-sm);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border: 1px solid var(--border-color);
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    min-height: 36px;
+    touch-action: manipulation;
 }
 
-@media (max-width: 576px) {
-    .btn {
-        white-space: normal;
-        width: 100%;
-    }
+.btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.btn:active {
+    transform: scale(0.98);
 }
 
 .btn-primary {
     background: var(--accent-color);
+    border-color: var(--accent-color);
     color: white;
 }
 
-@media (hover: hover) {
-    .btn-primary:hover {
-        background: var(--accent-light);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-accent);
-    }
+.btn-primary:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+    color: white;
 }
 
 .btn-success {
     background: var(--success-color);
+    border-color: var(--success-color);
     color: white;
 }
 
-@media (hover: hover) {
-    .btn-success:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-    }
+.btn-success:hover {
+    filter: brightness(1.1);
 }
 
 .btn-danger {
+    background: transparent;
+    border-color: var(--error-color);
+    color: var(--error-color);
+}
+
+.btn-danger:hover {
     background: var(--error-color);
     color: white;
 }
 
-@media (hover: hover) {
-    .btn-danger:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-    }
-}
-
 .btn-warning {
     background: var(--warning-color);
+    border-color: var(--warning-color);
     color: white;
 }
 
-@media (hover: hover) {
-    .btn-warning:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-    }
-}
-
-/* ===== УТИЛИТЫ ===== */
+/* Утилиты */
 .text-center {
     text-align: center;
+    padding: var(--space-xl);
     color: var(--text-secondary);
-    padding: clamp(30px, 6vw, 40px) clamp(15px, 4vw, 20px);
-    background: var(--secondary-bg);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-color);
 }
 
-.mb-3 {
-    margin-bottom: 15px;
+.actions {
+    margin-bottom: var(--space-lg);
 }
 
-.mt-3 {
-    margin-top: 15px;
-}
-
-/* ===== REDUCED MOTION ===== */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+/* Адаптивность */
+@media (max-width: 768px) {
+    .admin-panel {
+        padding: var(--space-md);
     }
 
-    .stat-card:hover,
-    .btn:hover,
-    .nav-tabs button:hover {
-        transform: none;
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+    }
+
+    .stat-card {
+        padding: var(--space-md);
+    }
+
+    .stat-card .number {
+        font-size: 1.5rem;
+    }
+
+    .nav-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-tabs button {
+        white-space: nowrap;
+        padding: var(--space-sm) var(--space-md);
+        font-size: 0.85rem;
+    }
+
+    .btn {
+        padding: 0.6rem 0.8rem;
+        min-height: 40px;
+        font-size: 0.9rem;
     }
 }
 
-/* ===== TOUCH DEVICES OPTIMIZATION ===== */
-@media (hover: none) and (pointer: coarse) {
+@media (max-width: 480px) {
+    .admin-panel h1 {
+        font-size: 1.5rem;
+    }
 
-    .stat-card:hover,
-    .btn:hover,
-    .nav-tabs button:hover {
-        transform: none;
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .stat-card .number {
+        margin-bottom: 0;
+        font-size: 1.25rem;
+    }
+
+    .stat-card div:last-child {
+        font-size: 0.8rem;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .actions .btn {
+        margin-bottom: var(--space-sm);
+    }
+}
+
+@media (max-width: 360px) {
+    .admin-panel {
+        padding: var(--space-sm);
+    }
+
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--space-xs);
+    }
+
+    .stat-card .number {
+        font-size: 1.5rem;
     }
 }
