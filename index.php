@@ -28,8 +28,6 @@ ob_start();
 <?php include_once "component/index_component/hero_section/hero.php"; ?>
 
 <div class="home-content">
-    <?php include_once "component/change_theme/changeTheme.php"; ?>
-
     <?php include_once "component/index_component/advantages/advantages.php"; ?>
 
     <?php include_once "component/index_component/aboutUs/aboutUs.php"; ?>
@@ -54,7 +52,6 @@ $template->addStyle("/component/index_component/popularServices/popularServices.
 $template->addStyle("/component/index_component/reviews/reviews.css");
 $template->addStyle("/component/index_component/goAppointment/goAppointment.css");
 $template->addStyle("/component/index_component/contact_section/contact_section.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->addStyle("/styles/page/index.css");
 $template->render($content);
 ?>

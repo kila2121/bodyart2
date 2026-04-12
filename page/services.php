@@ -66,7 +66,6 @@ try {
 
 ob_start();
 ?>
-<?php include_once "component/change_theme/changeTheme.php"; ?>
 <?php include_once "component/services/hero/hero.php"; ?>
 <section class="services-page">
     <div class="page-header">
@@ -189,6 +188,5 @@ $template = new Template("BodyArt Studio - Услуги");
 $template->addStyle("/styles/page/services.css");
 $template->addStyle("/component/services/card_services/card.css");
 $template->addStyle("/component/services/hero/hero.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->render($content);
 ?>

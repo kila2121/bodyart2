@@ -34,7 +34,6 @@ try {
 
 ob_start();
 ?>
-<?php include_once "component/change_theme/changeTheme.php"; ?>
 <?php include_once "component/masters/hero/hero.php"; ?>
 <section class="masters-page">
     <div class="page-header">
@@ -155,7 +154,6 @@ $template = new Template("BodyArt Studio - Мастера");
 $template->addStyle("/styles/page/masters.css");
 $template->addStyle("/component/masters/hero/hero.css");
 $template->addStyle("/component/masters/card_masters/card.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->addScript("/script/function.js");
 $template->render($content);
 ?>

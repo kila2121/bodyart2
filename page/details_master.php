@@ -133,6 +133,5 @@ $template->addStyle("/component/details_master_component/master_work/master_work
 $template->addStyle("/component/details_master_component/reviews/reviews.css");
 $template->addStyle("/component/details_master_component/hero/hero.css");
 $template->addStyle("/component/details_master_component/sticky-action/sticky-action.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->render($content);
 ?>

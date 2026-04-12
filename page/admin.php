@@ -63,7 +63,6 @@ try {
 
 ob_start();
 ?>
-<?php include_once "component/change_theme/changeTheme.php"; ?>
 <div class="admin-panel">
     <h1>Админ-панель</h1>
 
@@ -275,7 +274,6 @@ $template->addStyle("/component/admin_panel/reviews_section/reviews.css");
 $template->addStyle("/component/admin_panel/services_section/services.css");
 $template->addStyle("/component/admin_panel/users_section/users.css");
 $template->addStyle("/component/admin_panel/appoint_section/appoint.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->addStyle("/styles/page/admin.css");
 $template->render($content);
 ?>

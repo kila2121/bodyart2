@@ -106,8 +106,6 @@ ob_start();
 ?>
 
 <div class="user-profile master-profile">
-    <?php include_once "component/change_theme/changeTheme.php"; ?>
-
     <div class="profile-header">
         <div class="profile-avatar">
             <?php if (!empty($user['avatar_url']) && $user['avatar_url'] !== '/public/uploads/avatars/default.jpg'): ?>
@@ -132,7 +130,7 @@ ob_start();
     </div>
 
     <?php if ($master): ?>
-        <?php include "component/master_profile_component/stats/stats.php"; ?>
+        <?php include_once "component/master_profile_component/stats/stats.php"; ?>
     <?php else: ?>
         <div class="empty-state">
             <i class="fas fa-exclamation-triangle"></i>
@@ -155,7 +153,7 @@ ob_start();
                     <p>К вам пока никто не записан</p>
                 </div>
             <?php else: ?>
-                <?php include "component/master_profile_component/appoint_list/appoint_list.php"; ?>
+                <?php include_once "component/master_profile_component/appoint_list/appoint_list.php"; ?>
             <?php endif; ?>
         </div>
 
@@ -166,7 +164,7 @@ ob_start();
                     <p>У вас пока нет записей</p>
                 </div>
             <?php else: ?>
-                <?php include "component/user_component/appointment_list/appointment_list.php"; ?>
+                <?php include_once "component/user_component/appointment_list/appointment_list.php"; ?>
             <?php endif; ?>
         </div>
 
@@ -178,13 +176,13 @@ ob_start();
                     <p class="hint">Добавьте фото к выполненным записям</p>
                 </div>
             <?php else: ?>
-                <?php include "component/master_profile_component/add_work/add_work.php"; ?>
-                <?php include "component/master_profile_component/work_list/work_list.php"; ?>
+                <?php include_once "component/master_profile_component/add_work/add_work.php"; ?>
+                <?php include_once "component/master_profile_component/work_list/work_list.php"; ?>
             <?php endif; ?>
         </div>
 
         <div class="tab-content" id="settings-tab">
-            <?php include "component/master_profile_component/settings/settings.php"; ?>
+            <?php include_once "component/master_profile_component/settings/settings.php"; ?>
         </div>
     <?php endif; ?>
 </div>
@@ -318,7 +316,6 @@ $template->addStyle("/component/master_profile_component/appoint_list/appoint_li
 $template->addStyle("/component/master_profile_component/settings/settings.css");
 $template->addStyle("/component/master_profile_component/work_list/work_list.css");
 $template->addStyle("/component/master_profile_component/add_work/add_work.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->addStyle("/component/user_component/appointment_list/appointment_list.css");
 $template->addStyle("/styles/page/masterProfile.css");
 $template->addScript("/script/function.js");

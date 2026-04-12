@@ -78,10 +78,18 @@ class Template
                 </noscript>
             <?php endforeach; ?>
 
+            <?php include_once "component/change_theme/changeTheme.php"; ?>
+
             <link rel="preload" href="<?= $this->baseUrl . "component/message/message.css" ?>" as="style"
                 onload="this.onload=null;this.rel='stylesheet'">
             <noscript>
                 <link rel="stylesheet" href="<?= $this->baseUrl . "component/message/message.css" ?>">
+            </noscript>
+
+            <link rel="preload" href="<?= $this->baseUrl . "component/change_theme/changeTheme.css" ?>" as="style"
+                onload="this.onload=null;this.rel='stylesheet'">
+            <noscript>
+                <link rel="stylesheet" href="<?= $this->baseUrl . "component/change_theme/changeTheme.css" ?>">
             </noscript>
 
             <link rel="preload" href="<?= $this->baseUrl . "component/modal_window/style_reg_form.css" ?>" as="style"
@@ -100,14 +108,14 @@ class Template
         <body data-form-error="<?= $hasFormError ?>" data-active-tab="<?= $activeTab ?>">
             <div class=" layout">
                 <?php
-                include $this->basePath . "/layout/header.php";
+                include_once $this->basePath . "/layout/header.php";
                 ?>
                 <?php include $this->basePath . "/component/message/message.php"; ?>
                 <main class="main">
                     <?php echo $content; ?>
                 </main>
                 <?php
-                include $this->basePath . "/layout/footer.php";
+                include_once $this->basePath . "/layout/footer.php";
                 ?>
             </div>
 
@@ -144,29 +152,26 @@ class Template
                             document.body.appendChild(container);
                         }
 
-                        // Создаём toast в стиле message.css
                         const toast = document.createElement('div');
                         toast.className = `toast ${type}`;
                         toast.innerHTML = `
-                <div class="toast-header">
-                    <button class="btn-close">&times;</button>
-                </div>
-                <div class="toast-body">
-                    ${icon}
-                    <span class="toast-message">${message}</span>
-                </div>
-            `;
+                            <div class="toast-header">
+                                <button class="btn-close">&times;</button>
+                            </div>
+                            <div class="toast-body">
+                                ${icon}
+                                <span class="toast-message">${message}</span>
+                            </div>
+                        `;
 
                         container.appendChild(toast);
 
-                        // Кнопка закрытия
                         const closeBtn = toast.querySelector('.btn-close');
                         closeBtn.addEventListener('click', () => {
                             toast.classList.add('hide');
                             setTimeout(() => toast.remove(), 300);
                         });
 
-                        // Авто-закрытие через 4 секунды
                         setTimeout(() => {
                             if (toast && toast.parentNode) {
                                 toast.classList.add('hide');
@@ -180,18 +185,6 @@ class Template
 
         </html>
         <?php
-    }
-
-    public function renderFile($filePath)
-    {
-        if (!file_exists($filePath)) {
-            die("Файл не найден: " . $filePath);
-        }
-
-        ob_start();
-        include $filePath;
-        $content = ob_get_clean();
-        $this->render($content);
     }
 }
 ?>

@@ -85,7 +85,7 @@
 <div class="modal-overlay"></div>
 <div class="modal">
     <button class="modal-close">&times;</button>
-    <?php include __DIR__ . "/../component/modal_window/reg_form.php"; ?>
+    <?php include_once __DIR__ . "/../component/modal_window/reg_form.php"; ?>
 </div>
 
 <script>

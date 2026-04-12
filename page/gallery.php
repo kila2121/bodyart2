@@ -68,7 +68,6 @@ function changeNameCategories($s)
 
 ob_start();
 ?>
-<?php include_once "component/change_theme/changeTheme.php"; ?>
 <?php include_once "component/gallery/hero/hero.php"; ?>
 <section class="gallery-page">
     <div class="page-header">
@@ -321,6 +320,5 @@ $template->addStyle("/styles/page/gallery.css");
 $template->addStyle("/component/gallery/card_gallery/card.css");
 $template->addStyle("/component/gallery/card_gallery/modalCard.css");
 $template->addStyle("/component/gallery/hero/hero.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->render($content);
 ?>

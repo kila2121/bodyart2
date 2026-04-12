@@ -59,7 +59,6 @@ foreach ($appointments as $app) {
 ob_start();
 ?>
 <div class="user-profile">
-    <?php include_once "component/change_theme/changeTheme.php"; ?>
     <div class="profile-header">
         <div class="profile-avatar">
             <?php if (!empty($user['avatar_url'])): ?>
@@ -190,7 +189,6 @@ $template->addStyle("/component/user_component/appointment_list/appointment_list
 $template->addStyle("/component/user_component/settings/settings.css");
 $template->addStyle("/component/user_component/stats/stats.css");
 $template->addStyle("/component/user_component/reviews_section/reviews.css");
-$template->addStyle("/component/change_theme/changeTheme.css");
 $template->addStyle("/styles/page/user.css");
 $template->render($content);
 ?>
