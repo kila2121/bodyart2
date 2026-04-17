@@ -19,7 +19,6 @@
                 Cache::set("preview_reviews", $previewReviews, 3600);
             }
 
-
             $avatarColors = ['#ff3366', '#10b981', '#f59e0b', '#8b5cf6', '#3b82f6'];
             $avatarIndex = 0;
 
@@ -28,9 +27,7 @@
                 $avatarColor = $avatarColors[$avatarIndex % count($avatarColors)];
 
                 $userName = $review['login'] ?: ($review['fio'] ?: 'Гость');
-
                 $firstLetter = mb_strtoupper(mb_substr($userName, 0, 1));
-
                 $hasAvatar = !empty($review['avatar_url']) && $review['avatar_url'] !== '/public/avatars/default.jpg';
                 ?>
                 <div class="review-card">
@@ -40,6 +37,16 @@
                         </div>
 
                         <p class="review-text"><?= htmlspecialchars(mb_substr($review['comment'], 0, 150)) ?>...</p>
+
+                        <?php if (!empty($review['admin_reply'])): ?>
+                            <div class="review-admin-reply">
+                                <div class="review-admin-reply-header">
+                                    <i class="fas fa-reply"></i>
+                                    <strong>Ответ администратора</strong>
+                                </div>
+                                <p><?= nl2br(htmlspecialchars($review['admin_reply'])) ?></p>
+                            </div>
+                        <?php endif; ?>
 
                         <div class="review-footer">
                             <div class="review-author-block">
@@ -85,7 +92,7 @@
                 <?php
             endforeach;
         } catch (Exception $e) {
-            echo '<div class="no-reviews">Отзывы временно недоступны</div>' . $e;
+            echo '<div class="no-reviews">Отзывы временно недоступны</div>';
         }
         ?>
     </div>

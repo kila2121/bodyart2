@@ -31,6 +31,14 @@ try {
         ORDER BY r.created_at DESC
     ")->fetchAll(PDO::FETCH_ASSOC);
 
+    $modernReviews = $db->dbs->query("
+        SELECT r.*, u.login 
+        FROM reviews r
+        LEFT JOIN user u ON r.id_user = u.id
+        WHERE r.is_approved = 1
+        ORDER BY r.created_at DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
     $users = $db->dbs->query("
         SELECT id, login, email, fio, status, role 
         FROM user 
@@ -130,6 +138,34 @@ ob_start();
         document.getElementById(tabId).classList.add('active');
         event.target.classList.add('active');
     }
+
+    function showTabReviews(tabId) {
+        document.querySelectorAll('.tab-content-reviews').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-tabs-reviews button').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function showReplyModal(reviewId) {
+        document.getElementById('reply_review_id').value = reviewId;
+        document.getElementById('reply_text').value = '';
+        document.getElementById('replyModal').classList.add('active');
+        document.getElementById('replyModalOverlay').classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeReplyModal() {
+        document.getElementById('replyModal').classList.remove('active');
+        document.getElementById('replyModalOverlay').classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    document.getElementById('replyModalOverlay').addEventListener('click', closeReplyModal);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            closeReplyModal();
+        }
+    });
 
     function showForm(formId) {
         const form = document.getElementById(formId);

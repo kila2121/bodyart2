@@ -1,12 +1,16 @@
 /* masters.css — стили для раздела мастеров */
 
-/* Формы */
 .form-container {
     background: var(--secondary-bg);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
     margin-bottom: var(--space-xl);
+    transition: all var(--transition-normal);
+}
+
+.form-container:hover {
+    box-shadow: var(--shadow-md);
 }
 
 .form-container input,
@@ -19,9 +23,7 @@
     border-radius: var(--radius-md);
     background: var(--card-bg);
     color: var(--text-color);
-    font-size: 1rem;
-    transition: border-color var(--transition-fast);
-    min-height: 44px;
+    transition: all var(--transition-fast);
 }
 
 .form-container input:focus,
@@ -29,18 +31,21 @@
 .form-container select:focus {
     outline: none;
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
 }
 
 .form-group {
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
 }
 
 .form-group label {
     display: block;
     margin-bottom: var(--space-xs);
-    font-weight: 500;
-    font-size: 0.875rem;
+    font-weight: 600;
+    font-size: 0.85rem;
     color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
 #current_master_photo {
@@ -60,7 +65,6 @@
     border: 2px solid var(--accent-color);
 }
 
-/* Кнопка редактирования с ховер-эффектом */
 .btn-edit {
     background: transparent;
     border: 1px solid var(--border-color);
@@ -81,43 +85,57 @@
     background: var(--accent-color);
     border-color: var(--accent-color);
     color: white;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
-.btn-edit:active {
-    transform: scale(0.95);
+/* Блок кнопок в формах (Сохранить / Отмена) */
+.form-container>div:last-child,
+#addMasterForm>div:last-child,
+#editMasterForm>div:last-child,
+#weekendMaster>div:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
 }
 
-/* Таблица мастеров */
+.form-container .btn,
+#weekendMaster .btn {
+    flex: 0 0 auto;
+}
+
+/* Кнопка добавления (+ Добавить мастера) */
+.actions {
+    margin-bottom: 20px;
+}
+
+/* Таблица */
 .table-responsive {
     overflow-x: auto;
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     background: var(--card-bg);
-    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--border-color);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.9rem;
 }
 
 th {
     background: var(--secondary-bg);
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
     text-align: left;
-    font-weight: 600;
+    font-weight: 700;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-secondary);
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    white-space: nowrap;
 }
 
 td {
-    padding: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
 }
@@ -132,20 +150,51 @@ tr:hover td {
 
 /* Кнопки в таблице */
 td .btn {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    min-width: 36px;
-    min-height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: var(--radius-md);
+    margin: 2px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
 }
 
-td form {
-    display: inline;
+td .btn:hover {
+    transform: translateY(-1px);
 }
 
-/* Стили для колонки отпусков */
+td .btn-warning {
+    border-color: var(--warning-color);
+    color: var(--warning-color);
+    background: transparent;
+}
+
+td .btn-warning:hover {
+    background: var(--warning-color);
+    color: white;
+}
+
+td .btn-success {
+    border-color: var(--success-color);
+    color: var(--success-color);
+    background: transparent;
+}
+
+td .btn-success:hover {
+    background: var(--success-color);
+    color: white;
+}
+
+td .btn-danger {
+    border-color: var(--error-color);
+    color: var(--error-color);
+    background: transparent;
+}
+
+td .btn-danger:hover {
+    background: var(--error-color);
+    color: white;
+}
+
 .vacations-cell {
     max-width: 280px;
     min-width: 200px;
@@ -155,43 +204,30 @@ td form {
     display: inline-block;
     background: rgba(245, 158, 11, 0.12);
     border-left: 3px solid var(--warning-color);
-    padding: 6px 10px;
+    padding: 4px 10px;
     font-size: 0.75rem;
     color: var(--text-color);
     border-radius: var(--radius-sm);
-    word-break: break-word;
     line-height: 1.4;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .no-vacation {
     color: var(--text-secondary);
     font-size: 0.75rem;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
-/* Стили для формы отпуска мастера */
 #weekendMaster {
     background: var(--secondary-bg);
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
     margin-bottom: var(--space-xl);
 }
 
 #weekendMaster h3 {
     margin-top: 0;
-    margin-bottom: var(--space-md);
-    color: var(--text-color);
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-#weekendMaster p {
-    margin-bottom: var(--space-md);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    color: var(--warning-color);
 }
 
 #weekendMaster div {
@@ -203,27 +239,17 @@ td form {
 }
 
 #weekendMaster input[type="date"] {
-    padding: 0.6rem 0.8rem;
+    padding: 0.6rem;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background: var(--card-bg);
     color: var(--text-color);
-    font-size: 0.9rem;
-    transition: border-color var(--transition-fast);
-}
-
-#weekendMaster input[type="date"]:focus {
-    outline: none;
-    border-color: var(--accent-color);
 }
 
 #weekendMaster button {
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
     font-weight: 500;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all var(--transition-fast);
 }
 
 #weekendMaster button[type="button"] {
@@ -238,18 +264,11 @@ td form {
 }
 
 #weekendMaster button[type="submit"] {
-    background: var(--warning-color);
-    border: 1px solid var(--warning-color);
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    border: none;
     color: white;
 }
 
-#weekendMaster button[type="submit"]:hover {
-    background: #e67e22;
-    border-color: #e67e22;
-    transform: translateY(-1px);
-}
-
-/* Мобильная карточная сетка */
 @media (max-width: 768px) {
     .form-container {
         padding: var(--space-md);
@@ -262,7 +281,6 @@ td form {
         padding: 0.75rem;
     }
 
-    /* Таблица превращается в карточки */
     .table-responsive {
         border: none;
         background: transparent;
@@ -310,52 +328,23 @@ td form {
         text-transform: uppercase;
     }
 
-    td:nth-child(1)::before {
-        content: "ФИО";
-    }
-
-    td:nth-child(2)::before {
-        content: "Специализация";
-    }
-
-    td:nth-child(3)::before {
-        content: "Опыт";
-    }
-
-    td:nth-child(4)::before {
-        content: "Отпуска";
-    }
-
-    td:nth-child(5)::before {
-        content: "Действия";
-    }
-
-    td:nth-child(6)::before {
-        content: "Логин";
-    }
-
     td .btn {
-        padding: 0.6rem;
-        min-width: 40px;
-        min-height: 40px;
-        font-size: 1rem;
-    }
-
-    .btn-edit {
-        min-width: 40px;
-        min-height: 40px;
-        font-size: 1.1rem;
-    }
-
-    .vacations-cell {
-        max-width: 100%;
-    }
-
-    .vacation-badge {
-        font-size: 0.7rem;
-        padding: 4px 8px;
         width: auto;
-        display: inline-block;
+    }
+
+    /* Блок кнопок в формах на мобильных — колонкой */
+    .form-container>div:last-child,
+    #addMasterForm>div:last-child,
+    #editMasterForm>div:last-child,
+    #weekendMaster>div:last-child {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-container .btn,
+    #weekendMaster .btn {
+        width: 100%;
+        justify-content: center;
     }
 
     #weekendMaster div {
@@ -363,10 +352,7 @@ td form {
         align-items: stretch;
     }
 
-    #weekendMaster input[type="date"] {
-        width: 100%;
-    }
-
+    #weekendMaster input[type="date"],
     #weekendMaster button {
         width: 100%;
     }
@@ -391,15 +377,8 @@ td form {
         margin-bottom: var(--space-xs);
     }
 
-    td .btn,
-    .btn-edit {
+    td .btn {
         width: 100%;
         justify-content: center;
-    }
-
-    .vacation-badge {
-        font-size: 0.65rem;
-        padding: 4px 6px;
-        line-height: 1.3;
     }
 }

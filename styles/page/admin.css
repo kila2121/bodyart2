@@ -11,9 +11,11 @@
     font-weight: 600;
     margin-bottom: var(--space-lg);
     color: var(--text-color);
+    border-left: 4px solid var(--accent-color);
+    padding-left: var(--space-md);
 }
 
-/* Статистика — минималистичные карточки */
+/* Статистика */
 .stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -22,16 +24,18 @@
 }
 
 .stat-card {
-    background: var(--secondary-bg);
+    background: linear-gradient(135deg, var(--secondary-bg), var(--card-bg));
     border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     padding: var(--space-lg);
     text-align: center;
-    transition: border-color var(--transition-fast);
+    transition: all var(--transition-normal);
 }
 
 .stat-card:hover {
     border-color: var(--accent-color);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
 }
 
 .stat-card .number {
@@ -48,7 +52,7 @@
     letter-spacing: 0.5px;
 }
 
-/* Табы — подчеркивание вместо кнопок */
+/* Табы */
 .nav-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -60,18 +64,18 @@
 .nav-tabs button {
     background: transparent;
     border: none;
-    padding: var(--space-md) var(--space-lg);
-    font-size: 0.9rem;
-    font-weight: 500;
+    padding: var(--space-md) var(--space-xl);
+    font-weight: 600;
     color: var(--text-secondary);
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
     cursor: pointer;
-    transition: color var(--transition-fast), border-color var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 
 .nav-tabs button:hover {
     color: var(--text-color);
+    transform: translateY(-2px);
 }
 
 .nav-tabs button.active {
@@ -89,74 +93,176 @@
     animation: fadeIn var(--transition-normal);
 }
 
-/* Заголовки секций */
+/* Заголовки */
 h2 {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: 600;
     margin-bottom: var(--space-lg);
     color: var(--text-color);
+    position: relative;
+    padding-bottom: var(--space-sm);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 3px;
 }
 
 h3 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: var(--space-md);
     color: var(--text-color);
 }
 
-/* Кнопки — плоский дизайн */
+/* Формы */
+.form-container {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    transition: all var(--transition-normal);
+}
+
+.form-container:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.form-container h3 {
+    margin-top: 0;
+    margin-bottom: var(--space-lg);
+    color: var(--accent-color);
+    border-left: 3px solid var(--accent-color);
+    padding-left: var(--space-md);
+}
+
+.form-container input,
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--card-bg);
+    color: var(--text-color);
+    transition: all var(--transition-fast);
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+}
+
+.form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Блок кнопок в формах (Сохранить / Отмена) */
+.form-container>div:last-child,
+#addMasterForm>div:last-child,
+#editMasterForm>div:last-child,
+#addServiceForm>div:last-child,
+#editServiceForm>div:last-child,
+#weekendMaster>div:last-child,
+.reply-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.form-container .btn,
+#weekendMaster .btn {
+    flex: 0 0 auto;
+}
+
+/* Кнопка добавления (+ Добавить мастера / услугу) */
+.actions {
+    margin-bottom: 20px;
+}
+
+/* Кнопки */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-sm);
+    gap: 8px;
     padding: 0.5rem 1rem;
     border-radius: var(--radius-md);
     font-weight: 500;
-    font-size: 0.875rem;
-    border: 1px solid var(--border-color);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
     background: var(--secondary-bg);
     color: var(--text-color);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    min-height: 36px;
-    touch-action: manipulation;
+}
+
+.btn i {
+    font-size: 1rem;
+    transition: transform 0.2s ease;
 }
 
 .btn:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn:active {
-    transform: scale(0.98);
+    transform: translateY(0);
 }
 
 .btn-primary {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-light));
     color: white;
+    box-shadow: 0 2px 6px rgba(255, 51, 102, 0.3);
 }
 
 .btn-primary:hover {
-    background: var(--accent-light);
-    border-color: var(--accent-light);
-    color: white;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-color));
 }
 
 .btn-success {
-    background: var(--success-color);
-    border-color: var(--success-color);
+    background: linear-gradient(135deg, var(--success-color), #0ea371);
     color: white;
 }
 
 .btn-success:hover {
-    filter: brightness(1.1);
+    background: linear-gradient(135deg, #0ea371, var(--success-color));
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, #e67e22, var(--warning-color));
 }
 
 .btn-danger {
     background: transparent;
-    border-color: var(--error-color);
+    border: 1px solid var(--error-color);
     color: var(--error-color);
 }
 
@@ -165,21 +271,68 @@ h3 {
     color: white;
 }
 
-.btn-warning {
-    background: var(--warning-color);
-    border-color: var(--warning-color);
-    color: white;
-}
-
-/* Утилиты */
-.text-center {
-    text-align: center;
-    padding: var(--space-xl);
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
 }
 
-.actions {
-    margin-bottom: var(--space-lg);
+.btn-secondary:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(255, 51, 102, 0.05);
+}
+
+/* Таблицы */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: var(--secondary-bg);
+    padding: var(--space-md) var(--space-lg);
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background: var(--secondary-bg);
+}
+
+/* Анимация */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Адаптивность */
@@ -204,12 +357,6 @@ h3 {
     .nav-tabs {
         overflow-x: auto;
         flex-wrap: nowrap;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .nav-tabs::-webkit-scrollbar {
-        display: none;
     }
 
     .nav-tabs button {
@@ -219,17 +366,29 @@ h3 {
     }
 
     .btn {
-        padding: 0.6rem 0.8rem;
-        min-height: 40px;
-        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+    }
+
+    /* Блок кнопок в формах на мобильных — колонкой */
+    .form-container>div:last-child,
+    #addMasterForm>div:last-child,
+    #editMasterForm>div:last-child,
+    #addServiceForm>div:last-child,
+    #editServiceForm>div:last-child,
+    #weekendMaster>div:last-child,
+    .reply-modal-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-container .btn,
+    #weekendMaster .btn {
+        width: 100%;
+        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
-    .admin-panel h1 {
-        font-size: 1.5rem;
-    }
-
     .stats {
         grid-template-columns: 1fr;
     }
@@ -247,40 +406,8 @@ h3 {
         font-size: 1.25rem;
     }
 
-    .stat-card div:last-child {
-        font-size: 0.8rem;
-    }
-
-    h2 {
-        font-size: 1.1rem;
-    }
-
-    h3 {
-        font-size: 1rem;
-    }
-
     .btn {
         width: 100%;
         justify-content: center;
-    }
-
-    .actions .btn {
-        margin-bottom: var(--space-sm);
-    }
-}
-
-@media (max-width: 360px) {
-    .admin-panel {
-        padding: var(--space-sm);
-    }
-
-    .stat-card {
-        flex-direction: column;
-        text-align: center;
-        gap: var(--space-xs);
-    }
-
-    .stat-card .number {
-        font-size: 1.5rem;
     }
 }

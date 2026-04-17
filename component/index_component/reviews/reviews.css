@@ -89,6 +89,56 @@
     word-wrap: break-word;
 }
 
+/* ===== ОТВЕТ АДМИНИСТРАТОРА ===== */
+.review-admin-reply {
+    background: rgba(255, 51, 102, 0.05);
+    border-radius: var(--radius-md);
+    padding: clamp(14px, 3vw, 18px);
+    margin: 0 0 20px 0;
+    border-left: 3px solid var(--accent-color);
+    transition: all var(--transition-fast);
+}
+
+.review-admin-reply:hover {
+    background: rgba(255, 51, 102, 0.08);
+    transform: translateX(2px);
+}
+
+.review-admin-reply-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.review-admin-reply-header i {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    background: rgba(255, 51, 102, 0.15);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.review-admin-reply-header strong {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.review-admin-reply p {
+    color: var(--text-secondary);
+    font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+    line-height: 1.6;
+    margin: 0;
+    word-wrap: break-word;
+    padding-left: 36px;
+}
+
 .review-footer {
     display: flex;
     flex-direction: column;
