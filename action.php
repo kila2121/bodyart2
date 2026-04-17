@@ -254,6 +254,7 @@ if (isset($_REQUEST['action'])) {
                 Cache::delete('all_masters');
                 Cache::delete('spec_masters');
                 Cache::delete('aboutUs_stats');
+                Cache::delete('hero_stats');
 
                 $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
                 foreach ($services as $id) {
@@ -458,6 +459,7 @@ if (isset($_REQUEST['action'])) {
                 Cache::delete('spec_masters');
                 Cache::delete('aboutUs_stats');
                 Cache::delete('master_' . $_REQUEST['id']);
+                Cache::delete('hero_stats');
 
                 $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
                 foreach ($services as $id) {
@@ -774,15 +776,39 @@ if (isset($_REQUEST['action'])) {
             $result = $update->execute([':id' => $_REQUEST['id']]);
 
             if ($result) {
-                Cache::delete('hero_stats');
-                Cache::delete('preview_reviews');
-
                 $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
                 $stmt->execute([$_REQUEST['id']]);
                 $masterId = $stmt->fetchColumn();
+
+                if ($masterId) {
+                    $updateRating = $db->dbs->prepare("
+                    UPDATE master m 
+                    SET rating = (
+                        SELECT COALESCE(AVG(r.rating), 0)
+                        FROM reviews r 
+                        JOIN appointment a ON a.id = r.id_appointment 
+                        WHERE a.id_master = m.id AND r.is_approved = 1
+                    )
+                    WHERE m.id = ?
+                ");
+                    $updateRating->execute([$masterId]);
+                }
+
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
+                Cache::delete('hero_stats');
+                Cache::delete('preview_reviews');
+                Cache::delete('aboutUs_stats');
+
                 if ($masterId) {
                     Cache::delete('master_' . $masterId);
                 }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $sid) {
+                    Cache::delete('masters_by_service_' . $sid);
+                }
+
                 $_SESSION['success'] = 'Отзыв одобрен';
             } else {
                 $_SESSION['error'] = 'Ошибка при одобрении отзыва';
@@ -795,7 +821,6 @@ if (isset($_REQUEST['action'])) {
         exit();
     }
 
-    // Отклонение отзыва (удаление)
     if ($_REQUEST['action'] == 'reject_review') {
         if (empty($_REQUEST['id'])) {
             $_SESSION['error'] = 'Не указан ID отзыва';
@@ -804,18 +829,41 @@ if (isset($_REQUEST['action'])) {
         }
 
         try {
+            $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
+            $stmt->execute([$_REQUEST['id']]);
+            $masterId = $stmt->fetchColumn();
+
             $delete = $db->dbs->prepare('DELETE FROM reviews WHERE id = :id');
             $result = $delete->execute([':id' => $_REQUEST['id']]);
 
             if ($result) {
+                if ($masterId) {
+                    $updateRating = $db->dbs->prepare("
+                    UPDATE master m 
+                    SET rating = (
+                        SELECT COALESCE(AVG(r.rating), 0)
+                        FROM reviews r 
+                        JOIN appointment a ON a.id = r.id_appointment 
+                        WHERE a.id_master = m.id AND r.is_approved = 1
+                    )
+                    WHERE m.id = ?
+                ");
+                    $updateRating->execute([$masterId]);
+                }
+
+                Cache::delete('all_masters');
+                Cache::delete('spec_masters');
                 Cache::delete('hero_stats');
                 Cache::delete('preview_reviews');
+                Cache::delete('aboutUs_stats');
 
-                $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
-                $stmt->execute([$_REQUEST['id']]);
-                $masterId = $stmt->fetchColumn();
                 if ($masterId) {
                     Cache::delete('master_' . $masterId);
+                }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $sid) {
+                    Cache::delete('masters_by_service_' . $sid);
                 }
 
                 $_SESSION['success'] = 'Отзыв удален';
@@ -846,6 +894,17 @@ if (isset($_REQUEST['action'])) {
             ]);
 
             if ($result) {
+                // Очищаем кеш главной страницы (отзывы) и страницы мастера
+                Cache::delete('preview_reviews');
+                Cache::delete('hero_stats');
+
+                $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
+                $stmt->execute([$_REQUEST['id']]);
+                $masterId = $stmt->fetchColumn();
+                if ($masterId) {
+                    Cache::delete('master_' . $masterId);
+                }
+
                 $_SESSION['success'] = 'Ответ добавлен';
             } else {
                 $_SESSION['error'] = 'Ошибка при добавлении ответа';
@@ -1053,6 +1112,7 @@ if (isset($_REQUEST['action'])) {
             if ($result) {
                 Cache::delete('hero_stats');
                 Cache::delete('aboutUs_stats');
+                Cache::delete('popular_services');
 
                 $_SESSION['success'] = 'Запись успешно удалена';
             } else {
@@ -1438,6 +1498,8 @@ if (isset($_REQUEST['action'])) {
             ");
             $insert->execute([$startTime, $endTime, $userId, $serviceId, $masterId, $notes]);
 
+            Cache::delete('popular_services');
+
             $_SESSION['success'] = 'Запись успешно создана! Ожидайте подтверждения.';
         } catch (Exception $e) {
             error_log("Ошибка создания записи: " . $e->getMessage());
@@ -1516,6 +1578,7 @@ if (isset($_REQUEST['action'])) {
                     WHERE m.id = ?
                 ");
                 $updateMasterRating->execute([$masterId]);
+                Cache::delete('master_' . $masterId);
             }
 
             $_SESSION['success'] = 'Отзыв отправлен на модерацию';
@@ -1880,6 +1943,7 @@ if (isset($_REQUEST['action'])) {
 
             Cache::delete('all_masters');
             Cache::delete('master_' . $masterId);
+            Cache::delete('services_by_master_' . $masterId);
 
             $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
             foreach ($services as $sid) {
@@ -1987,6 +2051,40 @@ if (isset($_REQUEST['action'])) {
                 header("Location: /index.php?page=admin");
             }
         }
+        exit();
+    }
+
+    if ($_REQUEST['action'] == 'delete_reply') {
+        if (empty($_REQUEST['id'])) {
+            $_SESSION['error'] = 'Не указан ID отзыва';
+            header("Location: /index.php?page=admin");
+            exit();
+        }
+
+        try {
+            $update = $db->dbs->prepare('UPDATE reviews SET admin_reply = NULL WHERE id = :id');
+            $result = $update->execute([':id' => $_REQUEST['id']]);
+
+            if ($result) {
+                Cache::delete('hero_stats');
+                Cache::delete('preview_reviews');
+
+                $stmt = $db->dbs->prepare("SELECT a.id_master FROM reviews r JOIN appointment a ON a.id = r.id_appointment WHERE r.id = ?");
+                $stmt->execute([$_REQUEST['id']]);
+                $masterId = $stmt->fetchColumn();
+                if ($masterId) {
+                    Cache::delete('master_' . $masterId);
+                }
+
+                $_SESSION['success'] = 'Ответ администратора удалён';
+            } else {
+                $_SESSION['error'] = 'Ошибка при удалении ответа';
+            }
+        } catch (Exception $e) {
+            error_log("Ошибка удаления ответа: " . $e->getMessage());
+            $_SESSION['error'] = 'Ошибка базы данных';
+        }
+        header("Location: /index.php?page=admin");
         exit();
     }
 }

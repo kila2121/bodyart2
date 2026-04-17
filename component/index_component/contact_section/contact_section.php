@@ -10,7 +10,7 @@
         <div class="contact-list">
             <a href="tel:+71234567890" class="contact-item">
                 <i class="fas fa-phone"></i>
-                <span>+7 (123) 456-78-90</span>
+                <span>+7 (999) 123-45-67</span>
             </a>
 
             <a href="https://wa.me/71234567890" target="_blank" class="contact-item">
@@ -30,7 +30,7 @@
 
             <div class="contact-item" style="cursor: default;">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>ул. Пушкина, 10</span>
+                <span>Ставрополь, ул. Ленина, 301</span>
             </div>
         </div>
 

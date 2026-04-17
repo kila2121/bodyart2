@@ -47,7 +47,7 @@ try {
     $busySlots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $startHour = 10;
-    $endHour = 20;
+    $endHour = 22;
     $interval = 30;
 
     $allTimes = [];

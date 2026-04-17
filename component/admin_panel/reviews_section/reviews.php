@@ -55,11 +55,19 @@
 
                     <div class="actions">
                         <button class="btn btn-primary" onclick="showReplyModal(<?= $m['id'] ?>)">Добавить ответ</button>
-
-                        <form method="POST" action="/index.php?action=reject_review">
+                        <?php if (!empty($m['admin_reply'])): ?>
+                            <form method="POST" action="/index.php?action=delete_reply"
+                                onsubmit="return confirm('Удалить ответ администратора?')">
+                                <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+                                <input type="hidden" name="id" value="<?= $m['id'] ?>">
+                                <button type="submit" class="btn btn-danger">Удалить ответ</button>
+                            </form>
+                        <?php endif; ?>
+                        <form method="POST" action="/index.php?action=reject_review"
+                            onsubmit="return confirm('Удалить отзыв полностью?')">
                             <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
                             <input type="hidden" name="id" value="<?= $m['id'] ?>">
-                            <button type="submit" class="btn btn-warning">Удалить</button>
+                            <button type="submit" class="btn btn-warning">Удалить отзыв</button>
                         </form>
                     </div>
                 </div>

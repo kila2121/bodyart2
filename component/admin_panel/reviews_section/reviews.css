@@ -100,18 +100,19 @@
     padding-left: 4px;
 }
 
-/* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+/* ===== КНОПКИ ДЕЙСТВИЙ (компактные) ===== */
 .review-card .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-sm);
+    gap: 10px;
     margin-top: var(--space-md);
 }
 
+/* Кнопки и формы — компактные, не растягиваются */
 .review-card .actions>.btn,
 .review-card .actions>form {
-    display: inline-flex;
     flex: 0 0 auto;
+    display: inline-flex;
 }
 
 .review-card .actions .btn {
@@ -119,10 +120,10 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 0.65rem 1.2rem;
+    padding: 0.5rem 1rem;
     font-size: 0.875rem;
     font-weight: 500;
-    min-height: 42px;
+    min-height: 38px;
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
@@ -152,6 +153,11 @@
 
 .review-card .actions .btn-primary {
     background: var(--accent-color);
+}
+
+.review-card .actions .btn-danger {
+    background: #ef4444;
+    color: white;
 }
 
 .review-card .actions .btn-secondary {
@@ -468,13 +474,22 @@
         padding: var(--space-sm);
     }
 
+    /* На мобильных кнопки могут располагаться в колонку, но каждая кнопка остается компактной */
     .review-card .actions {
         flex-direction: column;
+        gap: 8px;
     }
 
     .review-card .actions>.btn,
     .review-card .actions>form {
-        width: 100%;
+        width: auto;
+        flex: 0 0 auto;
+    }
+
+    .review-card .actions .btn {
+        width: auto;
+        justify-content: center;
+        white-space: nowrap;
     }
 
     .review-admin-reply {
@@ -526,6 +541,17 @@
 
     .review-comment {
         font-size: 0.9rem;
+    }
+
+    /* На самых маленьких экранах кнопки могут занять всю ширину при необходимости */
+    .review-card .actions>.btn,
+    .review-card .actions>form {
+        width: 100%;
+    }
+
+    .review-card .actions .btn {
+        width: 100%;
+        white-space: normal;
     }
 }
 
