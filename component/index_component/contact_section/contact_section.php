@@ -8,12 +8,12 @@
 
     <div class="panel-body">
         <div class="contact-list">
-            <a href="tel:+71234567890" class="contact-item">
+            <a href="tel:+79991234567" class="contact-item">
                 <i class="fas fa-phone"></i>
                 <span>+7 (999) 123-45-67</span>
             </a>
 
-            <a href="https://wa.me/71234567890" target="_blank" class="contact-item">
+            <a href="https://wa.me/79991234567" target="_blank" class="contact-item">
                 <i class="fab fa-whatsapp"></i>
                 <span>WhatsApp</span>
             </a>
@@ -46,9 +46,10 @@
         <div class="social-links">
             <p>Мы в соцсетях</p>
             <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-vk"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+                <a href="https://vk.com/bodyartstudio" class="social-icon"><i class="fab fa-vk"></i></a>
+                <a href="https://www.instagram.com/bodyartstudio/" class="social-icon"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="https://t.me/bodyartstudio" class="social-icon"><i class="fab fa-telegram"></i></a>
             </div>
         </div>
     </div>

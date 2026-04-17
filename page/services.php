@@ -127,9 +127,10 @@ ob_start();
             <div class="sidebar-widget">
                 <h3>СОЦСЕТИ</h3>
                 <div class="social-links">
-                    <a href="#" target="_blank"><i class="fab fa-vk"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-telegram"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://vk.com/bodyartstudio" target="_blank"><i class="fab fa-vk"></i></a>
+                    <a href="https://t.me/bodyartstudio" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="https://www.instagram.com/bodyartstudio/" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
                 </div>
             </div>
 
@@ -145,7 +146,7 @@ ob_start();
                 <h3>КОНТАКТЫ</h3>
                 <div class="contact-info">
                     <p><i class="fas fa-phone-alt"></i> +7 (999) 123-45-67</p>
-                    <p><i class="fas fa-map-marker-alt"></i> г. Москва</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Ставрополь, ул. Ленина, 301</p>
                 </div>
             </div>
         </aside>
