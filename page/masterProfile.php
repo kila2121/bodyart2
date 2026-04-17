@@ -108,14 +108,8 @@ ob_start();
 <div class="user-profile master-profile">
     <div class="profile-header">
         <div class="profile-avatar">
-            <?php if (!empty($user['avatar_url']) && $user['avatar_url'] !== '/public/uploads/avatars/default.jpg'): ?>
-                <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>"
-                    loading="lazy">
-            <?php else: ?>
-                <div class="avatar-placeholder">
-                    <?= mb_strtoupper(mb_substr($user['login'] ?: $user['fio'], 0, 1)) ?>
-                </div>
-            <?php endif; ?>
+            <img src="<?= htmlspecialchars($user['avatar_url']) ?>" alt="<?= htmlspecialchars($user['login']) ?>"
+                onerror="this.scr='public/uploads/avatars/default.jpg'" loading="lazy">
         </div>
         <div class="profile-info">
             <h1 class="profile-name"><?= htmlspecialchars($user['fio'] ?: $user['login']) ?></h1>
@@ -162,6 +156,7 @@ ob_start();
                 <div class="empty-state">
                     <i class="fas fa-calendar-times"></i>
                     <p>У вас пока нет записей</p>
+                    <a href="/index.php?page=services" class="buttonApp">Записаться</a>
                 </div>
             <?php else: ?>
                 <?php include_once "component/user_component/appointment_list/appointment_list.php"; ?>
@@ -170,6 +165,7 @@ ob_start();
 
         <div class="tab-content" id="works-tab">
             <?php if (empty($works)): ?>
+                <?php include_once "component/master_profile_component/add_work/add_work.php"; ?>
                 <div class="empty-state">
                     <i class="fas fa-images"></i>
                     <p>У вас пока нет работ в галерее</p>

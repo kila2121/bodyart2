@@ -5,6 +5,19 @@
     padding: clamp(20px, 5vw, 40px) clamp(15px, 4vw, 20px);
 }
 
+.buttonApp {
+    background: var(--accent-color);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: clamp(14px, 3vw, 16px);
+}
+
 /* ===== ШАПКА ПРОФИЛЯ ===== */
 .profile-header {
     display: flex;
