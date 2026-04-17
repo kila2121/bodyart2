@@ -13,7 +13,17 @@ try {
     $masterId = (int) $_GET['master'];
     $serviceId = (int) $_GET['service'];
 
-    // Получаем длительность услуги
+    $stmt = $db->dbs->prepare("
+        SELECT 1 FROM master_unavailable
+        WHERE id_master = ? AND date_start <= ? AND date_end >= ?
+        LIMIT 1
+    ");
+    $stmt->execute([$masterId, $date, $date]);
+    if ($stmt->fetchColumn()) {
+        echo json_encode(['success' => true, 'times' => []]);
+        exit();
+    }
+
     $stmt = $db->dbs->prepare("SELECT duration FROM services WHERE id = ?");
     $stmt->execute([$serviceId]);
     $duration = $stmt->fetchColumn();
@@ -23,7 +33,6 @@ try {
         exit();
     }
 
-    // Получаем занятое время мастера
     $startOfDay = $date . ' 00:00:00';
     $endOfDay = $date . ' 23:59:59';
     $stmt = $db->dbs->prepare("
@@ -37,12 +46,10 @@ try {
     $stmt->execute([$masterId, $startOfDay, $endOfDay]);
     $busySlots = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Рабочие часы (10:00 - 20:00)
     $startHour = 10;
     $endHour = 20;
-    $interval = 30; // минут
+    $interval = 30;
 
-    // Генерируем все возможные слоты
     $allTimes = [];
     for ($h = $startHour; $h < $endHour; $h++) {
         for ($m = 0; $m < 60; $m += $interval) {
@@ -51,7 +58,6 @@ try {
         }
     }
 
-    // Фильтруем занятые слоты
     $availableTimes = [];
     foreach ($allTimes as $time) {
         $slotStart = strtotime("$date $time");
@@ -63,7 +69,6 @@ try {
             $busyStart = strtotime($busy['start_time']);
             $busyEnd = strtotime($busy['stop_time']);
 
-            // Проверяем пересечение
             if (
                 ($slotStart >= $busyStart && $slotStart < $busyEnd) ||
                 ($slotEnd > $busyStart && $slotEnd <= $busyEnd) ||
@@ -74,7 +79,6 @@ try {
             }
         }
 
-        // Проверяем, что запись заканчивается до конца рабочего дня
         if ($slotEnd <= strtotime("$date $endHour:00")) {
             if ($isAvailable) {
                 $availableTimes[] = $time;

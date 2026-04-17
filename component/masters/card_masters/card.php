@@ -19,21 +19,21 @@ if (isset($GLOBALS['mastersData']) && !empty($GLOBALS['mastersData'])) {
     $mastersItems = selectMasters();
 }
 
-$userId = $_SESSION['id'];
+$userId = $_SESSION['id'] ?? null;
 $masterId = null;
 try {
-    $stmt = $db->dbs->prepare("SELECT * FROM user WHERE id = ?");
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($userId) {
+        $stmt = $db->dbs->prepare("SELECT * FROM user WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user['status'] == 80) {
-        $stmt = $db->dbs->prepare("SELECT id FROM master WHERE email = ? OR phone = ?");
-        $stmt->execute([$user['email'], $user['phone']]);
-        $masterData = $stmt->fetch(PDO::FETCH_ASSOC);
-        $masterId = $masterData ? (int) $masterData['id'] : null;
+        if ($user && $user['status'] == 80) {
+            $stmt = $db->dbs->prepare("SELECT id FROM master WHERE email = ? OR phone = ?");
+            $stmt->execute([$user['email'], $user['phone']]);
+            $masterData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $masterId = $masterData ? (int) $masterData['id'] : null;
+        }
     }
-
-
 } catch (Exception $e) {
     error_log("Ошибка: " . $e->getMessage());
     $masterId = null;
@@ -45,10 +45,39 @@ if (empty($mastersItems)) {
     $html = '<div class="masters-grid">';
 
     foreach ($mastersItems as $master) {
-        $statusClass = $master['is_Active'] ? 'active' : 'inactive';
-        $statusText = $master['is_Active'] ? 'Активен' : 'Неактивен';
+        // Проверяем, в отпуске ли мастер сегодня
+        $isOnVacationToday = false;
+        $vacationEndDate = null;
+        try {
+            $stmt = $db->dbs->prepare("
+                SELECT date_end FROM master_unavailable 
+                WHERE id_master = ? AND date_start <= CURDATE() AND date_end >= CURDATE()
+                LIMIT 1
+            ");
+            $stmt->execute([$master['id']]);
+            $vacation = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($vacation) {
+                $isOnVacationToday = true;
+                $vacationEndDate = $vacation['date_end'];
+            }
+        } catch (Exception $e) {
+            error_log("Ошибка проверки отпуска мастера " . $master['id'] . ": " . $e->getMessage());
+        }
+
+        // Определяем статус
+        if ($master['is_Active'] && !$isOnVacationToday) {
+            $statusClass = 'active';
+            $statusText = 'Принимает клиентов';
+        } elseif ($isOnVacationToday && $vacationEndDate) {
+            $statusClass = 'vacation';
+            $statusText = 'В отпуске до ' . date('d.m.Y', strtotime($vacationEndDate));
+        } else {
+            $statusClass = 'inactive';
+            $statusText = 'Не принимает';
+        }
+
         $rating = isset($master['rating']) ? number_format($master['rating'], 1) : '0.0';
-        $avatar = $master['avatar_url'] ? $master['avatar_url'] : '/public/avatars/default.jpg';
+        $avatar = $master['avatar_url'] ? $master['avatar_url'] : '/public/uploads/avatars/default.jpg';
 
         $html .= '<div class="master-card" data-category="' . htmlspecialchars($master['spec']) . '">';
 
@@ -58,13 +87,13 @@ if (empty($mastersItems)) {
         $html .= '<input type="hidden" name="id" value="' . $master['id'] . '">';
         $html .= '<button type="submit" class="master-avatar-link-btn" style="background:none; border:none; padding:0; cursor:pointer; width:100%;">';
         $html .= '<div class="master-avatar">';
-        $html .= '<img src="' . htmlspecialchars($avatar) . '" alt="' . htmlspecialchars($master['fio']) . '" loading="lazy"' . 'onerror="this.src=`/public/uploads/avatars/default.jpg`">';
+        $html .= '<img src="' . htmlspecialchars($avatar) . '" alt="' . htmlspecialchars($master['fio']) . '" loading="lazy" onerror="this.src=`/public/uploads/avatars/default.jpg`">';
         $html .= '</div>';
         $html .= '</button>';
         $html .= '</form>';
 
         $html .= '<form method="POST" action="/index.php" class="master-name-link">';
-        $html .= '<input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">';
+        $html .= '<input type="hidden" name="csrf_token" value="' . generate_csrf_token() . '">';
         $html .= '<input type="hidden" name="page" value="details_master">';
         $html .= '<input type="hidden" name="id" value="' . $master['id'] . '">';
         $html .= '<button type="submit" class="master-name-link-btn" style="background:none; border:none; width:100%; cursor:pointer;">';
@@ -99,9 +128,17 @@ if (empty($mastersItems)) {
 
         $html .= '<div class="master-footer">';
         $html .= '<span class="status-badge ' . $statusClass . '"><i class="fas fa-circle"></i> ' . $statusText . '</span>';
-        $html .= '<button class="book-btn" onclick="openMasterModal(' . $master['id'] . ', \'' . htmlspecialchars($master['fio']) . '\', \'' . htmlspecialchars($master['spec']) . '\'), checkYourSelf()">';
-        $html .= '<i class="fas fa-arrow-right"></i> Записаться';
-        $html .= '</button>';
+
+        // Если мастер в отпуске сегодня — кнопка неактивна
+        if ($isOnVacationToday) {
+            $html .= '<button class="book-btn disabled" disabled style="opacity:0.5; cursor:not-allowed;">';
+            $html .= '<i class="fas fa-ban"></i> Не принимает';
+            $html .= '</button>';
+        } else {
+            $html .= '<button class="book-btn" onclick="openMasterModal(' . $master['id'] . ', \'' . htmlspecialchars($master['fio']) . '\', \'' . htmlspecialchars($master['spec']) . '\'); checkYourSelf();">';
+            $html .= '<i class="fas fa-arrow-right"></i> Записаться';
+            $html .= '</button>';
+        }
         $html .= '</div>';
 
         $html .= '</div>';

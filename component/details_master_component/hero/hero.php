@@ -36,10 +36,35 @@
                         <i class="fas fa-bolt"></i>
                         <?= htmlspecialchars($master['spec']) ?>
                     </span>
-                    <?php if ($master['is_Active']): ?>
+                    <?php
+                    // Проверяем, в отпуске ли мастер сегодня
+                    $isOnVacationToday = false;
+                    $vacationEndDate = null;
+                    try {
+                        $stmt = $db->dbs->prepare("
+                            SELECT date_end FROM master_unavailable 
+                            WHERE id_master = ? AND date_start <= CURDATE() AND date_end >= CURDATE()
+                            LIMIT 1
+                        ");
+                        $stmt->execute([$master['id']]);
+                        $vacation = $stmt->fetch(PDO::FETCH_ASSOC);
+                        if ($vacation) {
+                            $isOnVacationToday = true;
+                            $vacationEndDate = $vacation['date_end'];
+                        }
+                    } catch (Exception $e) {
+                        error_log("Ошибка проверки отпуска: " . $e->getMessage());
+                    }
+                    ?>
+                    <?php if ($master['is_Active'] && !$isOnVacationToday): ?>
                         <span class="master-tag active-tag">
                             <i class="fas fa-check-circle"></i>
                             Принимает клиентов
+                        </span>
+                    <?php elseif ($isOnVacationToday && $vacationEndDate): ?>
+                        <span class="master-tag vacation-tag">
+                            <i class="fas fa-umbrella-beach"></i>
+                            В отпуске до <?= date('d.m.Y', strtotime($vacationEndDate)) ?>
                         </span>
                     <?php else: ?>
                         <span class="master-tag inactive-tag">

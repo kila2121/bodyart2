@@ -15,7 +15,7 @@ if ($master === false) {
     Cache::set($cacheKey, $master, 3600);
 }
 
-
+// ========== ПРОВЕРКА: если мастер не найден ==========
 if (!$master) {
     header("HTTP/1.0 404 Not Found");
     echo "<h1>Мастер не найден</h1>";
@@ -64,7 +64,8 @@ try {
             WHERE a.id_service = s.id AND a.id_master = ?
         )
         ORDER BY s.category, s.name
-        LIMIT 4;");
+        LIMIT 4;
+    ");
     $stmt->execute([$id]);
     $masterServices = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
@@ -133,5 +134,6 @@ $template->addStyle("/component/details_master_component/master_work/master_work
 $template->addStyle("/component/details_master_component/reviews/reviews.css");
 $template->addStyle("/component/details_master_component/hero/hero.css");
 $template->addStyle("/component/details_master_component/sticky-action/sticky-action.css");
+$template->addStyle("/component/change_theme/changeTheme.css");
 $template->render($content);
 ?>

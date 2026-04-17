@@ -7,7 +7,11 @@ if (!isset($_SESSION['id']) || $_SESSION['status'] !== 100) {
 
 try {
     $masters = $db->dbs->query("
-        SELECT m.*, u.login
+        SELECT m.*, u.login,
+            (SELECT GROUP_CONCAT(CONCAT(date_start, ' — ', date_end) SEPARATOR ' | ')
+            FROM master_unavailable 
+            WHERE id_master = m.id 
+            ORDER BY date_start DESC) as vacations
         FROM master m
         LEFT JOIN user u ON (u.phone = m.phone OR u.email = m.email) AND u.status = 80
         WHERE m.is_Active = 1
@@ -16,8 +20,7 @@ try {
 
     $services = $db->dbs->query("
         SELECT * FROM services 
-        WHERE is_active = 1 
-        ORDER BY category, name
+        ORDER BY is_active DESC, category, name
     ")->fetchAll(PDO::FETCH_ASSOC);
 
     $pendingReviews = $db->dbs->query("
@@ -138,6 +141,36 @@ ob_start();
 
     function hideForm(formId) {
         document.getElementById(formId).style.display = 'none';
+    }
+    async function toggleServiceStatus(id) {
+        if (!confirm('Изменить статус услуги?')) return;
+
+        await fetch('/index.php?action=toggle_service_status&id=' + id, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const statusText = data.is_active ? 'активна' : 'отключена';
+                    window.showMessage('success', 'Услуга успешно ' + statusText);
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    window.showMessage('error', data.message || 'Ошибка изменения статуса');
+                }
+            })
+            .catch(e => {
+                console.error('Ошибка:', e);
+                window.showMessage('error', 'Ошибка при изменении статуса');
+            });
+    }
+
+    function weekendMaster(id) {
+        document.getElementById('vacation_master_id').value = id;
+        showForm('weekendMaster');
     }
 
     async function editMaster(id) {

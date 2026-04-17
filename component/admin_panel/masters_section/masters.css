@@ -145,6 +145,110 @@ td form {
     display: inline;
 }
 
+/* Стили для колонки отпусков */
+.vacations-cell {
+    max-width: 280px;
+    min-width: 200px;
+}
+
+.vacation-badge {
+    display: inline-block;
+    background: rgba(245, 158, 11, 0.12);
+    border-left: 3px solid var(--warning-color);
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    color: var(--text-color);
+    border-radius: var(--radius-sm);
+    word-break: break-word;
+    line-height: 1.4;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.no-vacation {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Стили для формы отпуска мастера */
+#weekendMaster {
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+#weekendMaster h3 {
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+#weekendMaster p {
+    margin-bottom: var(--space-md);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+#weekendMaster div {
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+#weekendMaster input[type="date"] {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: border-color var(--transition-fast);
+}
+
+#weekendMaster input[type="date"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+#weekendMaster button {
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+#weekendMaster button[type="button"] {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+#weekendMaster button[type="button"]:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+#weekendMaster button[type="submit"] {
+    background: var(--warning-color);
+    border: 1px solid var(--warning-color);
+    color: white;
+}
+
+#weekendMaster button[type="submit"]:hover {
+    background: #e67e22;
+    border-color: #e67e22;
+    transform: translateY(-1px);
+}
+
 /* Мобильная карточная сетка */
 @media (max-width: 768px) {
     .form-container {
@@ -155,7 +259,6 @@ td form {
     .form-container textarea,
     .form-container select {
         font-size: 16px;
-        /* Предотвращает зум на iOS */
         padding: 0.75rem;
     }
 
@@ -220,10 +323,14 @@ td form {
     }
 
     td:nth-child(4)::before {
-        content: "Действия";
+        content: "Отпуска";
     }
 
     td:nth-child(5)::before {
+        content: "Действия";
+    }
+
+    td:nth-child(6)::before {
         content: "Логин";
     }
 
@@ -238,6 +345,30 @@ td form {
         min-width: 40px;
         min-height: 40px;
         font-size: 1.1rem;
+    }
+
+    .vacations-cell {
+        max-width: 100%;
+    }
+
+    .vacation-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        width: auto;
+        display: inline-block;
+    }
+
+    #weekendMaster div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #weekendMaster input[type="date"] {
+        width: 100%;
+    }
+
+    #weekendMaster button {
+        width: 100%;
     }
 }
 
@@ -264,5 +395,11 @@ td form {
     .btn-edit {
         width: 100%;
         justify-content: center;
+    }
+
+    .vacation-badge {
+        font-size: 0.65rem;
+        padding: 4px 6px;
+        line-height: 1.3;
     }
 }

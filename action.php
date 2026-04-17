@@ -145,13 +145,13 @@ if (isset($_REQUEST['action'])) {
 
             } else {
                 $_SESSION['form_error'] = 'Произошла ошибка в момент регистрации';
-                $_SESSION['form_data'] = $_REQUEST; // НУЖНО ДОБАВИТЬ
+                $_SESSION['form_data'] = $_REQUEST;
                 $_SESSION['active_tab'] = 'reg';
             }
         } catch (Exception $e) {
             error_log("Ошибка регистрации: " . $e->getMessage());
             $_SESSION['form_error'] = 'Ошибка базы данных';
-            $_SESSION['form_data'] = $_REQUEST; // НУЖНО ДОБАВИТЬ
+            $_SESSION['form_data'] = $_REQUEST;
             $_SESSION['active_tab'] = 'reg';
         }
         header("Location: /index.php");
@@ -1349,7 +1349,6 @@ if (isset($_REQUEST['action'])) {
         exit;
     }
 
-    // Создание записи
     if ($_REQUEST['action'] == 'create_appointment') {
         if (!isset($_SESSION['id'])) {
             $_SESSION['error'] = 'Необходимо авторизоваться';
@@ -1368,7 +1367,6 @@ if (isset($_REQUEST['action'])) {
         $userId = null;
 
         if ($isExtend && isset($_SESSION['role']) && $_SESSION['role'] === 'master' && $extendClientId > 0) {
-            // При продлении - записываем клиента, а не мастера
             $userId = $extendClientId;
         } else {
             $userId = $_SESSION['id'];
@@ -1383,7 +1381,6 @@ if (isset($_REQUEST['action'])) {
         $startTime = $date . ' ' . $time . ':00';
 
         try {
-            // FIX: проверка активности мастера
             $stmt = $db->dbs->prepare("SELECT is_Active FROM master WHERE id = ?");
             $stmt->execute([$masterId]);
             $isActive = $stmt->fetchColumn();
@@ -1391,6 +1388,19 @@ if (isset($_REQUEST['action'])) {
                 $_SESSION['error'] = 'Мастер временно не принимает клиентов';
                 header("Location: /index.php?page=services");
                 exit;
+            }
+
+            $stmt = $db->dbs->prepare("
+                SELECT 1 FROM master_unavailable
+                WHERE id_master = ? AND date_start <= ? AND date_end >= ?
+                LIMIT 1
+            ");
+
+            $stmt->execute([$masterId, $date, $date]);
+            if ($stmt->fetchColumn()) {
+                $_SESSION['error'] = 'Мастер не работает в выбранную дату';
+                header("Location: /index.php?page=services");
+                exit();
             }
 
             $stmt = $db->dbs->prepare("SELECT duration FROM services WHERE id = ?");
@@ -1434,7 +1444,6 @@ if (isset($_REQUEST['action'])) {
             $_SESSION['error'] = 'Ошибка при создании записи';
         }
 
-        // FIX: если в будущем понадобится AJAX, можно добавить ветку, пока оставляем как есть
         redirectAfterAvatar();
         exit;
     }
@@ -1834,9 +1843,154 @@ if (isset($_REQUEST['action'])) {
         header("Location: /index.php?page=masterProfile");
         exit;
     }
+
+    if ($_REQUEST['action'] == 'set_master_vacation') {
+        if (!isset($_SESSION['status']) || $_SESSION['status'] !== 100) {
+            $_SESSION['error'] = 'Доступ запрещён';
+            header("Location: /index.php?page=admin");
+            exit();
+        }
+
+        if (empty($_POST['master_id']) || empty($_POST['date_start']) || empty($_POST['date_end'])) {
+            $_SESSION['error'] = 'Заполните все поля (мастер, дата начала, дата окончания)';
+            header("Location: /index.php?page=admin");
+            exit();
+        }
+
+        $masterId = (int) $_POST['master_id'];
+        $dateStart = $_POST['date_start'];
+        $dateEnd = $_POST['date_end'];
+
+        if (strtotime($dateEnd) < strtotime($dateStart)) {
+            $_SESSION['error'] = 'Дата окончания не может быть раньше даты начала';
+            header("Location: /index.php?page=admin");
+            exit();
+        }
+
+        try {
+            $stmt = $db->dbs->prepare("
+            INSERT INTO master_unavailable (id_master, date_start, date_end)
+            VALUES (:master, :start, :end)
+        ");
+            $stmt->execute([
+                ':master' => $masterId,
+                ':start' => $dateStart,
+                ':end' => $dateEnd
+            ]);
+
+            Cache::delete('all_masters');
+            Cache::delete('master_' . $masterId);
+
+            $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+            foreach ($services as $sid) {
+                Cache::delete('masters_by_service_' . $sid);
+            }
+
+            $_SESSION['success'] = 'Период недоступности успешно добавлен';
+        } catch (Exception $e) {
+            error_log("Ошибка добавления периода недоступности мастера: " . $e->getMessage());
+            $_SESSION['error'] = 'Ошибка базы данных';
+        }
+
+        header("Location: /index.php?page=admin");
+        exit();
+    }
+
+    // ========== ОТКЛЮЧЕНИЕ УСЛУГИ ==========
+    if ($_REQUEST['action'] == 'toggle_service_status') {
+        // Только администратор
+        if (!isset($_SESSION['status']) || $_SESSION['status'] !== 100) {
+            if ($isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                echo json_encode(['success' => false, 'message' => 'Доступ запрещен']);
+            } else {
+                $_SESSION['error'] = 'Доступ запрещен';
+                header("Location: /index.php?page=admin");
+            }
+            exit();
+        }
+
+        if (empty($_REQUEST['id'])) {
+            if ($isAjax ?? false) {
+                echo json_encode(['success' => false, 'message' => 'Не указан ID услуги']);
+            } else {
+                $_SESSION['error'] = 'Не указан ID услуги';
+                header("Location: /index.php?page=admin");
+            }
+            exit();
+        }
+
+        $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+
+        try {
+            $id = (int) $_REQUEST['id'];
+
+            // Получаем текущий статус услуги
+            $stmt = $db->dbs->prepare("SELECT is_active FROM services WHERE id = ?");
+            $stmt->execute([$id]);
+            $service = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$service) {
+                if ($isAjax) {
+                    echo json_encode(['success' => false, 'message' => 'Услуга не найдена']);
+                } else {
+                    $_SESSION['error'] = 'Услуга не найдена';
+                    header("Location: /index.php?page=admin");
+                }
+                exit();
+            }
+
+            // Инвертируем статус
+            $newStatus = $service['is_active'] ? 0 : 1;
+
+            $update = $db->dbs->prepare("UPDATE services SET is_active = :status WHERE id = :id");
+            $result = $update->execute([
+                ':status' => $newStatus,
+                ':id' => $id
+            ]);
+
+            if ($result) {
+                // Очищаем кеши
+                Cache::delete('all_services');
+                Cache::delete('categories_services');
+                Cache::delete('popular_services');
+
+                $masters = $db->dbs->query("SELECT id FROM master")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($masters as $mid) {
+                    Cache::delete('services_by_master_' . $mid);
+                }
+
+                $services = $db->dbs->query("SELECT id FROM services")->fetchAll(PDO::FETCH_COLUMN);
+                foreach ($services as $sid) {
+                    Cache::delete('masters_by_service_' . $sid);
+                }
+
+                if ($isAjax) {
+                    echo json_encode(['success' => true, 'is_active' => $newStatus]);
+                } else {
+                    $_SESSION['success'] = $newStatus ? 'Услуга включена' : 'Услуга отключена';
+                    header("Location: /index.php?page=admin");
+                }
+            } else {
+                if ($isAjax) {
+                    echo json_encode(['success' => false, 'message' => 'Ошибка при изменении статуса']);
+                } else {
+                    $_SESSION['error'] = 'Ошибка при изменении статуса';
+                    header("Location: /index.php?page=admin");
+                }
+            }
+        } catch (Exception $e) {
+            error_log("Ошибка изменения статуса услуги: " . $e->getMessage());
+            if ($isAjax) {
+                echo json_encode(['success' => false, 'message' => 'Ошибка базы данных']);
+            } else {
+                $_SESSION['error'] = 'Ошибка базы данных';
+                header("Location: /index.php?page=admin");
+            }
+        }
+        exit();
+    }
 }
 
-// Вспомогательная функция для редиректа после загрузки аватара
 function redirectAfterAvatar()
 {
     if ($_SESSION['status'] == 80) {

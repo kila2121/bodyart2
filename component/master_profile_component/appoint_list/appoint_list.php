@@ -184,7 +184,6 @@
             const data = await response.json();
 
             if (data.success) {
-                // Открываем модалку для продления с указанием клиента
                 window.openExtendModal(masterId, masterName, masterSpec, clientId);
             } else {
                 alert('Ошибка: ' + data.message);

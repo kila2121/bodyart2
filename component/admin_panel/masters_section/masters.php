@@ -69,6 +69,21 @@
         </form>
     </div>
 
+    <div id="weekendMaster" style="display: none">
+        <h3>Отпуск мастера</h3>
+        <form method="POST" action="/index.php?action=set_master_vacation" id="weekendElement">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            <input type="hidden" name="master_id" id="vacation_master_id" value="">
+            <p>Введите период отпуска</p>
+            <div>
+                с <input type="date" name="date_start" required />
+                по <input type="date" name="date_end" required />
+            </div>
+            <button type="button" onclick="hideForm('weekendMaster')">Отмена</button>
+            <button type="submit" id="subBtn">Выпустить</button>
+        </form>
+    </div>
+
     <div class="table-responsive">
         <table>
             <thead>
@@ -76,6 +91,7 @@
                     <th>ФИО</th>
                     <th>Специализация</th>
                     <th>Опыт</th>
+                    <th>Отпуска</th>
                     <th>Действия</th>
                     <th>Первичный Логин</th>
                 </tr>
@@ -86,7 +102,15 @@
                         <td><?= htmlspecialchars($m['fio']) ?></td>
                         <td><?= htmlspecialchars($m['spec']) ?></td>
                         <td><?= htmlspecialchars($m['experience']) ?> лет</td>
+                        <td class="vacations-cell">
+                            <?php if (!empty($m['vacations'])): ?>
+                                <span class="vacation-badge"><?= htmlspecialchars($m['vacations']) ?></span>
+                            <?php else: ?>
+                                <span class="no-vacation">—</span>
+                            <?php endif; ?>
+                        </td>
                         <td>
+                            <button class="btn" onclick="weekendMaster(<?= $m['id'] ?>)">Выходные</button>
                             <button class="btn" onclick="editMaster(<?= $m['id'] ?>)">✏️</button>
                             <form method="POST" style="display: inline;" onsubmit="return confirm('Удалить мастера?')"
                                 action="index.php?action=delete_master">

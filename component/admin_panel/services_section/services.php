@@ -76,6 +76,10 @@
                         <td><?= number_format($s['price'], 0, '', ' ') ?> ₽</td>
                         <td><?= htmlspecialchars($s['duration']) ?> мин</td>
                         <td>
+                            <button class="btn <?= $s['is_active'] ? 'btn-warning' : 'btn-success' ?>"
+                                onclick="toggleServiceStatus(<?= $s['id'] ?>)">
+                                <?= $s['is_active'] ? 'Отключить услугу' : 'Включить услугу' ?>
+                            </button>
                             <button class="btn" onclick="editService(<?= $s['id'] ?>)">✏️</button>
                             <form method="POST" style="display: inline;" onsubmit="return confirm('Удалить услугу?')"
                                 action="/index.php?action=delete_service">

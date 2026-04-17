@@ -70,6 +70,65 @@
     transform: scale(0.95);
 }
 
+/* Стили для статуса услуги */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-active {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success-color);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-inactive {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error-color);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Кнопки переключения статуса */
+.btn-warning {
+    background: var(--warning-color);
+    border-color: var(--warning-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    background: #e67e22;
+    border-color: #e67e22;
+}
+
+.btn-warning:active {
+    transform: scale(0.98);
+}
+
+.btn-success {
+    background: var(--success-color);
+    border-color: var(--success-color);
+    color: white;
+}
+
+.btn-success:hover {
+    background: #0ea371;
+    border-color: #0ea371;
+}
+
+/* Отключённая услуга в таблице — полупрозрачная строка */
+tr.service-inactive {
+    opacity: 0.75;
+    background: rgba(239, 68, 68, 0.03);
+}
+
+tr.service-inactive:hover td {
+    background: rgba(239, 68, 68, 0.08);
+}
+
 /* Таблица услуг */
 .table-responsive {
     overflow-x: auto;
@@ -110,12 +169,13 @@ tr:hover td {
     background: var(--secondary-bg);
 }
 
-/* Цена — акцентный цвет без жирности */
+/* Цена — акцентный цвет */
 td:nth-child(3) {
     color: var(--accent-color);
+    font-weight: 500;
 }
 
-/* Кнопки */
+/* Кнопки в таблице */
 td .btn {
     padding: 0.5rem;
     font-size: 0.9rem;
@@ -124,6 +184,7 @@ td .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin: 2px;
 }
 
 td form {
@@ -170,6 +231,10 @@ td form {
         padding: var(--space-md);
     }
 
+    tr.service-inactive {
+        opacity: 0.8;
+    }
+
     td {
         border: none;
         padding: var(--space-sm) 0;
@@ -177,6 +242,8 @@ td form {
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid var(--border-color);
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     td:last-child {
@@ -189,6 +256,8 @@ td form {
         color: var(--text-secondary);
         font-size: 0.8rem;
         text-transform: uppercase;
+        flex-shrink: 0;
+        min-width: 100px;
     }
 
     td:nth-child(1)::before {
@@ -208,15 +277,29 @@ td form {
     }
 
     td:nth-child(5)::before {
+        content: "Статус";
+    }
+
+    td:nth-child(6)::before {
         content: "Действия";
     }
 
-    td .btn,
-    .btn-edit {
+    td .btn {
         padding: 0.6rem;
         min-width: 40px;
         min-height: 40px;
         font-size: 1rem;
+    }
+
+    .btn-edit {
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .status-badge {
+        white-space: normal;
+        text-align: center;
     }
 }
 
@@ -237,11 +320,21 @@ td form {
 
     td::before {
         margin-bottom: var(--space-xs);
+        min-width: auto;
     }
 
-    td .btn,
+    td .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
     .btn-edit {
         width: 100%;
         justify-content: center;
+    }
+
+    td .btn-warning,
+    td .btn-success {
+        margin-bottom: 6px;
     }
 }
