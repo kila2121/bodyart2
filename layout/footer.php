@@ -2,7 +2,7 @@
 	<div class="footerContent">
 		<div class="footer_up">
 			<div class="footer_col">
-				<h4 class="footer_title">BodyArt Studio</h4>
+				<h4 class="footer_title">БодиАрт Студио</h4>
 				<p class="footer_description">Премиальная студия модификации тела с 2016 года. Искусство, качество и
 					безопасность.</p>
 				<div class="footer_social">
@@ -40,7 +40,7 @@
 		</div>
 		<div class="footer_divider"></div>
 		<div class="footer_bottom">
-			<p>© 2016 BodyArt Studio. Все права защищены.</p>
+			<p>© 2016 БодиАрт Студио. Все права защищены.</p>
 			<div class="footer_pay">
 				<a><i class="fab fa-cc-visa"></i></a>
 				<a><i class="fab fa-cc-mastercard"></i></a>

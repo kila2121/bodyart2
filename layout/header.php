@@ -5,7 +5,7 @@
                 <div class="logo">
                     <img src="/public/logo.webp" srcset="/public/logo.webp 120w" sizes="60px" width="60" height="60"
                         alt="Логотип BodyArt Studio" class="logo_img" loading="eager">
-                    <span class="logo_text">BODY<span class="logo_accent">ART</span> STUDIO</span>
+                    <span class="logo_text">БОДИ<span class="logo_accent">АРТ</span> СТУДИО</span>
                 </div>
             </a>
             <nav class="nav_links">

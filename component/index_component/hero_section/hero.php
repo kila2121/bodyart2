@@ -41,7 +41,7 @@ $webpExists = file_exists($_SERVER['DOCUMENT_ROOT'] . $heroImageWebp);
                 <span class="title_line">искусства</span>
             </h1>
             <p class="subtitle">
-                В <span class="subtitle_highlight">BodyArt Studio</span> мы создаём уникальные татуировки и
+                В <span class="subtitle_highlight">БодиАрт Студио</span> мы создаём уникальные татуировки и
                 модификации,
                 которые отражают вашу индивидуальность и становятся частью вашей истории
             </p>

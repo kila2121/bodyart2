@@ -15,7 +15,7 @@ list($yearWork, $mastersCount, $countComletedWork) = $stats;
 ?>
 <section class="about-studio">
     <div class="about-content">
-        <h2 class="section-title">О студии BodyArt</h2>
+        <h2 class="section-title">О студии БодиАрт</h2>
         <p class="about-text">
             Мы открылись в 2016 году с простой целью — создавать качественное искусство на теле в комфортной и
             безопасной атмосфере.
