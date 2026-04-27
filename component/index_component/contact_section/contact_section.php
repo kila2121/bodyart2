@@ -25,7 +25,7 @@
 
             <a href="mailto:info@bodyart.ru" class="contact-item">
                 <i class="fas fa-envelope"></i>
-                <span>info@bodyart.ru</span>
+                <span>bodyart-studio@yandex.ru</span>
             </a>
 
             <div class="contact-item" style="cursor: default;">
