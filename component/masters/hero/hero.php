@@ -31,7 +31,7 @@
                 <div class="visual-ring"></div>
                 <div class="visual-ring-2"></div>
                 <div class="visual-icon master-icon tattoo">
-                    <i class="fas fa-paint-brush-fine"></i>
+                    <i class="fas fa-paintbrush"></i>
                 </div>
                 <div class="visual-icon master-icon piercing">
                     <i class="fas fa-gem"></i>
