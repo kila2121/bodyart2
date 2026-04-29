@@ -25,7 +25,6 @@ jobs:
           sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_HOST }} "
             cd /var/www/bodyart
             
-            # Сохраняем uploads если есть
             if [ -d public/uploads ]; then
               mv public/uploads /tmp/uploads_backup
             fi
@@ -33,7 +32,6 @@ jobs:
             git fetch origin
             git reset --hard origin/main
             
-            # Восстанавливаем uploads
             if [ -d /tmp/uploads_backup ]; then
               mv /tmp/uploads_backup public/uploads
             fi
